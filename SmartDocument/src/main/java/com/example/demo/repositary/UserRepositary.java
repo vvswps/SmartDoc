@@ -8,6 +8,6 @@ public interface UserRepositary extends JpaRepository<UserDtls,Integer> {
 	
 	public boolean existsByEmail(String email);
 	
-	
+	public UserDtls findByEmail(String email);
 
 }
