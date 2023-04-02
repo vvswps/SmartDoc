@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.demo.model.UserDtls;
 import com.example.demo.service.UserService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class HomeController {
 	
@@ -28,17 +30,24 @@ public class HomeController {
 	}
 	
 	@PostMapping("/createUser")
-	public String createuser(@ModelAttribute UserDtls user) {
+	public String createuser(@ModelAttribute UserDtls user, HttpSession session) {
 		//System.out.println(user);
-		
-		UserDtls userDtls =userService.createUser(user);
-		
-		if(userDtls!=null) {
-			System.out.println("successfulll");
+		boolean f =userService.checkEmail(user.getEmail());
+		if(f) {
+			session.setAttribute("msg", "email is already registered");
 		}
 		else {
-			System.out.println("something went wrong");
+			UserDtls userDtls =userService.createUser(user);
+			
+			if(userDtls!=null) {
+				session.setAttribute("msg", "Registered successfully");
+			}
+			else {
+				session.setAttribute("msg", "Something went wrong!!");
+			}
+			
 		}
+		
 		return "redirect:/registration";
 	}
 
