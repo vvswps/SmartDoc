@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="ISO-8859-1">
-  <title>Insert title here</title>
+  <title>Login</title>
   <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a81368914c.js"></script>
   <style type="text/css">
@@ -140,6 +140,7 @@
     }
 
     .input-div>div>input {
+    
       position: absolute;
       left: 0;
       top: 0;
@@ -242,7 +243,7 @@
       <img src="https://raw.githubusercontent.com/vvswps/SmartDoc/master/SmartDocument/resources/images/bg2.svg">
     </div>
     <div class="login-content">
-      <form action="index.html">
+      <form action="/login" method="post">
         <img src="https://raw.githubusercontent.com/vvswps/SmartDoc/master/SmartDocument/resources/images/avatar2.svg">
         <h2 class="title">Welcome</h2>
         <div class="input-div one">
@@ -251,7 +252,7 @@
           </div>
           <div class="div">
             <h5>Email</h5>
-            <input type="email" class="input" id="floatingInput">
+            <input type="email" name="username" class="input" id="floatingInput">
           </div>
         </div>
         <div class="input-div pass">
@@ -260,11 +261,12 @@
           </div>
           <div class="div">
             <h5>Password</h5>
-            <input type="password" class="input" id="floatingPassword">
+            <input type="password" name="password" class="input" id="floatingPassword">
           </div>
         </div>
         <a href="#">Forgot Password?</a>
         <input type="submit" class="btn" value="Login">
+        <!-- <button class="btn"><a href="/dashboard">Login</a></button> -->
       </form>
     </div>
   </div>

@@ -22,13 +22,22 @@ public class HomeController {
 	}
 	@GetMapping("/signin")
 	public String login() {
+//		System.out.println("Login page open");
 		return "login";
 	}
 	@GetMapping("/registration")
 	public String registration() {
 		return "registration";
 	}
-	
+	@GetMapping("/dashboard")
+	public String dashboard() {
+		return "dashboard";
+	}
+//	@PostMapping("/processLogin")
+//	public String login(@ModelAttribute UserDtls user) {
+//		System.out.println("Login clicked");
+//		return "redirect:/dashboard";
+//	}
 	@PostMapping("/createUser")
 	public String createuser(@ModelAttribute UserDtls user, HttpSession session) {
 		//System.out.println(user);
@@ -40,7 +49,14 @@ public class HomeController {
 			UserDtls userDtls =userService.createUser(user);
 			
 			if(userDtls!=null) {
-				session.setAttribute("msg", "Registered successfully");
+				session.setAttribute("msg", "Registered successfully, Redirecting to login in 3sec");
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return "redirect:/signin";
 			}
 			else {
 				session.setAttribute("msg", "Something went wrong!!");
