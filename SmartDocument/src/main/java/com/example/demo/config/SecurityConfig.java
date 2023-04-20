@@ -42,7 +42,7 @@ public class SecurityConfig  {
 	// @SuppressWarnings("deprecation")
 	@Bean
 	    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		 http.authorizeHttpRequests().requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/user/**").hasRole("USER")
+		 http.authorizeHttpRequests().requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/student/**").hasRole("STUDENT")
 			.requestMatchers("/**").permitAll().and().formLogin().loginPage("/signin").loginProcessingUrl("/login")
 			.defaultSuccessUrl("/user/").and().csrf().disable();
 		 http.authenticationProvider(getDaoAuthProvider());
