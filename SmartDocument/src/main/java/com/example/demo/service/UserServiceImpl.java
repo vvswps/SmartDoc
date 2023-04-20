@@ -17,6 +17,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncode;
 
+	@Autowired
+	private BCryptPasswordEncoder passwordEncode;
+
 	@Override
 	public UserDtls createUser(UserDtls user) {
 		user.setPassword(passwordEncode.encode(user.getPassword()));

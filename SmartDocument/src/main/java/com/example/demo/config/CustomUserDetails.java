@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.demo.model.UserDtls;
 
+@SuppressWarnings("serial")
 public class CustomUserDetails implements UserDetails {
 	private UserDtls user;
 
