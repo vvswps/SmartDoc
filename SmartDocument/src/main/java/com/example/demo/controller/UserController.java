@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.demo.model.UserDtls;
 import com.example.demo.repositary.UserRepositary;
 
-import ch.qos.logback.core.model.Model;
+import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping("/user")
@@ -20,11 +20,11 @@ public class UserController {
 	private UserRepositary userRepo;
 
 	@ModelAttribute
-	private void userDetails(Model model, Principal p) {
+	private void userDetails(Model m, Principal p) {
 		String email = p.getName();
 		UserDtls user = userRepo.findByEmail(email);
 
-	    model.addAttribute("user", user);
+		m.addAttribute("user", user);
 
 	}
 	@GetMapping("/")
