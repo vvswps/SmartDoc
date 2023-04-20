@@ -3,8 +3,6 @@ package com.example.demo.config;
 import java.io.IOException;
 import java.util.Set;
 
-import org.springframework.context.annotation.Configuration;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -13,8 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class CustomSuccessHandler implements AuthenticationSuccessHandler  {
-
+public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -28,10 +25,10 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler  {
 			response.sendRedirect("/teacher/");
 		} else {
 
-//			response.sendRedirect("/user/");
+			// response.sendRedirect("/user/");
 			response.sendRedirect("/student/");
 		}
-		
+
 	}
-	
+
 }
