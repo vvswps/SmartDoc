@@ -13,9 +13,10 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig  {
+public class SecurityConfig {
 	@Autowired
 	public AuthenticationSuccessHandler customSuccessHandler;
+
 	@Bean
 	public UserDetailsService getUserDetailsService() {
 		return new UserDetailsServiceImpl();
@@ -35,27 +36,24 @@ public class SecurityConfig  {
 		return daoAuthenticationProvider;
 	}
 
-	//protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		//auth.authenticationProvider(getDaoAuthProvider());
-	//}
+	// protected void configure(AuthenticationManagerBuilder auth) throws Exception
+	// {
+	// auth.authenticationProvider(getDaoAuthProvider());
+	// }
 
-	
-	
-	//@SuppressWarnings("deprecation")
+	// @SuppressWarnings("deprecation")
 	// @SuppressWarnings("deprecation")
 	@Bean
-	    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		 http.authorizeHttpRequests().requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/student/**").hasRole("student").requestMatchers("/teacher/**").hasRole("TEACHER")
-			.requestMatchers("/**").permitAll().and().formLogin().loginPage("/signin").loginProcessingUrl("/login")
-			.successHandler( customSuccessHandler).and().csrf().disable();
-		 http.authenticationProvider(getDaoAuthProvider());
-		 
-	        return http.build();
-	        
-	        
-	        
-	    }
+		http.authorizeHttpRequests().requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/student/**")
+				.hasRole("student").requestMatchers("/teacher/**").hasRole("TEACHER")
+				.requestMatchers("/**").permitAll().and().formLogin().loginPage("/signin").loginProcessingUrl("/login")
+				.successHandler(customSuccessHandler).and().csrf().disable();
+		http.authenticationProvider(getDaoAuthProvider());
 
+		return http.build();
+
+	}
 
 }
