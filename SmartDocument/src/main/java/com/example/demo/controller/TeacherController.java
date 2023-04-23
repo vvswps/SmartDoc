@@ -41,7 +41,7 @@ public class TeacherController {
 
 	@GetMapping("/")
 	public String home() {
-		return "user/teacher";
+		return "user/teacherFiles/teacher";
 	}
 	
 	@GetMapping("/changePass")

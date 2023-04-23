@@ -9,7 +9,6 @@ import com.example.demo.repositary.UserRepositary;
 
 @Service
 public class UserServiceImpl implements UserService {
-	
 
 	@Autowired
 	private UserRepositary userRepo;
@@ -21,12 +20,13 @@ public class UserServiceImpl implements UserService {
 	public UserDtls createUser(UserDtls user) {
 		user.setPassword(passwordEncode.encode(user.getPassword()));
 		user.setRole("ROLE_USER");
-		
+
 		return userRepo.save(user);
 	}
+
 	@Override
 	public boolean checkEmail(String email) {
-		
+
 		return userRepo.existsByEmail(email);
 	}
 
