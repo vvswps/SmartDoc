@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        @media screen and (max-width: 600px) {
+            table {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Personal Info</h1>
+    <!-- 
+        the following is a list of all the personal info that a teacher can see
+        these should not be editable by the teacher
+
+        followings fields need to be implemented:
+        Name
+    erp id
+    mail (official & personal)
+    department
+    phone & whatsapp number
+    gender (male, female, gender fluid)
+    DOB
+    exp industry and academic
+    Date of joining
+    Date of leaving
+    
+    address (permanent & current) (with pin code, state, city, country)
+ -->
+    <table>
+        <tr>
+            <th>Name:</th>
+            <td>John Doe</td>
+        </tr>
+        <tr>
+            <th>ERP ID:</th>
+            <td>12345</td>
+        </tr>
+        <tr>
+            <th>Official Email:</th>
+            <td>johndoe@company.com</td>
+        </tr>
+        <tr>
+            <th>Personal Email:</th>
+            <td>johndoe@gmail.com</td>
+        </tr>
+        <tr>
+            <th>Department:</th>
+            <td>Marketing</td>
+        </tr>
+        <tr>
+            <th>Phone:</th>
+            <td>9876543210</td>
+        </tr>
+        <tr>
+            <th>WhatsApp Number:</th>
+            <td>9876543210</td>
+        </tr>
+        <tr>
+            <th>Gender:</th>
+            <td>Male</td>
+        </tr>
+        <tr>
+            <th>Date of Birth:</th>
+            <td>01/01/1980</td>
+        </tr>
+        <tr>
+            <th>Experience (Industry and Academic):</th>
+            <td>5 years in Marketing, MBA from XYZ University</td>
+        </tr>
+        <tr>
+            <th>Date of Joining:</th>
+            <td>01/01/2010</td>
+        </tr>
+        <tr>
+            <th>Date of Leaving:</th>
+            <td>01/01/2020</td>
+        </tr>
+        <tr>
+            <th>Permanent Address:</th>
+            <td>123 Main Street, New York, NY, USA - 10001</td>
+        </tr>
+        <tr>
+            <th>Current Address:</th>
+            <td>456 Park Avenue, New York, NY, USA - 10002</td>
+        </tr>
+    </table>
+</body>
+
+</html>
