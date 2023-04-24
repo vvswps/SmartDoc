@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 <style>
 /* Google Fonts Import Link */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
@@ -193,10 +195,12 @@
   background: none;
   width: 78px;
 }
-.sidebar .sidebar-footer span {
+.sidebar .sidebar-footer a {
+  text-decoration: none;
+  color: inherit;
   margin-left: 1rem;
 }
-.sidebar.close .sidebar-footer span {
+.sidebar.close .sidebar-footer a {
   display: none;
 }
 
@@ -251,41 +255,41 @@
     <div class="sidebar">
         <div class="logo-details">
             <i class='bx bx-menu'></i>
-            <span class="logo_name">Welcome, Aditya</span>
+            <span class="logo_name">Welcome, [[${user.name}]]</span>
         </div>
         <ul class="nav-links">
             <li>
                 <div>
-                    <a target="content" href="teacherDashboard.html">
+                    <a target="content" href="teacher-dashboard">
                         <i class='bx bx-grid-alt'></i>
                         <span class="link_name">Dashboard</span>
                     </a>
                     <ul class="sub-menu blank">
-                        <li><a target="content" class="link_name" href="teacherDashboard.html">Dashboard</a></li>
+                        <li><a target="content" class="link_name" href="teacher-dashboard">Dashboard</a></li>
                     </ul>
                 </div>
 
             </li>
             <li>
                 <div class="icon-link">
-                    <a target="content" href="personalInfo.html">
+                    <a target="content" href="personalInfo">
                         <i class='bx bx-user'></i>
                         <span class="link_name">Personal Info</span>
                     </a>
                     <ul class="sub-menu blank">
-                        <li><a target="content" class="link_name" href="personalInfo.html">Personal Info</a></li>
+                        <li><a target="content" class="link_name" href="personalInfo">Personal Info</a></li>
                     </ul>
                     <!-- <i class='bx bxs-chevron-down arrow'></i> -->
                 </div>
             </li>
             <li>
                 <div class="icon-link">
-                    <a target="content" href="researchPublications.html">
+                    <a target="content" href="research">
                         <i class='bx bx-book-alt'></i>
                         <span class="link_name">Research & Publications</span>
                     </a>
                     <ul class="sub-menu blank">
-                        <li><a target="content" class="link_name" href="researchPublications.html">Research &
+                        <li><a target="content" class="link_name" href="research">Research &
                                 Publications</a></li>
                     </ul>
                     <!-- <i class='bx bxs-chevron-down arrow'></i> -->
@@ -298,43 +302,43 @@
                 </ul> -->
             </li>
             <li>
-                <a target="content" href="awardsAchievements.html">
+                <a target="content" href="awards">
                     <i class='bx bx-award'></i>
                     <span class="link_name">Awards & Achievements</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a target="content" class="link_name" href="awardsAchievements.html">Awards & Achievements</a>
+                    <li><a target="content" class="link_name" href="awards">Awards & Achievements</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a target="content" href="interactions.html">
+                <a target="content" href="interactions">
                     <i class='bx bx-network-chart'></i>
                     <span class="link_name">Interactions</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a target="content" class="link_name" href="interactions.html">Interactions</a></li>
+                    <li><a target="content" class="link_name" href="interactions">Interactions</a></li>
                 </ul>
             </li>
             <li>
-                <a target="content" href="settings.html">
+                <a target="content" href="settings">
                     <i class='bx bx-cog'></i>
                     <span class="link_name">Settings</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a target="content" class="link_name" href="settings.html">Settings</a></li>
+                    <li><a target="content" class="link_name" href="settings">Settings</a></li>
                 </ul>
             </li>
             <li>
                 <div class="sidebar-footer">
-                    <span>Logout</span>
+                    <a href="/logout">Logout</a>
                     <i class='bx bx-log-out'></i>
                 </div>
             </li>
         </ul>
     </div>
     <section class="content">
-        <iframe src="teacherDashboard.html" name="content" frameborder="0"></iframe>
+        <iframe src="teacher-dashboard" name="content" frameborder="0"></iframe>
     </section>
     <script>
         // use when there are submenus

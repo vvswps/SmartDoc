@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.model.UserDtls;
@@ -44,10 +46,42 @@ public class TeacherController {
 		return "user/teacherFiles/teacher";
 	}
 	
+	@GetMapping("/teacher-dashboard")
+	public String dashboard() {
+		return "user/teacherFiles/teacherDashboard";
+	}
+	
+	@GetMapping("/personalInfo")
+	public String personalInfo() {
+		return "user/teacherFiles/personalInfo";
+	}
+	@GetMapping("/research")
+	public String research() {
+		return "user/teacherFiles/researchPublications";
+	}
+	@GetMapping("/awards")
+	public String awards() {
+		return "user/teacherFiles/awardsAchievements";
+	}
+	
+	@GetMapping("/interactions")
+	public String interactions() {
+		return "user/teacherFiles/interactions";
+	}
+	@GetMapping("/settings")
+	public String settings() {
+		return "user/teacherFiles/settings";
+	}
 	@GetMapping("/changePass")
 	public String loadChangePassword() {
 		return "user/change_password";
 	}
+	
+	@GetMapping("/update-user-details")
+	public String updateDetails() {
+		return "user/teacherFiles/detailUpdateForm";
+	}
+	
 	@PostMapping("/updatePassword")
 	public String changePassword(Principal p,@RequestParam("oldPass") String oldPass, @RequestParam("newPass") String newPass,HttpSession session) {
 		
