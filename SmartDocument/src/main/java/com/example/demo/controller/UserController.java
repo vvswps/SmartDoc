@@ -66,7 +66,7 @@ public class UserController {
 			
 		}
 		
-		return "redirect:/user/changePass";
+		return "redirect:/signin";
 		
 	}
 

@@ -128,7 +128,7 @@ public class HomeController {
 	    }else {
 	    	System.out.println("not updated");
 	    }
-		return "redirect:/loadForgotPassword";
+		return "redirect:/signin";
 	}
 
 }

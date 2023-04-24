@@ -53,6 +53,7 @@
 
 <body>
     <h1>Personal Info</h1>
+    
     <!-- 
         the following is a list of all the personal info that a teacher can see
         these should not be editable by the teacher
@@ -74,7 +75,7 @@
     <table>
         <tr>
             <th>Name:</th>
-            <td>John Doe</td>
+            <td>[[${user.name}]]</td>
         </tr>
         <tr>
             <th>ERP ID:</th>
@@ -82,23 +83,23 @@
         </tr>
         <tr>
             <th>Official Email:</th>
-            <td>johndoe@company.com</td>
+            <td>[[${user.email}]]</td>
         </tr>
         <tr>
             <th>Personal Email:</th>
-            <td>johndoe@gmail.com</td>
+            <td>[[${user.email}]]</td>
         </tr>
         <tr>
             <th>Department:</th>
-            <td>Marketing</td>
+            <td>[[${user.branch}]]</td>
         </tr>
         <tr>
             <th>Phone:</th>
-            <td>9876543210</td>
+            <td>[[${user.mobileNumber}]]</td>
         </tr>
         <tr>
             <th>WhatsApp Number:</th>
-            <td>9876543210</td>
+            <td>[[${user.mobileNumber}]]</td>
         </tr>
         <tr>
             <th>Gender:</th>
@@ -129,6 +130,8 @@
             <td>456 Park Avenue, New York, NY, USA - 10002</td>
         </tr>
     </table>
+    
+    <a href="update-user-details">Update Information</a>
 </body>
 
 </html>

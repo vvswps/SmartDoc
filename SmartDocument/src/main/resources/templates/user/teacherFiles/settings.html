@@ -2,28 +2,26 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
 </head>
 
 <body>
-    <h1>Settings</h1>
+	<h1>Settings</h1>
 
-    <div class="settings">
-        <span>Email: example@mail.com</span>
-        <button>Update password</button>
-
-        <div class="update-password">
-            <input type="password" placeholder="Enter new password">
-            <input type="password" placeholder="Confirm new password">
-            <button>Update</button>
-        </div>
-    </div>
-    <a href="detailsUpdateForm/detailUpdateForm.html">Update profile</a>
+	<div class="settings">
+		<span>Email: example@mail.com</span>
+		<h1>Change Password</h1>
+		<form action="updatePassword" method="post">
 
 
+			<h2>old pass</h2>
+			<input type="password" name="oldPass"> <br> <br>
+			<h2>new pass</h2>
+			<input type="password" name="newPass"> <br> <br>
+			<button>Change password</button>
 </body>
 
 </html>
