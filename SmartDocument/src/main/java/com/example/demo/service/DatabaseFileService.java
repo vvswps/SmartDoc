@@ -1,6 +1,4 @@
 package com.example.demo.service;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.exception.FileNotFoundException;
 import com.example.demo.exception.FileStorageException;
 import com.example.demo.model.DatabaseFile;
 import com.example.demo.repositary.DatabaseFileRepository;
@@ -37,7 +36,7 @@ public class DatabaseFileService {
         }
     }
 
-    public DatabaseFile getFile(String fileId) throws FileNotFoundException {
+    public DatabaseFile getFile(String fileId) {
         return dbFileRepository.findById(fileId)
                 .orElseThrow(() -> new FileNotFoundException("File not found with id " + fileId));
     }

@@ -23,10 +23,10 @@ public class FileDownloadController {
     @Autowired
     private DatabaseFileService fileStorageService;
 
-    @GetMapping("/downloadFile/{fileName:.+}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) throws FileNotFoundException {
+    @GetMapping("/downloadFile/{fileId:.+}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileId, HttpServletRequest request) throws FileNotFoundException {
         // Load file as Resource
-        DatabaseFile databaseFile = fileStorageService.getFile(fileName);
+        DatabaseFile databaseFile = fileStorageService.getFile(fileId);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(databaseFile.getFileType()))
