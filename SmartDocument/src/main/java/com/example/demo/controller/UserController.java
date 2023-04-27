@@ -58,16 +58,10 @@ public class UserController {
 				System.out.println("password changed successfully");
 			}else {
 				System.out.println("something went wrong");
-			}
-			
-			
+			}			
 		}else {
 			System.out.println("incorrect password");
-			
 		}
-		
 		return "redirect:/signin";
-		
 	}
-
 }
