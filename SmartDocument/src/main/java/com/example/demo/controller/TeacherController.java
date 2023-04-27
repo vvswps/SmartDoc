@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.model.PersonalDtls;
 import com.example.demo.model.UserDtls;
 import com.example.demo.repositary.UserRepositary;
+import com.example.demo.service.PersonalService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -81,7 +83,22 @@ public class TeacherController {
 	public String updateDetails() {
 		return "user/teacherFiles/detailUpdateForm";
 	}
-	
+	@PostMapping("/personalUser")
+	public String personalUser(@ModelAttribute PersonalDtls user) {
+		PersonalDtls personalDtls =PersonalService.personalUser(user);
+		
+		if(personalDtls!=null) {
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return "user/teacherFiles/personalInfo";
+		}
+		return "user/teacherFiles/detailUpdateForm";
+		
+	}
 	@PostMapping("/updatePassword")
 	public String changePassword(Principal p,@RequestParam("oldPass") String oldPass, @RequestParam("newPass") String newPass,HttpSession session) {
 		
