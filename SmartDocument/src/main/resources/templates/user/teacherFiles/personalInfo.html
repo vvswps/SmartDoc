@@ -53,98 +53,80 @@
 
 <body>
     <h1>Personal Info</h1>
-    
-    <!-- 
-        the following is a list of all the personal info that a teacher can see
-        these should not be editable by the teacher
 
-        followings fields need to be implemented:
-        Name
-    erp id
-    mail (official & personal)
-    department
-    phone & whatsapp number
-    gender (male, female, gender fluid)
-    DOB
-    exp industry and academic
-    Date of joining
-    Date of leaving
-    
-    address (permanent & current) (with pin code, state, city, country)
- -->
     <table>
         <tr>
             <th>Name:</th>
-            <td>[[${user.name}]]</td>
+            <td>[[${puser.name}]]</td>
         </tr>
         <tr>
             <th>ERP ID:</th>
-            <td>12345</td>
+            <td>[[${puser.erpId}]]</td>
         </tr>
         <tr>
             <th>Official Email:</th>
-            <td>[[${user.email}]]</td>
+            <td>[[${puser.offEmail}]]</td>
         </tr>
         <tr>
             <th>Personal Email:</th>
-            <td>[[${user.email}]]</td>
+            <td>[[${puser.perEmail}]]</td>
         </tr>
         <tr>
             <th>Department:</th>
-            <td>[[${user.branch}]]</td>
+            <td>[[${puser.dept}]]</td>
         </tr>
         <tr>
             <th>Phone:</th>
-            <td>[[${user.mobileNumber}]]</td>
+            <td>[[${puser.mobileNumber}]]</td>
         </tr>
         <tr>
             <th>WhatsApp Number:</th>
-            <td>[[${user.mobileNumber}]]</td>
+            <td>[[${puser.whatsNumber}]]</td>
         </tr>
         <tr>
             <th>Gender:</th>
-            <td>Male</td>
+            <td>[[${puser.gender}]]</td>
         </tr>
         <tr>
             <th>Date of Birth:</th>
-            <td>01/01/1980</td>
+            <td>[[${puser.dob}]]</td>
         </tr>
         <tr>
             <th>Experience Industry</th>
-            <td>5 years in Marketing, MBA from XYZ University</td>
+            <td>[[${puser.expInd}]]</td>
         </tr>
         <tr>
             <th>Experience Academic</th>
-            <td>MBA from XYZ University</td>
+            <td>[[${puser.expAcd}]]</td>
         </tr>
 
         <tr>
             <th>Date of Joining:</th>
-            <td>01/01/2010</td>
+            <td>[[${puser.doj}]]</td>
         </tr>
         <tr>
             <th>Date of Leaving:</th>
-            <td>01/01/2020</td>
+            <td>[[${puser.dol}]]</td>
         </tr>
         <tr>
             <th>Permanent Address:</th>
-            <td>123 Main Street, New York, NY, USA - 10001</td>
+            <td>[[${puser.perAdd}]]</td>
         </tr>
         <tr>
             <th>Current Address:</th>
-            <td>456 Park Avenue, New York, NY, USA - 10002</td>
+            <td>[[${puser.curAdd}]]</td>
         </tr>
         <tr>
             <th>Google scholar id:</th>
-            <td>----</td>
+            <td>[[${puser.googleId}]]</td>
         </tr>
         <tr>
             <th>Scopus id:</th>
-            <td>----</td>
+            <td>[[${puser.scopusId}]]</td>
         </tr>
         <tr>
             <th>SCI/Clarivate id:</th>
-            <td>----</td>
+            <td>[[${puser.sciId}]]</td>
         </tr>
         
     </table>

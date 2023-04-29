@@ -33,6 +33,62 @@ public class PersonalDtls {
 	private String googleId;
 	private String scopusId;
 	private String sciId;
+	private String currCity;
+	private String currState;
+	private String currCunt;
+	private String currPin;
+	private String perCity;
+	private String perState;
+	private String perCunt;
+	public String getCurrCity() {
+		return currCity;
+	}
+	public void setCurrCity(String currCity) {
+		this.currCity = currCity;
+	}
+	public String getCurrState() {
+		return currState;
+	}
+	public void setCurrState(String currState) {
+		this.currState = currState;
+	}
+	public String getCurrCunt() {
+		return currCunt;
+	}
+	public void setCurrCunt(String currCunt) {
+		this.currCunt = currCunt;
+	}
+	public String getCurrPin() {
+		return currPin;
+	}
+	public void setCurrPin(String currPin) {
+		this.currPin = currPin;
+	}
+	public String getPerCity() {
+		return perCity;
+	}
+	public void setPerCity(String perCity) {
+		this.perCity = perCity;
+	}
+	public String getPerState() {
+		return perState;
+	}
+	public void setPerState(String perState) {
+		this.perState = perState;
+	}
+	public String getPerCunt() {
+		return perCunt;
+	}
+	public void setPerCunt(String perCunt) {
+		this.perCunt = perCunt;
+	}
+	public String getPerPin() {
+		return perPin;
+	}
+	public void setPerPin(String perPin) {
+		this.perPin = perPin;
+	}
+	private String perPin;
 	public int getId() {
 		return id;
 	}
