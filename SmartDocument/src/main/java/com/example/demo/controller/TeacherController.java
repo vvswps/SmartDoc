@@ -29,6 +29,9 @@ public class TeacherController {
 	private UserRepositary userRepo;
 	
 	@Autowired
+	private PersonalService personalService;
+	
+	@Autowired
 	private BCryptPasswordEncoder passwordEncode;
 
 	@ModelAttribute
@@ -84,8 +87,9 @@ public class TeacherController {
 		return "user/teacherFiles/detailUpdateForm";
 	}
 	@PostMapping("/personalUser")
-	public String personalUser(@ModelAttribute PersonalDtls user) {
-		PersonalDtls personalDtls =PersonalService.personalUser(user);
+	public String personalUser(@ModelAttribute PersonalDtls puser) {
+		PersonalDtls personalDtls =personalService.personalUser(puser);
+		System.out.println("Personal user method run");
 		
 		if(personalDtls!=null) {
 			try {
