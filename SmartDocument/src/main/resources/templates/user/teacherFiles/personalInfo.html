@@ -60,9 +60,18 @@
             <td>[[${puser.name}]]</td>
         </tr>
         <tr>
-            <th>ERP ID:</th>
-            <td>[[${puser.erpId}]]</td>
+            <th>UID from DB:</th>
+            <td>[[${puser.id}]]</td>
         </tr>
+        <tr>
+            <th>ERP ID:</th>
+            <td>[[${puser.gender}]]</td>
+        </tr>
+        <!-- select p1_0.id,p1_0.cur_add,p1_0.curr_city,p1_0.curr_cunt,p1_0.curr_pin,
+            p1_0.curr_state,p1_0.dept,p1_0.dob,p1_0.doj,p1_0.dol,p1_0.erp_id,p1_0.exp_acd,
+            p1_0.exp_ind,p1_0.gender,p1_0.google_id,p1_0.mobile_number,p1_0.name,p1_0.off_email,
+            p1_0.per_add,p1_0.per_city,p1_0.per_cunt,p1_0.per_email,p1_0.per_pin,p1_0.per_state,
+            p1_0.sci_id,p1_0.scopus_id,p1_0.whats_number from personal_dtls p1_0 where p1_0.id=? -->
         <tr>
             <th>Official Email:</th>
             <td>[[${puser.offEmail}]]</td>
@@ -128,9 +137,9 @@
             <th>SCI/Clarivate id:</th>
             <td>[[${puser.sciId}]]</td>
         </tr>
-        
+
     </table>
-    
+
     <a href="update-user-details">Update Information</a>
 </body>
 

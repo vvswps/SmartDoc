@@ -1,4 +1,5 @@
 package com.example.demo.model;
+
 import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.*;
@@ -17,6 +18,18 @@ public class DatabaseFile {
 
 	@Lob
 	private byte[] data;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private UserDtls user;
+
+	public UserDtls getUserId() {
+		return user;
+	}
+
+	public void setUserId(UserDtls user) {
+		this.user = user;
+	}
 
 	public DatabaseFile() {
 

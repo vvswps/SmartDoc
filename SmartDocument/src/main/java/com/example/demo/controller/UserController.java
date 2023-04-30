@@ -17,49 +17,53 @@ import com.example.demo.repositary.UserRepositary;
 
 import jakarta.servlet.http.HttpSession;
 
-
-
 @Controller
 @RequestMapping("/user")
 public class UserController {
 	@Autowired
 	private UserRepositary userRepo;
+
 	@Autowired
 	private BCryptPasswordEncoder passwordEncode;
 
 	@ModelAttribute
 	private void userDetails(Model model, Principal p) {
+
 		String email = p.getName();
 		UserDtls user = userRepo.findByEmail(email);
 
-	    model.addAttribute("user", user);
+		model.addAttribute("user", user);
 
 	}
+
 	@GetMapping("/")
 	public String home() {
 		return "user/home";
 	}
+
 	@GetMapping("/changePass")
 	public String loadChangePassword() {
 		return "user/change_password";
 	}
+
 	@PostMapping("/updatePassword")
-	public String changePassword(Principal p,@RequestParam("oldPass") String oldPass, @RequestParam("newPass") String newPass,HttpSession session) {
-		
-		String email=p.getName();
-		UserDtls loginUser=userRepo.findByEmail(email);
-		
-		boolean f=passwordEncode.matches(oldPass,loginUser.getPassword());
-		
-		if(f) {
+	public String changePassword(Principal p, @RequestParam("oldPass") String oldPass,
+			@RequestParam("newPass") String newPass, HttpSession session) {
+
+		String email = p.getName();
+		UserDtls loginUser = userRepo.findByEmail(email);
+
+		boolean f = passwordEncode.matches(oldPass, loginUser.getPassword());
+
+		if (f) {
 			loginUser.setPassword(passwordEncode.encode(newPass));
-			UserDtls updatePasswordUser=userRepo.save(loginUser);
-			if(updatePasswordUser!=null) {
+			UserDtls updatePasswordUser = userRepo.save(loginUser);
+			if (updatePasswordUser != null) {
 				System.out.println("password changed successfully");
-			}else {
+			} else {
 				System.out.println("something went wrong");
-			}			
-		}else {
+			}
+		} else {
 			System.out.println("incorrect password");
 		}
 		return "redirect:/signin";
