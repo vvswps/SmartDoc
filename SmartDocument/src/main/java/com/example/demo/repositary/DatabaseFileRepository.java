@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.example.demo.model.DatabaseFile;
 
 @Repository
-public interface DatabaseFileRepository extends JpaRepository<DatabaseFile,String> {
-	
-	
+public interface DatabaseFileRepository extends JpaRepository<DatabaseFile, String> {
 
 }
