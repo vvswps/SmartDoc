@@ -2,26 +2,134 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Settings</title>
+	<style>
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			font-family: Arial, sans-serif;
+
+		}
+
+		.title-area {
+			display: flex;
+			justify-content: space-between;
+			margin-bottom: 3rem;
+			margin-top: 3rem;
+			margin-left: 2rem;
+		}
+
+		.title-area .profile {
+			display: flex;
+			align-items: center;
+			gap: 1rem;
+		}
+
+		.title-area .profile img {
+			max-width: 5rem;
+			margin-right: 1rem;
+		}
+
+		main {
+			padding: 30px;
+		}
+
+		.wrapper {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.card {
+			background-color: #fff;
+			padding: 30px;
+			border-radius: 5px;
+			box-shadow: 0px 19px 60px rgb(0 0 0 / 8%);
+			width: 400px;
+		}
+
+		.input-group {
+			margin-bottom: 20px;
+		}
+
+		label {
+			display: block;
+			margin-bottom: 5px;
+			font-weight: bold;
+		}
+
+		input[type=password] {
+			display: block;
+			width: 100%;
+			padding: 10px;
+			border-radius: 5px;
+			border: none;
+			background-color: #f2f2f2;
+			box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+		}
+
+		input[type=text] {
+			display: block;
+			width: 100%;
+			padding: 10px;
+			border-radius: 5px;
+			border: none;
+			background-color: #f2f2f2;
+			box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+		}
+
+		button[type=submit] {
+			display: block;
+			width: 100%;
+			background-color: #ff919d;
+			color: #fff;
+			border: none;
+			border-radius: 5px;
+			padding: 10px;
+			cursor: pointer;
+		}
+	</style>
 </head>
 
 <body>
-	<h1>Settings</h1>
+	<header>
+		<div class="title-area">
+			<h1>Settings</h1>
+			<div class="profile">
+				<div class="name">Tanushree Srivastava</div><img src="/teacherPages/dashboard/profile.png" alt="">
+			</div>
+		</div>
 
-	<div class="settings">
-		<span>Email: example@mail.com</span>
-		<h1>Change Password</h1>
-		<form action="updatePassword" method="post">
+	</header>
+	<main>
+		<div class="wrapper">
+			<div class="card">
+				<form action="" method="post">
+					<div class="input-group">
+						<label for="username">User Name</label>
+						<input type="text" id="cusername" name="name" required>
+					</div>
+					<div class="input-group">
+						<label for="current-password">Current Password</label>
+						<input type="password" id="current-password" name="current-password" required>
+					</div>
+					<div class="input-group">
+						<label for="new-password">New Password</label>
+						<input type="password" id="new-password" name="new-password" required>
+					</div>
 
-
-			<h2>old pass</h2>
-			<input type="password" name="oldPass"> <br> <br>
-			<h2>new pass</h2>
-			<input type="password" name="newPass"> <br> <br>
-			<button>Change password</button>
+					<button type="submit">Change Password</button>
+				</form>
+			</div>
+		</div>
+	</main>
 </body>
 
 </html>

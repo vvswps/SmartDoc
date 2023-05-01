@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.model.DatabaseFile;
 import com.example.demo.model.PersonalDtls;
 import com.example.demo.model.UserDtls;
 import com.example.demo.repositary.UserRepositary;
@@ -73,6 +75,41 @@ public class TeacherController {
 			logger.debug("Principal is null");
 		}
 
+	}
+
+	@GetMapping("/files")
+	public String listFiles(Model model, Principal principal) {
+		/*
+		 * to use the above mapping in a web page, use the following code
+		 * <table>
+		 * <thead>
+		 * <tr>
+		 * <th>Name</th>
+		 * <th>Type</th>
+		 * <th>Actions</th>
+		 * </tr>
+		 * </thead>
+		 * <tbody>
+		 * <tr th:each="file : ${files}">
+		 * <td th:text="${file.fileName}"></td>
+		 * <td th:text="${file.fileType}"></td>
+		 * <td>
+		 * <a th:href="@{/download/{id}(id=${file.id})}"
+		 * class="btn btn-primary">Download</a>
+		 * <span th:if="${file.user.id == currentUser.id}">
+		 * <a href="#" class="btn btn-primary" data-toggle="modal"
+		 * data-target="#uploadModal">Upload New Version</a>
+		 * </span>
+		 * </td>
+		 * </tr>
+		 * </tbody>
+		 * </table>
+		 * 
+		 */
+		UserDtls user = userRepo.findByEmail(principal.getName());
+		List<DatabaseFile> files = user.getFiles();
+		model.addAttribute("files", files);
+		return "files";
 	}
 
 	@GetMapping("/")

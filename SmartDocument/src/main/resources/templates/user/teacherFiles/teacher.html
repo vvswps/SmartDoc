@@ -1,373 +1,303 @@
-<!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-<link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-<style>
-/* Google Fonts Import Link */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <title>Dashboard</title>
 
-:root {
-  --sidebar-primary-color: #022f40;
-  --sidebar-secondary-color: rgb(11, 33, 50);
+  <style>
+    body {
+      margin: 0;
+    }
 
-  --sidebar-text-color: #ecf0f1;
-}
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 260px;
-  background: var(--sidebar-primary-color);
-  color: var(--sidebar-text-color);
-  z-index: 100;
-  transition: all 0.5s ease;
-}
-.sidebar.close {
-  width: 78px;
-}
-.sidebar .logo-details {
-  height: 60px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-.sidebar .logo-details i {
-  font-size: 30px;
-  height: 50px;
-  min-width: 78px;
-  text-align: center;
-  line-height: 50px;
-}
-.sidebar .logo-details .logo_name {
-  font-size: 1rem;
-  font-weight: 400;
-  transition: 0.3s ease;
-  transition-delay: 0.1s;
-}
-.sidebar.close .logo-details .logo_name {
-  transition-delay: 0s;
-  opacity: 0;
-  pointer-events: none;
-}
 
-.bx-menu {
-  font-size: 35px;
-  cursor: pointer;
-}
+    :root {
+      --yellow: linear-gradient(180deg, #f8d49a -146.42%, #fad79d -46.42%);
+      --orange: #fca61f;
+      --black: #242d49;
+      --gray: #788097;
+      --purple: linear-gradient(180deg, #bb67ff 0%, #c484f3 100%);
+      --pink: #ff919d;
+      --glass: rgba(255, 255, 255, 0.54);
+      --boxShadow: 0px 19px 60px rgb(0 0 0 / 8%);
+      --smboxShadow: -79px 51px 60px rgba(0, 0, 0, 0.08);
+      --activeItem: #f799a354;
+    }
 
-.sidebar .nav-links {
-  height: 100%;
-  padding: 30px 0 150px 0;
-  overflow: auto;
-}
-.sidebar.close .nav-links {
-  overflow: visible;
-}
-.sidebar .nav-links::-webkit-scrollbar {
-  display: none;
-}
-.sidebar .nav-links li {
-  position: relative;
-  list-style: none;
-  transition: all 0.4s ease;
-}
-.sidebar .nav-links li:hover {
-  background: #1d1b31;
-}
-.sidebar .nav-links li .icon-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.sidebar.close .nav-links li .icon-link {
-  display: block;
-}
-.sidebar .nav-links li i {
-  height: 50px;
-  min-width: 78px;
-  text-align: center;
-  line-height: 50px;
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.sidebar .nav-links li.showMenu i.arrow {
-  transform: rotate(-180deg);
-}
-.sidebar.close .nav-links i.arrow {
-  display: none;
-}
-.sidebar .nav-links li a {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-}
-.sidebar .nav-links li a .link_name {
-  font-size: 1rem;
-  font-weight: 400;
-  color: #fff;
-  transition: all 0.4s ease;
-}
-.sidebar.close .nav-links li a .link_name {
-  opacity: 0;
-  pointer-events: none;
-}
-.sidebar .nav-links li .sub-menu {
-  padding: 6px 6px 14px 80px;
-  margin-top: -10px;
-  background: #1d1b31;
-  display: none;
-}
-.sidebar .nav-links li.showMenu .sub-menu {
-  display: block;
-}
-.sidebar .nav-links li .sub-menu a {
-  color: #fff;
-  font-size: 15px;
-  padding: 5px 0;
-  white-space: nowrap;
-  opacity: 0.6;
-  transition: all 0.3s ease;
-}
-.sidebar .nav-links li .sub-menu a:hover {
-  opacity: 1;
-}
-.sidebar.close .nav-links li .sub-menu {
-  position: absolute;
-  left: 100%;
-  top: -10px;
-  margin-top: 0;
-  padding: 10px 20px;
-  border-radius: 0 6px 6px 0;
-  opacity: 0;
-  display: block;
-  pointer-events: none;
-  transition: 0s;
-}
-.sidebar.close .nav-links li:hover .sub-menu {
-  top: 0;
-  opacity: 1;
-  pointer-events: auto;
-  transition: all 0.4s ease;
-}
-.sidebar .nav-links li .sub-menu .link_name {
-  display: none;
-}
-.sidebar.close .nav-links li .sub-menu .link_name {
-  font-size: 18px;
-  opacity: 1;
-  display: block;
-}
-.sidebar .nav-links li .sub-menu.blank {
-  opacity: 1;
-  pointer-events: auto;
-  padding: 3px 20px 6px 16px;
-  opacity: 0;
-  pointer-events: none;
-}
-.sidebar .nav-links li:hover .sub-menu.blank {
-  top: 50%;
-  transform: translateY(-50%);
-}
-.sidebar .sidebar-footer {
-  position: fixed;
-  bottom: 0;
-  width: 260px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--sidebar-secondary-color);
-  padding: 12px 0;
-  transition: all 0.5s ease;
-}
-.sidebar.close .sidebar-footer {
-  background: none;
-  width: 78px;
-}
-.sidebar .sidebar-footer a {
-  text-decoration: none;
-  color: inherit;
-  margin-left: 1rem;
-}
-.sidebar.close .sidebar-footer a {
-  display: none;
-}
+    .App {
+      /* padding: 0.5rem 3.5rem; */
+      color: var(--black);
+      background: linear-gradient(106.37deg,
+          #ffe1bc 29.63%,
+          #ffcfd1 51.55%,
+          #f3c6f1 90.85%);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Inter", sans-serif;
+    }
 
-/* right side content */
+    .AppGlass {
+      display: grid;
+      height: 97%;
+      width: 97%;
+      background: var(--glass);
+      border-radius: 2rem;
+      gap: 16px;
+      grid-template-columns: 11rem auto;
+      overflow: hidden;
+    }
 
-.content {
-  position: relative;
-  background: #e4e9f7;
-  height: 100vh;
-  left: 260px;
-  width: calc(100% - 260px);
-  transition: all 0.5s ease;
-}
+    @media screen and (max-width: 1200px) {
+      .AppGlass {
+        grid-template-columns: 10% 50%;
+        overflow-y: scroll;
+      }
+    }
 
-.sidebar.close ~ .content {
-  left: 78px;
-  width: calc(100% - 78px);
-}
+    @media screen and (max-width: 768px) {
+      .AppGlass {
+        grid-template-columns: 1fr;
+      }
+    }
 
-.content iframe {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding-top: 4rem;
+      transition: all 300ms ease;
+    }
 
-@media (max-width: 400px) {
-  .sidebar.close .nav-links li .sub-menu {
-    display: none;
-  }
-  .sidebar {
-    width: 78px;
-  }
-  .sidebar.close {
-    width: 0;
-  }
-  .content {
-    left: 78px;
-    width: calc(100% - 78px);
-    z-index: 100;
-  }
-  .sidebar.close ~ .content {
-    width: 100%;
-    left: 0;
-  }
-}
+    /* logo */
+    .bars {
+      display: none;
+    }
 
-</style>
+    .logo {
+      display: flex;
+      height: 5rem;
+      font-weight: bold;
+      font-size: 22px;
+      gap: 1rem;
+      align-items: center;
+      justify-content: center;
+      height: 4%;
+    }
 
+    .logo>span>span {
+      color: var(--pink);
+    }
+
+    .logo>img {
+      width: 3rem;
+      height: 3rem;
+    }
+
+
+    /* menu */
+    .menu {
+      margin-top: 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .menuItem {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      height: 2.5rem;
+      margin-left: 2rem;
+      position: relative;
+      transition: all 300ms ease;
+      border-radius: 0.7rem;
+      font-size: 14px;
+    }
+
+    .menuItem a {
+      text-decoration: none;
+      color: var(--black);
+    }
+
+    .menuItem:hover {
+      cursor: pointer;
+    }
+
+    .menu .menuItem:last-child {
+      position: absolute;
+      bottom: 2.3rem;
+      width: 100%;
+    }
+
+    .active {
+      background: var(--activeItem);
+      margin-left: 0;
+    }
+
+    .active::before {
+      content: "";
+      width: 8px;
+      height: 100%;
+      background: var(--pink);
+      margin-right: calc(1rem - 8px);
+    }
+
+
+    /* Tablets */
+    @media screen and (max-width: 1200px) {
+      .menuItem>span {
+        display: none;
+      }
+
+      .logo {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        z-index: 9;
+        background: #ffe0e0;
+        width: 55%;
+        padding-right: 1rem;
+        height: 100%;
+      }
+
+      .menuItem>span {
+        display: block;
+      }
+
+      .logo {
+        display: flex;
+      }
+
+      .menu .menuItem:last-child {
+        position: relative;
+        margin-top: 6rem;
+      }
+
+      .bars {
+        display: flex;
+        position: fixed;
+        top: 2rem;
+        left: 60%;
+        background: #ffe0e0;
+        padding: 10px;
+        border-radius: 10px;
+        z-index: 9;
+      }
+
+      .close {
+        left: -60%;
+      }
+    }
+
+    .content iframe {
+      margin-top: 1rem;
+      height: 100%;
+      width: 100%;
+      overflow-y: scroll;
+    }
+  </style>
 </head>
+
 <body>
-    <div class="sidebar">
-        <div class="logo-details">
-            <i class='bx bx-menu'></i>
-            <span class="logo_name">Welcome, [[${user.name}]]</span>
+  <div id="root">
+    <div class="App">
+      <div class="AppGlass">
+        <!-- <div class="bars" style="right: 60%;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M3,8H21a1,1,0,0,0,0-2H3A1,1,0,0,0,3,8Zm18,8H3a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Zm0-5H3a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z">
+            </path>
+          </svg></div> -->
+        <div class="sidebar">
+          <div class="logo"><img
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG0AAABmCAYAAADBPx+VAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAU4SURBVHgB7Z09ettGEIY/WynSWTkBJyeI0jlV4C6lbiDmBPYNiBvIN5DcpbPKdJSrpLPdueO6c2epsysbQywoCAbJHSx+dqh5n2cIElj87YdZLGaxS6BfFoV9M7tnq8KOkSgL6MrMMe0tEhTuOXRl4hR2gYQ4g67Mm9LO0QNHiOOksH8K+xlGCE/99A0iiBGNCvsPCd9kEyXz0yjhukAoa0VaiqUU7QwjQjDB+rIMHXgEGVwULlHey2JwNWM+1uZX3HhrY9eyEI6xu1inLWlntWXUSNcFPodnhb3DgLyG/Gr6XNjLwuaIP8kU4Qv4FOU5riDPH16HMBDnHQ4mw8ODRbxEAsIthAdxCatVZpB5Xq9RE2m0I4dRQZAJt0QPnMIEi4W9h70oNA8vEAGhrESE7uw1jG2wcCuE5+UCHSDhTga5kR4YGWSl1gsIkF4VbHMYIUiKSbazto20PVxzMXcKGc4bPyTe+u/1B+D6d4fDgFq+V9PqgXzmp+RNWjtsffhuirbA+JUJ1/gdGu1wiIN2LGuLmOyLogwF58Xv2HK+LNg3syRthZaLzFqe07d7D98nSg7azD98P4a80mFMR8Yfj2Gow0RTiImmEBNNISaaQn6CnCuU73Q4tIem3Jb1ts3vk5CoBWE/FLmcme1Z3jxW/h787k0O4XOCMQgZwjQQF4+jv2D5gKDQhFLRBn3VywhDKlrMu4ZGT0hFW8GYHKloH2FMjkQ0KxqHJbiB1URLBxPtkDHRFGKxR4WYaAqRiOZgDAmFJjRPU8iYonGVljsmLnB4EMpze44R6NKe1pUcdydFhf2NwyBD2T2J/G+OGl1hQCSedos46i0EcyQ27FBH2Lu4jZFq8xxGIEdY41uOePLGNrmzxxTvx8fCLczNHjAcTM/QndBBCNbkGE+0tv3xyRL0wPfkthZ9QhxLJCxa2z41CJfhx3573FP2BfohedG27XeB9CC0F119eFcdFaIxGX68evvOjK7wvZYvoma/8z69q44a0RhCe3fhqbxum1hsFxiu4qRKtF3HwWLOMQ4ZSlHazn2J4UcfCu2PvSZHGqIxhHav43nn6L/YJJRetcR0YlWsoFS0ijm2nwRnJN9TMsjhoo374/EFsOvKHlOsimDRxgxjSbj0NkfpCVRbluF+hl6jbKB97387P22OMHCC3Z7K23iFMgR1jcTJkZ6nNZmj27CF+4wrG0u//akjM+o9rcmlN8Kdp/0G+WCh7E0cA2WvvPLf1b1GoUW0Coc7AZl6sUd+3sxPOcB9g7vePe+QdkMuhSbUJloTFuMaDwxruVaIRDSNTSgHiUS0JzCSwIrHNBCVYiZaGphoB86xiaaPJxLRfoGRBFZ7VIgVj2lAksQmmkJMNIVYGEshJppCrHhUiImWBiRJbKIpxERTiEQ0gpECt+Zp+rgx0dKAJIlZNAdDFeZpuli/WCsVzaIi07IRzQlWsja1aekkmjEtG9FsHMfpocB0jj8q0Uw4HawH/q4qIg6GBtZDVVWivQ9c6VcYU+L4oxLN/o4kfao+dhvRBh3qztjLLCDNxrGqToXOz9zXHVbaXdYIIyRo8aptZo7+O6Kb9WMr1ISth7Fewqr+qcJettHmqLbgS2FfC/sLRko4lEMHf6lmHDUS/I+yo8VTGCnA3vVHYZ/qM49aEv4LEy4FWLBnhX2QrDRH+CgyZv3aEpHv5Mxh4o1h1ZBPGfbwCOGc+A3+6afWIBoPPxu/8VMOcATV3iWiNamGOOIp4f6Ib5Wg1FiHcJi0tZS4xrT+h+5RQz59B9q2y5cfiOPgAAAAAElFTkSuQmCC"
+              alt="logo"><span>Smart<span>D</span>oc</span></div>
+          <div class="menu">
+            <div class="menuItem active"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M20,8h0L14,2.74a3,3,0,0,0-4,0L4,8a3,3,0,0,0-1,2.26V19a3,3,0,0,0,3,3H18a3,3,0,0,0,3-3V10.25A3,3,0,0,0,20,8ZM14,20H10V15a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1Zm5-1a1,1,0,0,1-1,1H16V15a3,3,0,0,0-3-3H11a3,3,0,0,0-3,3v5H6a1,1,0,0,1-1-1V10.25a1,1,0,0,1,.34-.75l6-5.25a1,1,0,0,1,1.32,0l6,5.25a1,1,0,0,1,.34.75Z">
+                </path>
+              </svg><a href="teacher-dashboard" target="content">Dashboard</a>
+            </div>
+            <div class="menuItem"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                fill="currentColor">
+                <path
+                  d="M15,14H9a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2Zm0-4H11a1,1,0,0,0,0,2h4a1,1,0,0,0,0-2Zm2-6H15.82A3,3,0,0,0,13,2H11A3,3,0,0,0,8.18,4H7A3,3,0,0,0,4,7V19a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V7A3,3,0,0,0,17,4ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm8,14a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V7A1,1,0,0,1,7,6H8V7A1,1,0,0,0,9,8h6a1,1,0,0,0,1-1V6h1a1,1,0,0,1,1,1Z">
+                </path>
+              </svg><a href="personalInfo" target="content">Personal Info</a></div>
+            <div class="menuItem"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                fill="currentColor">
+                <path
+                  d="M12.3,12.22A4.92,4.92,0,0,0,14,8.5a5,5,0,0,0-10,0,4.92,4.92,0,0,0,1.7,3.72A8,8,0,0,0,1,19.5a1,1,0,0,0,2,0,6,6,0,0,1,12,0,1,1,0,0,0,2,0A8,8,0,0,0,12.3,12.22ZM9,11.5a3,3,0,1,1,3-3A3,3,0,0,1,9,11.5Zm9.74.32A5,5,0,0,0,15,3.5a1,1,0,0,0,0,2,3,3,0,0,1,3,3,3,3,0,0,1-1.5,2.59,1,1,0,0,0-.5.84,1,1,0,0,0,.45.86l.39.26.13.07a7,7,0,0,1,4,6.38,1,1,0,0,0,2,0A9,9,0,0,0,18.74,11.82Z">
+                </path>
+              </svg><a href="research" target="content">Research & Publications</a></div>
+            <div class="menuItem"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                fill="currentColor">
+                <path
+                  d="M19,2H5A3,3,0,0,0,2,5V19a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V5A3,3,0,0,0,19,2ZM10,4h4V7.13l-1.45-1a1,1,0,0,0-1.1,0L10,7.13ZM20,19a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V5A1,1,0,0,1,5,4H8V9a1,1,0,0,0,.53.88,1,1,0,0,0,1-.05L12,8.2l2.45,1.63A1,1,0,0,0,16,9V4h3a1,1,0,0,1,1,1Z">
+                </path>
+              </svg><a href="awards" target="content">Awards & Achievements</a></div>
+            <div class="menuItem"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                fill="currentColor">
+                <path
+                  d="M12,6a1,1,0,0,0-1,1V17a1,1,0,0,0,2,0V7A1,1,0,0,0,12,6ZM7,12a1,1,0,0,0-1,1v4a1,1,0,0,0,2,0V13A1,1,0,0,0,7,12Zm10-2a1,1,0,0,0-1,1v6a1,1,0,0,0,2,0V11A1,1,0,0,0,17,10Zm2-8H5A3,3,0,0,0,2,5V19a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V5A3,3,0,0,0,19,2Zm1,17a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V5A1,1,0,0,1,5,4H19a1,1,0,0,1,1,1Z">
+                </path>
+              </svg><a href="fdp" target="content">FDP & Workshops</a></div>
+            <div class="menuItem"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                fill="currentColor">
+                <path
+                  d="M11,9h4a1,1,0,0,0,0-2H13V6a1,1,0,0,0-2,0V7a3,3,0,0,0,0,6h2a1,1,0,0,1,0,2H9a1,1,0,0,0,0,2h2v1a1,1,0,0,0,2,0V17a3,3,0,0,0,0-6H11a1,1,0,0,1,0-2Zm8-7H5A3,3,0,0,0,2,5V19a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V5A3,3,0,0,0,19,2Zm1,17a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V5A1,1,0,0,1,5,4H19a1,1,0,0,1,1,1Z">
+                </path>
+              </svg><a href="interactions" target="content">Interactions</a></div>
+            <div class="menuItem"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                fill="currentColor">
+                <path
+                  d="M19.9,12.66a1,1,0,0,1,0-1.32L21.18,9.9a1,1,0,0,0,.12-1.17l-2-3.46a1,1,0,0,0-1.07-.48l-1.88.38a1,1,0,0,1-1.15-.66l-.61-1.83A1,1,0,0,0,13.64,2h-4a1,1,0,0,0-1,.68L8.08,4.51a1,1,0,0,1-1.15.66L5,4.79A1,1,0,0,0,4,5.27L2,8.73A1,1,0,0,0,2.1,9.9l1.27,1.44a1,1,0,0,1,0,1.32L2.1,14.1A1,1,0,0,0,2,15.27l2,3.46a1,1,0,0,0,1.07.48l1.88-.38a1,1,0,0,1,1.15.66l.61,1.83a1,1,0,0,0,1,.68h4a1,1,0,0,0,.95-.68l.61-1.83a1,1,0,0,1,1.15-.66l1.88.38a1,1,0,0,0,1.07-.48l2-3.46a1,1,0,0,0-.12-1.17ZM18.41,14l.8.9-1.28,2.22-1.18-.24a3,3,0,0,0-3.45,2L12.92,20H10.36L10,18.86a3,3,0,0,0-3.45-2l-1.18.24L4.07,14.89l.8-.9a3,3,0,0,0,0-4l-.8-.9L5.35,6.89l1.18.24a3,3,0,0,0,3.45-2L10.36,4h2.56l.38,1.14a3,3,0,0,0,3.45,2l1.18-.24,1.28,2.22-.8.9A3,3,0,0,0,18.41,14ZM11.64,8a4,4,0,1,0,4,4A4,4,0,0,0,11.64,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,11.64,14Z">
+                </path>
+              </svg><a href="settings" target="content">Settings</a></div>
+            <div class="menuItem"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                fill="currentColor">
+                <path
+                  d="M12.59,13l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l4-4a1,1,0,0,0,.21-.33,1,1,0,0,0,0-.76,1,1,0,0,0-.21-.33l-4-4a1,1,0,1,0-1.42,1.42L12.59,11H3a1,1,0,0,0,0,2ZM12,2A10,10,0,0,0,3,7.55a1,1,0,0,0,1.8.9A8,8,0,1,1,12,20a7.93,7.93,0,0,1-7.16-4.45,1,1,0,0,0-1.8.9A10,10,0,1,0,12,2Z">
+                </path>
+              </svg></div>
+          </div>
         </div>
-        <ul class="nav-links">
-            <li>
-                <div>
-                    <a target="content" href="teacher-dashboard">
-                        <i class='bx bx-grid-alt'></i>
-                        <span class="link_name">Dashboard</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                        <li><a target="content" class="link_name" href="teacher-dashboard">Dashboard</a></li>
-                    </ul>
-                </div>
-
-            </li>
-            <li>
-                <div class="icon-link">
-                    <a target="content" href="personalInfo">
-                        <i class='bx bx-user'></i>
-                        <span class="link_name">Personal Info</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                        <li><a target="content" class="link_name" href="personalInfo">Personal Info</a></li>
-                    </ul>
-                    <!-- <i class='bx bxs-chevron-down arrow'></i> -->
-                </div>
-            </li>
-            <li>
-                <div class="icon-link">
-                    <a target="content" href="research">
-                        <i class='bx bx-book-alt'></i>
-                        <span class="link_name">Research & Publications</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                        <li><a target="content" class="link_name" href="research">Research &
-                                Publications</a></li>
-                    </ul>
-                    <!-- <i class='bx bxs-chevron-down arrow'></i> -->
-                </div>
-                <!-- <ul class="sub-menu">
-                    <li><a target="content" class="link_name" href="#">Details</a></li>
-                    <li><a target="content" href="#">Sub menu item</a></li>
-                    <li><a target="content" href="#">Sub menu item</a></li>
-                    <li><a target="content" href="#">Sub menu item</a></li>
-                </ul> -->
-            </li>
-            <li>
-                <a target="content" href="awards">
-                    <i class='bx bx-award'></i>
-                    <span class="link_name">Awards & Achievements</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a target="content" class="link_name" href="awards">Awards & Achievements</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a target="content" href="interactions">
-                    <i class='bx bx-network-chart'></i>
-                    <span class="link_name">Interactions</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a target="content" class="link_name" href="interactions">Interactions</a></li>
-                </ul>
-            </li>
-            <li>
-                <a target="content" href="settings">
-                    <i class='bx bx-cog'></i>
-                    <span class="link_name">Settings</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a target="content" class="link_name" href="settings">Settings</a></li>
-                </ul>
-            </li>
-            <li>
-                <div class="sidebar-footer">
-                    <a href="/logout">Logout</a>
-                    <i class='bx bx-log-out'></i>
-                </div>
-            </li>
-        </ul>
+        <section class="content">
+          <iframe src="teacher-dashboard" name="content" frameborder="0"></iframe>
+        </section>
+      </div>
     </div>
-    <section class="content">
-        <iframe src="teacher-dashboard" name="content" frameborder="0"></iframe>
-    </section>
-    <script>
-        // use when there are submenus
 
-        // let arrow = document.querySelectorAll(".arrow");
-        // for (var i = 0; i < arrow.length; i++) {
-        //     arrow[i].addEventListener("click", (e) => {
-        //         let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
-        //         arrowParent.classList.toggle("showMenu");
-        //     });
-        // }
-        let sidebar = document.querySelector(".sidebar");
-        let sidebarBtn = document.querySelector(".bx-menu");
-        console.log(sidebarBtn);
-        sidebarBtn.addEventListener("click", () => {
-            sidebar.classList.toggle("close");
+  </div>
+
+  <script>
+    let menu = document.querySelector(".menu");
+    let menuItems = document.querySelectorAll(".menuItem");
+    console.log(menuItems);
+    menuItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        menuItems.forEach((item) => {
+          item.classList.remove("active");
         });
-    </script>
+        item.classList.add("active");
+      });
+    });
 
-<!-- 
-<h1> teacher page</h1>
-<h1>Name : [[${user.name}]]</h1>
-	<h1>Branch : [[${user.branch}]]</h1>
-	
-	<a href="changePass">Change Password</a>
-	<br>
-	<br>
-<a href="/logout">Logout</a>
- -->
+
+  </script>
 
 </body>
+
 </html>
