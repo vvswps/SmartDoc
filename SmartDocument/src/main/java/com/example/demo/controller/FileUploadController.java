@@ -10,13 +10,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.model.DatabaseFile;
+import com.example.demo.model.UserDtls;
 import com.example.demo.repositary.DatabaseFileRepository;
+import com.example.demo.repositary.UserRepositary;
 
 @RestController
 public class FileUploadController {
 
     @Autowired
     private DatabaseFileRepository DatabaseFileRepository;
+
+    @Autowired
+    private UserRepositary UserRepositary;
 
     @PostMapping("/uploadDoc")
     public ResponseEntity<?> uploadDoc(@RequestParam("file") MultipartFile file, Principal principal) {
@@ -33,6 +38,11 @@ public class FileUploadController {
             document.setFileName(file.getOriginalFilename());
             document.setFileType(file.getContentType());
             document.setData(file.getBytes());
+
+            UserDtls user = UserRepositary.findByEmail(principal.getName());
+
+            document.setUserId(user);
+
             DatabaseFileRepository.save(document);
             return ResponseEntity.ok().build();
         } catch (IOException e) {
