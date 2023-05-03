@@ -20,8 +20,6 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-	
-	
 
 	@Autowired
 	private UserRepositary userRepo;
@@ -30,52 +28,70 @@ public class AdminController {
 
 	@ModelAttribute
 	private void userDetails(Model model, Principal p) {
-		if(p!=null) {
+		if (p != null) {
 			String email = p.getName();
 			UserDtls user = userRepo.findByEmail(email);
 
-		    model.addAttribute("user", user);
+			model.addAttribute("user", user);
 		}
-		
-		
-	    }
+
+	}
 
 	@GetMapping("/")
 	public String home() {
-		return "user/admin";
+		return "user/admin/admin";
 	}
-	
+
+	@GetMapping("/adminDashboard")
+	public String adminDashboard() {
+		return "user/admin/admin_dashboard";
+	}
+
+	@GetMapping("/facultyView")
+	public String facultyView() {
+		return "user/admin/faculty";
+	}
+
+	@GetMapping("/studentView")
+	public String studentView() {
+		return "user/admin/student";
+	}
+
+	@GetMapping("/settings")
+	public String settings() {
+		return "user/teacherFiles/settings";
+	}
 
 	@GetMapping("/changePass")
 	public String loadChangePassword() {
 		return "user/change_password";
 	}
+
 	@PostMapping("/updatePassword")
-	public String changePassword(Principal p,@RequestParam("oldPass") String oldPass, @RequestParam("newPass") String newPass,HttpSession session) {
-		
-		String email=p.getName();
-		UserDtls loginUser=userRepo.findByEmail(email);
-		
-		boolean f=passwordEncode.matches(oldPass,loginUser.getPassword());
-		
-		if(f) {
+	public String changePassword(Principal p, @RequestParam("oldPass") String oldPass,
+			@RequestParam("newPass") String newPass, HttpSession session) {
+
+		String email = p.getName();
+		UserDtls loginUser = userRepo.findByEmail(email);
+
+		boolean f = passwordEncode.matches(oldPass, loginUser.getPassword());
+
+		if (f) {
 			loginUser.setPassword(passwordEncode.encode(newPass));
-			UserDtls updatePasswordUser=userRepo.save(loginUser);
-			if(updatePasswordUser!=null) {
+			UserDtls updatePasswordUser = userRepo.save(loginUser);
+			if (updatePasswordUser != null) {
 				System.out.println("password changed successfully");
-			}else {
+			} else {
 				System.out.println("something went wrong");
 			}
-			
-			
-		}else {
-			System.out.println("incorrect password");
-			
-		}
-		
-		return "redirect:/user/changePass";
-		
 
-}
+		} else {
+			System.out.println("incorrect password");
+
+		}
+
+		return "redirect:/user/changePass";
+
+	}
 
 }

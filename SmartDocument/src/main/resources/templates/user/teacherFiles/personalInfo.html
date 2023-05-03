@@ -6,46 +6,48 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-        h1 {
-            text-align: center;
-            margin: 20px 0;
+        body {
+            font-family: Arial, sans-serif;
+
+
         }
 
-        table {
-            width: 80%;
-            margin: 0 auto;
-            border-collapse: collapse;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 30px;
         }
 
-        th,
-        td {
+        .grid-container {
+            display: grid;
+            grid-template-columns: 2fr 2fr 2fr;
             padding: 10px;
+        }
+
+        .grid-item {
+            padding: 25px;
+            font-size: 15px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            color: #242d49;
         }
 
-        th {
-            background-color: #333;
-            color: #fff;
+        fieldset {
+            margin: 3rem;
+            padding: 1rem;
         }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        @media screen and (max-width: 600px) {
-            table {
-                width: 100%;
-            }
+        legend {
+            font-size: 1.5rem;
+            padding-left: 1.5rem;
+            padding-right: 3rem;
         }
 
         .title-area {
@@ -66,15 +68,25 @@
             width: 3rem;
             margin-right: 1rem;
         }
+
+        .two-in-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .field {
+            color: #788097;
+        }
     </style>
 </head>
 
 <body>
+    <!-- <span>Use this form for Request the Update in your Profile.</span> -->
     <header>
         <div class="title-area">
-            <h1>personal Info</h1>
+            <h1>Personal Info</h1>
             <div class="profile">
-                <div class="name">[[${user.name}]]</div>
+                <div class="name">Tanushree Srivastava</div>
                 <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512" viewBox="0 0 512 512"
                     id="user">
                     <path
@@ -85,93 +97,53 @@
         </div>
 
     </header>
-    <table>
-        <tr>
-            <th>Name:</th>
-            <td>[[${puser.name}]]</td>
-        </tr>
-        <tr>
-            <th>UID from DB:</th>
-            <td>[[${puser.id}]]</td>
-        </tr>
-        <tr>
-            <th>ERP ID:</th>
-            <td>[[${puser.gender}]]</td>
-        </tr>
-        <!-- select p1_0.id,p1_0.cur_add,p1_0.curr_city,p1_0.curr_cunt,p1_0.curr_pin,
-            p1_0.curr_state,p1_0.dept,p1_0.dob,p1_0.doj,p1_0.dol,p1_0.erp_id,p1_0.exp_acd,
-            p1_0.exp_ind,p1_0.gender,p1_0.google_id,p1_0.mobile_number,p1_0.name,p1_0.off_email,
-            p1_0.per_add,p1_0.per_city,p1_0.per_cunt,p1_0.per_email,p1_0.per_pin,p1_0.per_state,
-            p1_0.sci_id,p1_0.scopus_id,p1_0.whats_number from personal_dtls p1_0 where p1_0.id=? -->
-        <tr>
-            <th>Official Email:</th>
-            <td>[[${puser.offEmail}]]</td>
-        </tr>
-        <tr>
-            <th>Personal Email:</th>
-            <td>[[${puser.perEmail}]]</td>
-        </tr>
-        <tr>
-            <th>Department:</th>
-            <td>[[${puser.dept}]]</td>
-        </tr>
-        <tr>
-            <th>Phone:</th>
-            <td>[[${puser.mobileNumber}]]</td>
-        </tr>
-        <tr>
-            <th>WhatsApp Number:</th>
-            <td>[[${puser.whatsNumber}]]</td>
-        </tr>
-        <tr>
-            <th>Gender:</th>
-            <td>[[${puser.gender}]]</td>
-        </tr>
-        <tr>
-            <th>Date of Birth:</th>
-            <td>[[${puser.dob}]]</td>
-        </tr>
-        <tr>
-            <th>Experience Industry</th>
-            <td>[[${puser.expInd}]]</td>
-        </tr>
-        <tr>
-            <th>Experience Academic</th>
-            <td>[[${puser.expAcd}]]</td>
-        </tr>
+    <main>
+        <div class="two-in-row">
+            <fieldset>
+                <legend>Personal Information</legend>
+                <div class="grid-container">
+                    <div class="grid-item"><span class="field">Name: </span>[[${puser.name}]]</div>
+                    <div class="grid-item"><span class="field">ERP ID: </span>[[${puser.name}]]</div>
+                    <div class="grid-item"><span class="field">Official Email: </span>[[${puser.name}]]</div>
+                    <div class="grid-item"><span class="field">Personal Email: </span>[[${puser.name}]]</div>
+                    <div class="grid-item"><span class="field">Department: </span>[[${puser.name}]]</div>
+                    <div class="grid-item"><span class="field">Phone: </span>[[${puser.name}]]</div>
+                    <div class="grid-item"><span class="field">Gender: </span>[[${puser.name}]]</div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Official Information</legend>
+                <div class="grid-container">
+                    <div class="grid-item"><span class="field">Experience Industry: </span>[[${puser.name}]]</div>
+                    <div class="grid-item"><span class="field">Experience Academic: </span>[[${puser.name}]]</div>
+                    <div class="grid-item"><span class="field">Date of Joining: </span>[[${puser.name}]]</div>
+                    <div class="grid-item"><span class="field">Date of Leaving: </span>[[${puser.name}]]</div>
+                    <div class="grid-item"><span class="field">Google scholar id: </span>[[${puser.name}]]</div>
+                    <div class="grid-item"><span class="field">Scopus id: </span>[[${puser.name}]]</div>
+                    <div class="grid-item"><span class="field">Date of Leaving: </span>[[${puser.name}]]</div>
+                    <div class="grid-item"><span class="field">SCI/Clarivate id: </span>[[${puser.name}]]</div>
+                </div>
+            </fieldset>
+        </div>
 
-        <tr>
-            <th>Date of Joining:</th>
-            <td>[[${puser.doj}]]</td>
-        </tr>
-        <tr>
-            <th>Date of Leaving:</th>
-            <td>[[${puser.dol}]]</td>
-        </tr>
-        <tr>
-            <th>Permanent Address:</th>
-            <td>[[${puser.perAdd}]]</td>
-        </tr>
-        <tr>
-            <th>Current Address:</th>
-            <td>[[${puser.curAdd}]]</td>
-        </tr>
-        <tr>
-            <th>Google scholar id:</th>
-            <td>[[${puser.googleId}]]</td>
-        </tr>
-        <tr>
-            <th>Scopus id:</th>
-            <td>[[${puser.scopusId}]]</td>
-        </tr>
-        <tr>
-            <th>SCI/Clarivate id:</th>
-            <td>[[${puser.sciId}]]</td>
-        </tr>
+        <fieldset>
+            <legend>Address</legend>
+            <div class="grid-container">
+                <div class="grid-item"><span class="field">Current Address: </span>[[${puser.name}]]</div>
+                <div class="grid-item"><span class="field">Current City: </span>[[${puser.name}]]</div>
+                <div class="grid-item"><span class="field">Current State: </span>[[${puser.name}]]</div>
+                <div class="grid-item"><span class="field">Current Country: </span>[[${puser.name}]]</div>
+                <div class="grid-item"><span class="field">Current Pincode: </span>[[${puser.name}]]</div>
+                <div class="grid-item"><span class="field">Permanent Address: </span>[[${puser.name}]]</div>
+                <div class="grid-item"><span class="field">Permanent City: </span>[[${puser.name}]]</div>
+                <div class="grid-item"><span class="field">Permanent State: </span>[[${puser.name}]]</div>
+                <div class="grid-item"><span class="field">Permanent Pincode: </span>[[${puser.name}]]</div>
 
-    </table>
+            </div>
+        </fieldset>
 
-    <a href="update-user-details">Update Information</a>
+        <a href="update-user-details">Update Information</a>
+    </main>
 </body>
 
 </html>
