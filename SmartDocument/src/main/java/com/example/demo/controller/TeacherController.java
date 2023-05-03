@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import java.security.Principal;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.model.DatabaseFile;
 import com.example.demo.model.PersonalDtls;
 import com.example.demo.model.UserDtls;
+import com.example.demo.repositary.DatabaseFileRepository;
 import com.example.demo.repositary.UserRepositary;
 import com.example.demo.service.PersonalService;
 import com.example.demo.repositary.personalRepository;
@@ -29,6 +32,9 @@ public class TeacherController {
 
 	@Autowired
 	private UserRepositary userRepo;
+
+	@Autowired
+	private DatabaseFileRepository fileRepo;
 
 	@Autowired
 	private PersonalService personalService;
@@ -73,6 +79,27 @@ public class TeacherController {
 
 		} else {
 			logger.debug("Principal is null");
+		}
+
+		logger.info("\n\n\nDoc details are working fine\n\n\n");
+
+		String email = p.getName();
+		UserDtls user = userRepo.findByEmail(email);
+
+		// log user details
+		System.out.println("User details:");
+		System.out.println("Name: " + user.getName());
+		System.out.println("Email: " + user.getEmail());
+		System.out.println("Id: " + user.getId());
+
+		List<DatabaseFile> files = fileRepo.findByUser(user);
+		System.out.println("Files: " + files);
+
+		model.addAttribute("files", files);
+
+		// log files info
+		for (DatabaseFile file : files) {
+			logger.info(" File: " + file.getFileName());
 		}
 
 	}

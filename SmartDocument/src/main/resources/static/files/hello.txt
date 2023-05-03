@@ -8,7 +8,6 @@ These are properties for configuring the file upload settings in a Spring applic
 
 By setting these properties, you can control the size of files that can be uploaded in your Spring application and ensure that large files do not cause performance issues or server crashes. It is important to set reasonable limits for file size and request size to ensure that your application can handle file uploads without running out of memory or causing other issues.
 
-
 The error message "Data truncation: Data too long for column 'data' at row 1" typically indicates that you are trying to insert or update a value in a database column that is too long for the column's data type or size.
 
 To resolve this issue, you should do the following:
