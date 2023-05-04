@@ -1,11 +1,7 @@
 package com.example.demo.controller;
 
 import java.security.Principal;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -47,61 +43,46 @@ public class TeacherController {
 
 	@ModelAttribute
 	private void userDetails(Model model, Principal p) {
-		Logger logger = org.slf4j.LoggerFactory.getLogger(UserController.class);
-		logger.info("\n\n\nWorking fine\n\n\n");
-
 		if (p != null) {
-			logger.info("\n\n\nPrincipal is not null\n\n\n");
 			String email = p.getName();
 			UserDtls user = userRepo.findByEmail(email);
 
-			System.out.println("User details:");
-			System.out.println("Name: " + user.getName());
-			System.out.println("Email: " + user.getEmail());
-			// System.out.println("Department: " + user.getDepartment());
-			// and so on for all fields in the UserDtls entity
-
-			logger.debug("\n\n\nId is: " + user.getId() + "\n\n\n");
-
 			PersonalDtls puser = personalRepository.findById(user.getId());
-
-			System.out.println("Personal details:");
-			System.out.println("Address: " + puser.getCurAdd());
-			System.out.println("Phone: " + puser.getCurrCity());
-			System.out.println("City: " + puser.getCurrCunt());
-			System.out.println("State: " + puser.getCurrState());
-			System.out.println("DOB: " + puser.getDob());
-			System.out.println("Gender: " + puser.getGender());
-			logger.debug("\n\nPersonal details is: " + puser.toString());
-
 			model.addAttribute("user", user);
 			model.addAttribute("puser", puser);
 
+			List<DatabaseFile> files = fileRepo.findByUser(user);
+			System.out.println("Files: " + files);
+			model.addAttribute("files", files);
 		} else {
-			logger.debug("Principal is null");
+			model.addAttribute("user", null);
 		}
 
-		logger.info("\n\n\nDoc details are working fine\n\n\n");
+	}
 
+	@PostMapping("/updateTeacher")
+	public String updateUser(Principal p, @RequestParam("name") String name,
+			@RequestParam("erpId") String erpId, @RequestParam("gender") String gender) {
+		
 		String email = p.getName();
 		UserDtls user = userRepo.findByEmail(email);
+		try {
+			PersonalDtls existingPersonalDtls = personalRepository.findById(user.getId());
 
-		// log user details
-		System.out.println("User details:");
-		System.out.println("Name: " + user.getName());
-		System.out.println("Email: " + user.getEmail());
-		System.out.println("Id: " + user.getId());
+			// update the fields with the new values
+			existingPersonalDtls.setName(name);
+			existingPersonalDtls.setErpId(erpId);
+			existingPersonalDtls.setGender(gender);
 
-		List<DatabaseFile> files = fileRepo.findByUser(user);
-		System.out.println("Files: " + files);
+			// save the updated personal details object
+			personalRepository.save(existingPersonalDtls);
+			return "redirect:/teacher/personalInfo";
 
-		model.addAttribute("files", files);
-
-		// log files info
-		for (DatabaseFile file : files) {
-			logger.info(" File: " + file.getFileName());
+		} catch (Exception e) {
+			System.err.println("Error in updating user details\n\n\n\n");
+			e.printStackTrace();
 		}
-
+		return "redirect:/teacher/update-user-details";
 	}
 
 	@GetMapping("/files")
@@ -167,6 +148,11 @@ public class TeacherController {
 	@GetMapping("/interactions")
 	public String interactions() {
 		return "user/teacherFiles/interactions";
+	}
+
+	@GetMapping("/fdp")
+	public String fdp() {
+		return "user/teacherFiles/fdp";
 	}
 
 	@GetMapping("/settings")

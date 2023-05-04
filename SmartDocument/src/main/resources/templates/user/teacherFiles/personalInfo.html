@@ -103,12 +103,12 @@
                 <legend>Personal Information</legend>
                 <div class="grid-container">
                     <div class="grid-item"><span class="field">Name: </span>[[${puser.name}]]</div>
-                    <div class="grid-item"><span class="field">ERP ID: </span>[[${puser.name}]]</div>
-                    <div class="grid-item"><span class="field">Official Email: </span>[[${puser.name}]]</div>
-                    <div class="grid-item"><span class="field">Personal Email: </span>[[${puser.name}]]</div>
-                    <div class="grid-item"><span class="field">Department: </span>[[${puser.name}]]</div>
-                    <div class="grid-item"><span class="field">Phone: </span>[[${puser.name}]]</div>
-                    <div class="grid-item"><span class="field">Gender: </span>[[${puser.name}]]</div>
+                    <div class="grid-item"><span class="field">ERP ID: </span>[[${puser.erpId}]]</div>
+                    <div class="grid-item"><span class="field">Official Email: </span>[[${puser.offEmail}]]</div>
+                    <div class="grid-item"><span class="field">Personal Email: </span>[[${puser.perEmail}]]</div>
+                    <div class="grid-item"><span class="field">Department: </span>[[${puser.dept}]]</div>
+                    <div class="grid-item"><span class="field">Phone: </span>[[${puser.mobileNumber}]]</div>
+                    <div class="grid-item"><span class="field">Gender: </span>[[${puser.gender}]]</div>
                 </div>
             </fieldset>
             <fieldset>
@@ -129,6 +129,7 @@
         <fieldset>
             <legend>Address</legend>
             <div class="grid-container">
+                <a href="update-user-details">Update Information</a>
                 <div class="grid-item"><span class="field">Current Address: </span>[[${puser.name}]]</div>
                 <div class="grid-item"><span class="field">Current City: </span>[[${puser.name}]]</div>
                 <div class="grid-item"><span class="field">Current State: </span>[[${puser.name}]]</div>
@@ -142,7 +143,6 @@
             </div>
         </fieldset>
 
-        <a href="update-user-details">Update Information</a>
     </main>
 </body>
 

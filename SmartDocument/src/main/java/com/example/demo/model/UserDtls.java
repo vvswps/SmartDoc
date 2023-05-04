@@ -30,7 +30,7 @@ public class UserDtls {
 	private String role;
 	private String mobileNumber;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user")
 	private List<DatabaseFile> files;
 
 	public int getId() {

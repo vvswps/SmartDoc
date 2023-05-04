@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Research & Publications</title>
+    <title>Awards & Achievements</title>
     <style>
-        .research-modal {
+        .upload-modal {
             margin: 0 auto;
             width: 500px;
             padding: 20px;
@@ -25,15 +25,15 @@
 
         }
 
-        .research-modal.show {
+        .upload-modal.show {
             display: block;
         }
 
-        .research-modal.show .details {
+        .upload-modal.show .details {
             opacity: 0.5;
         }
 
-        .research-modal svg {
+        .upload-modal svg {
             position: relative;
             max-width: 1rem;
             left: 95%;
@@ -43,25 +43,25 @@
             fill: #242d49;
         }
 
-        .research-modal svg:hover {
+        .upload-modal svg:hover {
             transform: rotate(90deg);
             fill: #ff919d;
         }
 
-        .research-modal h2 {
+        .upload-modal h2 {
             margin-bottom: 20px;
             text-align: center;
         }
 
-        .research-modal label {
+        .upload-modal label {
             display: block;
             margin-bottom: 10px;
             color: #333;
         }
 
-        .research-modal input[type="text"],
-        .research-modal input[type="date"],
-        .research-modal input[type="file"] {
+        .upload-modal input[type="text"],
+        .upload-modal input[type="date"],
+        .upload-modal input[type="file"] {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -70,7 +70,7 @@
             box-sizing: border-box;
         }
 
-        .research-modal input[type="submit"] {
+        .upload-modal input[type="submit"] {
             background-color: #ff919d;
             color: #fff;
             border: none;
@@ -81,11 +81,11 @@
             transition: all .3s ease-in-out;
         }
 
-        .research-modal input[type="submit"]:hover {
+        .upload-modal input[type="submit"]:hover {
             background-color: #ff7585;
         }
 
-        .research-modal input[type="file"] {
+        .upload-modal input[type="file"] {
             padding-top: 7px;
         }
 
@@ -147,7 +147,7 @@
 <body>
     <header>
         <div class="title-area">
-            <h1>Research & Publications</h1>
+            <h1>Awards & Achievements</h1>
             <div class="profile">
                 <div class="name">[[${user.name}]]</div>
                 <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512" viewBox="0 0 512 512"
@@ -159,10 +159,10 @@
             </div>
         </div>
     </header>
-    <form class="research-modal">
-        <h2>Upload New Research</h2>
+    <form class="upload-modal">
+        <h2>Upload New Achievement</h2>
         <!-- x svg to close the modal -->
-        <svg onclick="closeResearchModal()" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
+        <svg onclick="closeModal()" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
             viewBox="0 0 512 512" id="close-modal">
             <path
                 d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
@@ -181,7 +181,7 @@
     </form>
 
     <div class="details">
-        <h2>Research</h2>
+        <h2>FDP</h2>
         <table class="stats">
             <tr>
                 <th>Sr. no.</th>
@@ -195,24 +195,11 @@
                 <td>12/12/2020</td>
                 <td><a href="#">Download</a></td>
             </tr>
-            <tr>
-                <td>2</td>
-                <td>Best Teacher</td>
-                <td>12/12/2020</td>
-                <td><a href="#">Download</a></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Miss NIET</td>
-                <td>12/12/2020</td>
-                <td><a href="#">Download</a></td>
-            </tr>
         </table>
-        <button class="upload-button" onclick="showResearchModal()">Upload</button>
+        <button class="upload-button" onclick="showModal()">Upload</button>
     </div>
-
-    <div class=" details">
-        <h2>Publications</h2>
+    <div class="details">
+        <h2>STTP</h2>
         <table class="stats">
             <tr>
                 <th>Sr. no.</th>
@@ -226,29 +213,34 @@
                 <td>12/12/2020</td>
                 <td><a href="#">Download</a></td>
             </tr>
+        </table>
+        <button class="upload-button" onclick="showModal()">Upload</button>
+    </div>
+    <div class="details">
+        <h2>QIP</h2>
+        <table class="stats">
             <tr>
-                <td>2</td>
-                <td>Best Teacher</td>
-                <td>12/12/2020</td>
-                <td><a href="#">Download</a></td>
-
+                <th>Sr. no.</th>
+                <th>Award Name</th>
+                <th>Date Awarded</th>
+                <th>Download</th>
             </tr>
             <tr>
-                <td>3</td>
-                <td>Miss NIET</td>
+                <td>1</td>
+                <td>Patents</td>
                 <td>12/12/2020</td>
                 <td><a href="#">Download</a></td>
             </tr>
         </table>
-        <button class="upload-button" onclick="showResearchModal()">Upload</button>
+        <button class="upload-button" onclick="showModal()">Upload</button>
     </div>
 
     <script>
-        function showResearchModal() {
-            document.querySelector('.research-modal').classList.add('show');
+        function showModal() {
+            document.querySelector('.upload-modal').classList.add('show');
         }
-        function closeResearchModal() {
-            document.querySelector('.research-modal').classList.remove('show');
+        function closeModal() {
+            document.querySelector('.upload-modal').classList.remove('show');
         }
     </script>
 </body>

@@ -2,292 +2,301 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
-<link rel="stylesheet" href="style.css">
-<style>
-:root {
-	--primary-color: #1abc9c;
-	--secondary-color: #e91e63;
-	--background-color: #f5f5f5;
-}
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="style.css">
+	<style>
+		:root {
+			--primary-color: #1abc9c;
+			--secondary-color: #e91e63;
+			--background-color: #f5f5f5;
+		}
 
-body {
-	font-family: "Roboto", sans-serif;
-	background-color: var(--background-color);
-	margin: 0;
-}
+		body {
+			font-family: "Roboto", sans-serif;
+			background-color: var(--background-color);
+			margin: 0;
+		}
 
-form {
-	background-color: #ffffff;
-	max-width: 600px;
-	margin: 0 auto;
-	padding: 30px;
-	box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-}
+		form {
+			background-color: #ffffff;
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 30px;
+			box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+		}
 
-h1 {
-	font-size: 28px;
-	font-weight: 500;
-	color: var(--primary-color);
-	margin-bottom: 20px;
-	text-align: center;
-}
+		h1 {
+			font-size: 28px;
+			font-weight: 500;
+			color: var(--primary-color);
+			margin-bottom: 20px;
+			text-align: center;
+		}
 
-h2 {
-	font-size: 24px;
-	font-weight: 500;
-	color: var(--primary-color);
-	margin-top: 30px;
-	margin-bottom: 10px;
-}
+		h2 {
+			font-size: 24px;
+			font-weight: 500;
+			color: var(--primary-color);
+			margin-top: 30px;
+			margin-bottom: 10px;
+		}
 
-label {
-	font-size: 16px;
-	color: #999999;
-	display: block;
-	margin-bottom: 5px;
-}
+		label {
+			font-size: 16px;
+			color: #999999;
+			display: block;
+			margin-bottom: 5px;
+		}
 
-input[type="text"], input[type="email"], input[type="date"], input[type="number"]
-	{
-	font-size: 16px;
-	padding: 10px;
-	border-radius: 5px;
-	border: none;
-	width: 100%;
-	margin-bottom: 20px;
-	box-sizing: border-box;
-	background-color: #f0f0f0;
-}
+		input[type="text"],
+		input[type="email"],
+		input[type="date"],
+		input[type="number"] {
+			font-size: 16px;
+			padding: 10px;
+			border-radius: 5px;
+			border: none;
+			width: 100%;
+			margin-bottom: 20px;
+			box-sizing: border-box;
+			background-color: #f0f0f0;
+		}
 
-input[type="text"]:focus, input[type="email"]:focus, input[type="date"]:focus,
-	input[type="number"]:focus {
-	outline: none;
-	border: 1px solid var(--primary-color);
-}
+		input[type="text"]:focus,
+		input[type="email"]:focus,
+		input[type="date"]:focus,
+		input[type="number"]:focus {
+			outline: none;
+			border: 1px solid var(--primary-color);
+		}
 
-button[type="submit"] {
-	font-size: 16px;
-	color: #ffffff;
-	background-color: var(--primary-color);
-	border: none;
-	border-radius: 5px;
-	padding: 10px 20px;
-	margin-top: 20px;
-	cursor: pointer;
-	transition: background-color 0.3s ease;
-}
+		button[type="submit"] {
+			font-size: 16px;
+			color: #ffffff;
+			background-color: var(--primary-color);
+			border: none;
+			border-radius: 5px;
+			padding: 10px 20px;
+			margin-top: 20px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
 
-button[type="submit"]:hover {
-	background-color: #0d8abc;
-}
+		button[type="submit"]:hover {
+			background-color: #0d8abc;
+		}
 
-input[type="checkbox"] {
-	margin-right: 10px;
-}
+		input[type="checkbox"] {
+			margin-right: 10px;
+		}
 
-.checkbox-label {
-	font-size: 16px;
-	color: #999999;
-	margin-bottom: 10px;
-}
+		.checkbox-label {
+			font-size: 16px;
+			color: #999999;
+			margin-bottom: 10px;
+		}
 
-.error {
-	color: var(--secondary-color);
-	font-size: 14px;
-	margin-top: 5px;
-}
+		.error {
+			color: var(--secondary-color);
+			font-size: 14px;
+			margin-top: 5px;
+		}
 
-.select-wrapper {
-	position: relative;
-}
+		.select-wrapper {
+			position: relative;
+		}
 
-.select-wrapper select {
-	appearance: none;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	font-size: 16px;
-	padding: 10px;
-	border-radius: 5px;
-	border: none;
-	width: 100%;
-	margin-bottom: 20px;
-	box-sizing: border-box;
-	background-color: #f0f0f0;
-	cursor: pointer;
-}
+		.select-wrapper select {
+			appearance: none;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			font-size: 16px;
+			padding: 10px;
+			border-radius: 5px;
+			border: none;
+			width: 100%;
+			margin-bottom: 20px;
+			box-sizing: border-box;
+			background-color: #f0f0f0;
+			cursor: pointer;
+		}
 
-.select-wrapper::before {
-	content: "";
-	position: absolute;
-	right: 10px;
-	top: 50%;
-	transform: translateY(-50%);
-	width: 0;
-	height: 0;
-	border-left: 6px solid transparent;
-	border-right: 6px solid transparent;
-	border-top: 6px solid #999999;
-	pointer-events: none;
-}
+		.select-wrapper::before {
+			content: "";
+			position: absolute;
+			right: 10px;
+			top: 50%;
+			transform: translateY(-50%);
+			width: 0;
+			height: 0;
+			border-left: 6px solid transparent;
+			border-right: 6px solid transparent;
+			border-top: 6px solid #999999;
+			pointer-events: none;
+		}
 
-.copy-checkbox-container {
-	margin-bottom: 10px;
-}
+		.copy-checkbox-container {
+			margin-bottom: 10px;
+		}
 
-.copy-checkbox-container label {
-	font-size: 14px;
-}
-/* Form container */
-.form-container {
-	margin: 0 auto;
-	max-width: 800px;
-	padding: 20px;
-	background-color: #fff;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-	border-radius: 10px;
-}
+		.copy-checkbox-container label {
+			font-size: 14px;
+		}
 
-/* Form fields */
-.form-field {
-	margin-bottom: 20px;
-}
+		/* Form container */
+		.form-container {
+			margin: 0 auto;
+			max-width: 800px;
+			padding: 20px;
+			background-color: #fff;
+			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+			border-radius: 10px;
+		}
 
-.form-field label {
-	display: block;
-	margin-bottom: 5px;
-	color: #616161;
-	font-size: 16px;
-}
+		/* Form fields */
+		.form-field {
+			margin-bottom: 20px;
+		}
 
-.form-field input[type="text"], .form-field input[type="email"],
-	.form-field input[type="number"], .form-field select {
-	width: 100%;
-	padding: 10px;
-	border: none;
-	border-radius: 5px;
-	background-color: #f5f5f5;
-	font-size: 16px;
-	color: #333;
-}
+		.form-field label {
+			display: block;
+			margin-bottom: 5px;
+			color: #616161;
+			font-size: 16px;
+		}
 
-.form-field input[type="text"]:focus, .form-field input[type="email"]:focus,
-	.form-field input[type="number"]:focus, .form-field select:focus {
-	outline: none;
-	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-}
+		.form-field input[type="text"],
+		.form-field input[type="email"],
+		.form-field input[type="number"],
+		.form-field select {
+			width: 100%;
+			padding: 10px;
+			border: none;
+			border-radius: 5px;
+			background-color: #f5f5f5;
+			font-size: 16px;
+			color: #333;
+		}
 
-/* Checkbox */
-.checkbox-field {
-	display: flex;
-	align-items: center;
-	margin-bottom: 10px;
-}
+		.form-field input[type="text"]:focus,
+		.form-field input[type="email"]:focus,
+		.form-field input[type="number"]:focus,
+		.form-field select:focus {
+			outline: none;
+			box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+		}
 
-.checkbox-field label {
-	margin-left: 5px;
-	color: #616161;
-	font-size: 14px;
-}
+		/* Checkbox */
+		.checkbox-field {
+			display: flex;
+			align-items: center;
+			margin-bottom: 10px;
+		}
 
-.checkbox-field input[type="checkbox"] {
-	margin-right: 5px;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	width: 16px;
-	height: 16px;
-	border: 1px solid #ccc;
-	border-radius: 3px;
-	background-color: #fff;
-	vertical-align: middle;
-	cursor: pointer;
-}
+		.checkbox-field label {
+			margin-left: 5px;
+			color: #616161;
+			font-size: 14px;
+		}
 
-.checkbox-field input[type="checkbox"]:checked::before {
-	content: "\2713";
-	display: inline-block;
-	font-size: 14px;
-	width: 16px;
-	height: 16px;
-	text-align: center;
-	line-height: 16px;
-	color: #fff;
-	background-color: #007bff;
-	border-radius: 3px;
-}
+		.checkbox-field input[type="checkbox"] {
+			margin-right: 5px;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			width: 16px;
+			height: 16px;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+			background-color: #fff;
+			vertical-align: middle;
+			cursor: pointer;
+		}
 
-/* Submit button */
-.btn-container {
-	display: flex;
-	justify-content: center;
-	margin-top: 20px;
-}
+		.checkbox-field input[type="checkbox"]:checked::before {
+			content: "\2713";
+			display: inline-block;
+			font-size: 14px;
+			width: 16px;
+			height: 16px;
+			text-align: center;
+			line-height: 16px;
+			color: #fff;
+			background-color: #007bff;
+			border-radius: 3px;
+		}
 
-.btn {
-	padding: 10px 20px;
-	border: none;
-	border-radius: 5px;
-	background-color: #007bff;
-	color: #fff;
-	font-size: 16px;
-	font-weight: bold;
-	cursor: pointer;
-	transition: background-color 0.3s ease-in-out;
-}
+		/* Submit button */
+		.btn-container {
+			display: flex;
+			justify-content: center;
+			margin-top: 20px;
+		}
 
-.btn:hover {
-	background-color: #0056b3;
-}
+		.btn {
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			background-color: #007bff;
+			color: #fff;
+			font-size: 16px;
+			font-weight: bold;
+			cursor: pointer;
+			transition: background-color 0.3s ease-in-out;
+		}
 
-.two-in-a-row {
-	display: flex;
-	justify-content: space-between;
-}
+		.btn:hover {
+			background-color: #0056b3;
+		}
 
-.two-in-a-row div {
-	width: 48%;
-}
+		.two-in-a-row {
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.two-in-a-row div {
+			width: 48%;
+		}
 
 
-.copy-phone-checkbox {
-  margin-bottom: 0.5rem;
-  margin-top: 1rem;
-}
-
-</style>
+		.copy-phone-checkbox {
+			margin-bottom: 0.5rem;
+			margin-top: 1rem;
+		}
+	</style>
 </head>
 
 <body>
 	<h1>Update Details Form</h1>
-	<form action="personalUser" method="post">
-		<label for="name">Name:</label> <input type="text" id="name"
-			name="name" required> <label for="erp-id">ERP ID:</label> <input
-			type="text" id="erp-id" name="erpId" required>
+	<form method="post" action="updateTeacher" th:object="${puser}">
+		<label for="name">Name:</label>
+		<input th:field="*{name}" type="text" id="name" name="name">
+		<label for="erp-id">ERP ID:</label>
+		<input th:field="*{erpId}" type="text" id="erp-id" name="erpId">
 
 		<div class="two-in-a-row">
 			<div>
-				<label for="official-email">Official Email:</label> <input
-					type="email" id="offEmail" name="official-email" required>
+				<label for="official-email">Official Email:</label> <input type="email" id="offEmail"
+					name="official-email">
 			</div>
 
 			<div>
-				<label for="personal-email">Personal Email:</label> <input
-					type="email" id="perEmail" name="personal-email" required>
+				<!-- <label for="personal-email">Personal Email:</label> <input type="email" id="perEmail"
+					name="personal-email" > -->
+				<label for="personal-email">Personal Email (gender):</label>
+				<input type="text" id="perEmail" th:field="*{gender}" name="personal-email">
 			</div>
 		</div>
 
 		<div class="two-in-a-row">
 			<div>
-				<label for="dob">Date of Birth:</label> <input type="date" id="dob"
-					name="dob" required>
+				<label for="dob">Date of Birth:</label> <input type="date" id="dob" name="dob">
 			</div>
 			<div>
-				<label for="dept">Department:</label> <select id="department"
-					name="department" required>
+				<label for="dept">Department:</label> <select id="department" name="department">
 					<option value="" disabled selected>Select department</option>
 					<option value="Mechanical Engineering">Mechanical
 						Engineering</option>
@@ -302,113 +311,102 @@ input[type="checkbox"] {
 
 		<div class="two-in-a-row">
 			<div>
-				<label for="phone">Phone:</label> <input type="tel" id="phone"
-					name="mobileNumber" pattern="[0-9]{10}" required>
+				<label for="phone">Phone:</label> <input th:field="*{mobileNumber}" type="tel" id="phone"
+					name="mobileNumber" pattern="[0-9]{10}">
 
 			</div>
 			<div>
-				<label for="whatsapp">Whatsapp: </label> <input type="tel"
-					id="whatsapp" name="whatsNumber" pattern="[0-9]{10}" required>
-				<label>                     <input class="copy-phone-checkbox" type="checkbox" onclick="copyPhoneNumber()"> Same as phone number
+				<label for="whatsapp">Whatsapp: </label> <input type="tel" id="whatsapp" name="whatsNumber"
+					pattern="[0-9]{10}">
+				<label> <input class="copy-phone-checkbox" type="checkbox" onclick="copyPhoneNumber()"> Same as phone
+					number
 
 				</label>
 			</div>
 		</div>
-		
-		 <div class="two-in-a-row">
-            <div>
-                <label for="googleId">Google Scholar Id</label>
-                <input type="text" id="googleId" name="googleId" required>
-            </div>
 
-            <div>
-                <label for="scopusId">Scopus Id</label>
-                <input type="text" id="scopusId" name="scopusId" required>
-            </div>
-        </div>
-        <div>
-            <div>
-                <label for="sciId">SCI Id</label>
-                <input type="text" id="sciId" name="sciId" required>
-            </div>
-        </div>
+		<div class="two-in-a-row">
+			<div>
+				<label for="googleId">Google Scholar Id</label>
+				<input type="text" id="googleId" name="googleId">
+			</div>
+
+			<div>
+				<label for="scopusId">Scopus Id</label>
+				<input type="text" id="scopusId" name="scopusId">
+			</div>
+		</div>
+		<div>
+			<div>
+				<label for="sciId">SCI Id</label>
+				<input type="text" id="sciId" name="sciId">
+			</div>
+		</div>
 
 		<h2>Experience</h2>
 		<div class="two-in-a-row">
 			<div>
-				<label for="industry-experience">Industry:</label> <input
-					type="number" id="industry-experience" name="expInd"
-					required>
+				<label for="industry-experience">Industry:</label> <input type="number" id="industry-experience"
+					name="expInd">
 			</div>
 			<div>
-				<label for="academic-experience">Academic:</label> <input
-					type="number" id="academic-experience" name="expAcd"
-					required>
+				<label for="academic-experience">Academic:</label> <input type="number" id="academic-experience"
+					name="expAcd">
 			</div>
 		</div>
 
 
 		<div class="two-in-a-row">
 			<div>
-				<label for="date-of-joining">Date of Joining:</label> <input
-					type="date" id="date-of-joining" name="doj" required>
+				<label for="date-of-joining">Date of Joining:</label> <input type="date" id="date-of-joining"
+					name="doj">
 			</div>
 			<div>
-				<label for="date-of-leaving">Date of Leaving:</label> <input
-					type="date" id="date-of-leaving" name="dol">
+				<label for="date-of-leaving">Date of Leaving:</label> <input type="date" id="date-of-leaving"
+					name="dol">
 			</div>
 		</div>
 
 		<h2>Permanent Address</h2>
-		<label for="permanent-address-line-1">Address</label> <input
-			type="text" id="permanent-address-line-1"
-			name="perAdd" required> 
+		<label for="permanent-address-line-1">Address</label> <input type="text" id="permanent-address-line-1"
+			name="perAdd">
 		<div class="two-in-a-row">
 			<div>
-				<label for="permanent-city">City:</label> <input type="text"
-					id="permanent-city" name="perCity" required>
+				<label for="permanent-city">City:</label> <input type="text" id="permanent-city" name="perCity">
 			</div>
 			<div>
-				<label for="permanent-state">State:</label> <input type="text"
-					id="permanent-state" name="perState" required>
+				<label for="permanent-state">State:</label> <input type="text" id="permanent-state" name="perState">
 			</div>
 		</div>
 		<div class="two-in-a-row">
 			<div>
-				<label for="permanent-country">Country:</label> <input type="text"
-					id="permanent-country" name="perCunt" required>
+				<label for="permanent-country">Country:</label> <input type="text" id="permanent-country"
+					name="perCunt">
 			</div>
 			<div>
-				<label for="permanent-pincode">Pincode:</label> <input type="text"
-					id="permanent-pincode" name="perPin" required>
+				<label for="permanent-pincode">Pincode:</label> <input type="text" id="permanent-pincode" name="perPin">
 			</div>
 		</div>
 
 		<h2>Current Address</h2>
-		<label> <input type="checkbox"
-			onclick="copyPermanentAddress()"> Same as permanent address
-		</label> <label for="current-address-line-1">Address Line 1:</label> <input
-			type="text" id="current-address-line-1" name="curAdd"
-			required> 
+		<label> <input type="checkbox" onclick="copyPermanentAddress()"> Same as permanent address
+		</label> <label for="current-address-line-1">Address Line 1:</label> <input type="text"
+			id="current-address-line-1" name="curAdd">
 
 		<div class="two-in-a-row">
 			<div>
-				<label for="current-city">City:</label> <input type="text"
-					id="current-city" name="currCity" required>
+				<label for="current-city">City:</label> <input type="text" id="current-city" name="currCity">
 			</div>
 			<div>
-				<label for="current-state">State:</label> <input type="text"
-					id="current-state" name="currState" required>
+				<label for="current-state">State:</label> <input type="text" id="current-state" name="currState">
 			</div>
 		</div>
 		<div class="two-in-a-row">
 			<div>
-				<label for="current-country">Country:</label> <input type="text"
-					id="current-country" name="currCunt" required>
+				<label for="current-country">Country:</label> <input type="text" id="current-country" name="currCunt">
 			</div>
 			<div>
-				<label for="current-pincode">Pincode:</label> <input type="text"
-					id="current-pincode" name="currPin" required>
+				<label for="current-pincode">Pincode:</label> <input type="text" id="current-pincode" name="currPin">
 			</div>
 		</div>
 
@@ -419,7 +417,7 @@ input[type="checkbox"] {
 			if (document.getElementById("phone").value != "") {
 				if (document.getElementById("whatsapp").value == "") {
 					document.getElementById("whatsapp").value = document
-							.getElementById("phone").value;
+						.getElementById("phone").value;
 				} else {
 					document.getElementById("whatsapp").value = "";
 				}
@@ -429,17 +427,17 @@ input[type="checkbox"] {
 		function copyPermanentAddress() {
 			if (document.getElementById("permanent-address-line-1").value != "") {
 				document.getElementById("current-address-line-1").value = document
-						.getElementById("permanent-address-line-1").value;
+					.getElementById("permanent-address-line-1").value;
 				document.getElementById("current-address-line-2").value = document
-						.getElementById("permanent-address-line-2").value;
+					.getElementById("permanent-address-line-2").value;
 				document.getElementById("current-city").value = document
-						.getElementById("permanent-city").value;
+					.getElementById("permanent-city").value;
 				document.getElementById("current-state").value = document
-						.getElementById("permanent-state").value;
+					.getElementById("permanent-state").value;
 				document.getElementById("current-country").value = document
-						.getElementById("permanent-country").value;
+					.getElementById("permanent-country").value;
 				document.getElementById("current-pincode").value = document
-						.getElementById("permanent-pincode").value;
+					.getElementById("permanent-pincode").value;
 			} else {
 				document.getElementById("current-address-line-1").value = "";
 				document.getElementById("current-address-line-2").value = "";
