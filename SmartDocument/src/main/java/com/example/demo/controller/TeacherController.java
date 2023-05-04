@@ -61,19 +61,26 @@ public class TeacherController {
 	}
 
 	@PostMapping("/updateTeacher")
-	public String updateUser(@ModelAttribute PersonalDtls puser, @RequestParam("name") String name,
+	public String updateUser(Principal p, @RequestParam("name") String name,
 			@RequestParam("erpId") String erpId, @RequestParam("gender") String gender) {
-		System.out.println(puser.getName());
-		System.out.println("Trying to update user details");
+		
+		String email = p.getName();
+		UserDtls user = userRepo.findByEmail(email);
 		try {
-			PersonalDtls personalDtls = personalService.personalUser(puser);
-			System.out.println(personalDtls);
-			// use the userForm object to update the database
-			if (personalDtls != null) {
-				return "redirect:/teacher/personalInfo";
-			}
+			PersonalDtls existingPersonalDtls = personalRepository.findById(user.getId());
+
+			// update the fields with the new values
+			existingPersonalDtls.setName(name);
+			existingPersonalDtls.setErpId(erpId);
+			existingPersonalDtls.setGender(gender);
+
+			// save the updated personal details object
+			personalRepository.save(existingPersonalDtls);
+			return "redirect:/teacher/personalInfo";
+
 		} catch (Exception e) {
-			System.err.println("Error in updating user details");
+			System.err.println("Error in updating user details\n\n\n\n");
+			e.printStackTrace();
 		}
 		return "redirect:/teacher/update-user-details";
 	}
