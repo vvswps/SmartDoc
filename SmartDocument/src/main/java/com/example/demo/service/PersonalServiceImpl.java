@@ -14,8 +14,6 @@ public class PersonalServiceImpl implements PersonalService {
 
 	@Override
 	public PersonalDtls personalUser(PersonalDtls puser) {
-
 		return personalRepo.save(puser);
 	}
-
 }
