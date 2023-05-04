@@ -143,6 +143,11 @@ public class TeacherController {
 		return "user/teacherFiles/interactions";
 	}
 
+	@GetMapping("/fdp")
+	public String fdp() {
+		return "user/teacherFiles/fdp";
+	}
+
 	@GetMapping("/settings")
 	public String settings() {
 		return "user/teacherFiles/settings";
