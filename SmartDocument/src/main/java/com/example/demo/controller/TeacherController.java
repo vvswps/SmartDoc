@@ -1,10 +1,7 @@
 package com.example.demo.controller;
 
 import java.security.Principal;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
