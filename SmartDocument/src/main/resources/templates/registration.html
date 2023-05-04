@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
@@ -313,10 +313,10 @@
 
 <body>
 
-<th:block th:if="${session.msg}">
-            <p class="text-center fs-4 text-success">[[${session.msg}]]</p>
-        </th:block>
-        
+  <th:block th:if="${session.msg}">
+    <p class="text-center fs-4 text-success">[[${session.msg}]]</p>
+  </th:block>
+
   <div class="container">
     <span class="big-circle"></span>
     <!-- circle on the left side and dots on the right -->
@@ -330,7 +330,7 @@
 
       <div class="reg-form">
 
-	<form action="createUser" method="post">
+        <form action="createUser" method="post">
           <h3 class="title">Please fill the fields below</h3>
           <div class="input-container">
             <input type="text" name="name" class="input" />
@@ -358,7 +358,12 @@
             <span>Branch</span>
           </div>
           <div class="input-container">
-            <input type="text" name="role" class="input" />
+            <select name="role" class="input">
+              <option value="ROLE_USER">User</option>
+              <option value="ROLE_TEACHER">Teacher</option>
+              <option value="ROLE_ADMIN">Admin</option>
+            </select>
+
             <label for="">Role</label>
             <span>Role</span>
           </div>
@@ -390,13 +395,13 @@
 
     // this script adds the focus class to the parent element of the input when the input is focused
     // and removes it when the input is not focused
-    
-  /* window.onload = function() {
-  if(performance.navigation.type === 1) {
-    // The page was reloaded, so clear the session variable
-    sessionStorage.removeItem("msg");
-  }
-} */ 
+
+    /* window.onload = function() {
+    if(performance.navigation.type === 1) {
+      // The page was reloaded, so clear the session variable
+      sessionStorage.removeItem("msg");
+    }
+  } */
   </script>
 </body>
 

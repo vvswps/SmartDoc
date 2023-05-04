@@ -140,7 +140,7 @@
     }
 
     .input-div>div>input {
-    
+
       position: absolute;
       left: 0;
       top: 0;
@@ -232,6 +232,11 @@
         justify-content: center;
       }
     }
+
+    .forgot {
+      display: flex;
+      justify-content: space-between;
+    }
   </style>
 </head>
 
@@ -264,7 +269,10 @@
             <input type="password" name="password" class="input" id="floatingPassword">
           </div>
         </div>
-        <a href="loadForgotPassword">Forgot Password?</a>
+        <div class="forgot">
+          <a href="registration">New user? Register</a>
+          <a href="loadForgotPassword">Forgot Password?</a>
+        </div>
         <input type="submit" class="btn" value="Login">
         <!-- <button class="btn"><a href="/dashboard">Login</a></button> -->
       </form>
