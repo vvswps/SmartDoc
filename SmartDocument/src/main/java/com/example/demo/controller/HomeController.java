@@ -69,7 +69,9 @@ public class HomeController {
 	// }
 	@PostMapping("/createUser")
 	public String createuser(@ModelAttribute UserDtls user, HttpSession session, @RequestParam("role") String role) {
-		// System.out.println(user);
+		if (!(role.equals("ROLE_USER") || role.equals("ROLE_TEACHER"))) {
+			session.setAttribute("msg", "Something went wrong!!");
+		}
 		boolean f = userService.checkEmail(user.getEmail());
 		if (f) {
 			session.setAttribute("msg", "email is already registered");
@@ -77,13 +79,14 @@ public class HomeController {
 			UserDtls userDtls = userService.createUser(user, role);
 
 			if (userDtls != null) {
-				session.setAttribute("msg", "Registered successfully, Redirecting to login in 3sec");
-				try {
-					Thread.sleep(3000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				// session.setAttribute("msg", "Registered successfully, Redirecting to login in
+				// 3sec");
+				// try {
+				// Thread.sleep(3000);
+				// } catch (InterruptedException e) {
+				// e.printStackTrace();
+				// }
+				session.setAttribute("msg", "Registered successfully");
 				return "redirect:/signin";
 			} else {
 				session.setAttribute("msg", "Something went wrong!!");

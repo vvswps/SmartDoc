@@ -37,6 +37,14 @@ public class UserDtls {
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private PersonalDtls personalDtls;
 
+	public PersonalDtls getPersonalDtls() {
+		return personalDtls;
+	}
+
+	public void setPersonalDtls(PersonalDtls personalDtls) {
+		this.personalDtls = personalDtls;
+	}
+
 	public int getId() {
 		return id;
 	}

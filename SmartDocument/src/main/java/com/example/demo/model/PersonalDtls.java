@@ -47,6 +47,14 @@ public class PersonalDtls {
 	private String perState;
 	private String perCunt;
 
+	public UserDtls getUser() {
+		return user;
+	}
+
+	public void setUser(UserDtls user) {
+		this.user = user;
+	}
+
 	public String getCurrCity() {
 		return currCity;
 	}
