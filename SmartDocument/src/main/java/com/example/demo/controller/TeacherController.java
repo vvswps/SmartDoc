@@ -62,7 +62,7 @@ public class TeacherController {
 
 	@PostMapping("/updateTeacher")
 	public String updateUser(Principal p, @RequestParam("name") String name,
-			@RequestParam("erpId") String erpId, @RequestParam("gender") String gender) {
+			@RequestParam("erpId") String erpId, @RequestParam("gender") String gender, @RequestParam("offEmail") String offEmail, @RequestParam("perEmail") String perEmail, @RequestParam("dept") String dept, @RequestParam("whatsNumber") String whatsNumber, @RequestParam("mobileNumber") String mobileNumber, @RequestParam("dob") String dob, @RequestParam("expInd") String expInd, @RequestParam("expAcd") String expAcd, @RequestParam("doj") String doj, @RequestParam("dol") String dol, @RequestParam("perAdd") String perAdd, @RequestParam("curAdd") String curAdd, @RequestParam("googleId") String googleId, @RequestParam("scopusId") String scopusId, @RequestParam("sciId") String sciId, @RequestParam("currCity") String currCity, @RequestParam("currState") String currState) {
 		
 		String email = p.getName();
 		UserDtls user = userRepo.findByEmail(email);
