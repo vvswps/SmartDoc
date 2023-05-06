@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
@@ -308,15 +308,41 @@
         padding: 0.45rem 1.2rem;
       }
     }
+
+    select.input+label {
+      display: none;
+    }
+
+    select.input:focus+label {
+      display: block;
+    }
+
+    .tooltip {
+      position: absolute;
+
+      margin-top: 5px;
+      background-color: #2196F3;
+      color: #fff;
+      padding: 5px;
+      border-radius: 3px;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .input:focus+.tooltip,
+    .input:valid+.tooltip {
+      opacity: 1;
+    }
   </style>
 </head>
 
 <body>
 
-<th:block th:if="${session.msg}">
-            <p class="text-center fs-4 text-success">[[${session.msg}]]</p>
-        </th:block>
-        
+  <th:block th:if="${session.msg}">
+    <p class="text-center fs-4 text-success">[[${session.msg}]]</p>
+  </th:block>
+
   <div class="container">
     <span class="big-circle"></span>
     <!-- circle on the left side and dots on the right -->
@@ -330,39 +356,46 @@
 
       <div class="reg-form">
 
-	<form action="createUser" method="post">
+        <form action="createUser" method="post">
           <h3 class="title">Please fill the fields below</h3>
           <div class="input-container">
-            <input type="text" name="name" class="input" />
+            <input type="text" name="name" class="input" required />
             <label for="">Name</label>
             <span>Name</span>
           </div>
           <div class="input-container">
-            <input type="email" name="email" class="input" />
+            <!-- <input type="email" name="email" class="input" required/> -->
+            <input type="email" name="email" class="input" pattern="[a-zA-Z0-9._%+-]+@niet\.co\.in$" required />
+            <!-- <div class="tooltip">Only emails with @niet.co.in suffix are allowed</div> -->
             <label for="">Email</label>
             <span>Email</span>
           </div>
           <div class="input-container">
-            <input type="password" name="password" class="input" />
+            <input type="password" name="password" class="input" required />
             <label for="">Password</label>
             <span>Password</span>
           </div>
           <div class="input-container">
-            <input type="number" name="mobileNumber" class="input" />
+            <!-- <input type="text" name="mobileNumber" class="input" required /> -->
+            <input type="text" name="mobileNumber" class="input" required pattern="[0-9]{10}" />
             <label for="">Mobile Number</label>
             <span>Mobile Number</span>
           </div>
           <div class="input-container">
-            <input type="text" name="branch" class="input" />
+            <input type="text" name="branch" class="input" required />
             <label for="">Branch</label>
             <span>Branch</span>
           </div>
           <div class="input-container">
-            <input type="text" name="role" class="input" />
+            <select name="role" class="input" required>
+              <option value="ROLE_USER">User</option>
+              <option value="ROLE_TEACHER">Teacher</option>
+            </select>
+
             <label for="">Role</label>
             <span>Role</span>
           </div>
-          <input type="submit" value="Send" class="btn" />
+          <input type="submit" value="Send" class="btn" required />
         </form>
       </div>
     </div>
@@ -388,15 +421,17 @@
       input.addEventListener("blur", blurFunc);
     });
 
-    // this script adds the focus class to the parent element of the input when the input is focused
-    // and removes it when the input is not focused
-    
-  /* window.onload = function() {
-  if(performance.navigation.type === 1) {
-    // The page was reloaded, so clear the session variable
-    sessionStorage.removeItem("msg");
-  }
-} */ 
+    // const select_label = document.querySelector("select.input + label")
+    // document.querySelector("select").addEventListener("click", function () {
+    //   select_label.classList.add("show");
+    // });
+
+    /* window.onload = function() {
+    if(performance.navigation.type === 1) {
+      // The page was reloaded, so clear the session variable
+      sessionStorage.removeItem("msg");
+    }
+  } */
   </script>
 </body>
 

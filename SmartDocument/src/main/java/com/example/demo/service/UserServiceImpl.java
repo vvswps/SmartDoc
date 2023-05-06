@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.model.PersonalDtls;
 import com.example.demo.model.UserDtls;
 import com.example.demo.repositary.UserRepositary;
+import com.example.demo.repositary.personalRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -14,14 +16,26 @@ public class UserServiceImpl implements UserService {
 	private UserRepositary userRepo;
 
 	@Autowired
+	private personalRepository personalRepository;
+
+	@Autowired
 	private BCryptPasswordEncoder passwordEncode;
 
 	@Override
-	public UserDtls createUser(UserDtls user) {
+	public UserDtls createUser(UserDtls user, String role) {
 		user.setPassword(passwordEncode.encode(user.getPassword()));
-		user.setRole("ROLE_USER");
+		user.setRole(role);
+		UserDtls newUser = userRepo.save(user);
+		PersonalDtls personalDtls = new PersonalDtls();
+		System.out.println("User ID: " + newUser.getId());
+		// personalDtls.setId(19);
 
-		return userRepo.save(user);
+		personalDtls.setUser(user); // set the user to the personal details object
+		user.setPersonalDtls(personalDtls);
+
+		personalDtls = personalRepository.save(personalDtls); // save the personal details object to get the ID
+
+		return newUser;
 	}
 
 	@Override
