@@ -125,7 +125,7 @@
 
         .stats tr {
             display: grid;
-            grid-template-columns: 2fr 6fr 4fr 2fr;
+            grid-template-columns: 2fr 2fr 2fr 2fr 2fr;
             gap: 5rem;
             place-items: center;
             margin-bottom: 2rem;
@@ -283,15 +283,17 @@
         <h2>FDP</h2>
         <table class="stats">
             <tr>
-                <th>Sr. no.</th>
-                <th>Award Name</th>
-                <th>Date Awarded</th>
+                <th>Title</th>
+                <th>Nature</th>
+                <th>Number of Days</th>
+                <th>Organization Conducted</th>
                 <th>Download</th>
             </tr>
             <tr>
                 <td>1</td>
                 <td>Patents</td>
                 <td>12/12/2020</td>
+                <td>abc</td>
                 <td><a href="#">Download</a></td>
             </tr>
         </table>
@@ -301,20 +303,13 @@
         <h2>STTP</h2>
         <table class="stats">
             <tr>
-                <th>Sr. no.</th>
-                <th>Award Name</th>
-                <th>Date Awarded</th>
+                <th>Title</th>
+                <th>Nature</th>
+                <th>Number of Days</th>
+                <th>Organization Conducted</th>
                 <th>Download</th>
             </tr>
-             <tr th:if="${not #lists.isEmpty(files)}" th:each="file, iteration : ${files}">
-        <td th:text="${iteration.count}"></td>
-        <td th:text="${file.fileName}"></td>
-        <td th:text="${file.id}"></td>
-        <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
-      </tr>
-      <tr th:if="${#lists.isEmpty(files)}">
-        <td colspan="2">No documents found</td>
-      </tr>
+             
         </table>
         <button class="upload-button" onclick="showModal1()">Upload</button>
     </div>
@@ -322,15 +317,17 @@
         <h2>QIP</h2>
         <table class="stats">
             <tr>
-                <th>Sr. no.</th>
-                <th>Award Name</th>
-                <th>Date Awarded</th>
+                <th>Title</th>
+                <th>Nature</th>
+                <th>Number of Days</th>
+                <th>Organization Conducted</th>
                 <th>Download</th>
             </tr>
             <tr>
                 <td>1</td>
                 <td>Patents</td>
                 <td>12/12/2020</td>
+                <td>abc</td>
                 <td><a href="#">Download</a></td>
             </tr>
         </table>
@@ -341,15 +338,17 @@
         <h2>WORKSHOP</h2>
         <table class="stats">
             <tr>
-                <th>Sr. no.</th>
-                <th>Award Name</th>
-                <th>Date Awarded</th>
+                <th>Title</th>
+                <th>Nature</th>
+                <th>Number of Days</th>
+                <th>Organization Conducted</th>
                 <th>Download</th>
             </tr>
             <tr>
                 <td>1</td>
                 <td>Patents</td>
                 <td>12/12/2020</td>
+                <td>abc</td>
                 <td><a href="#">Download</a></td>
             </tr>
         </table>

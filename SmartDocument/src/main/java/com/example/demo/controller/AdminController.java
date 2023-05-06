@@ -56,6 +56,16 @@ public class AdminController {
 	public String studentView() {
 		return "user/admin/student";
 	}
+	
+	@GetMapping("/deptView")
+	public String deptView() {
+		return "user/admin/dept";
+	}
+	
+	@GetMapping("/mailView")
+	public String mailView() {
+		return "user/admin/email";
+	}
 
 	@GetMapping("/settings")
 	public String settings() {

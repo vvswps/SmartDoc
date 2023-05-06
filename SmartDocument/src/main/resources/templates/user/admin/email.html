@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .title-area {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            margin-top: 3rem;
+            margin-left: 2rem;
+        }
+
+        .title-area .profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .title-area .profile img {
+            max-width: 5rem;
+            margin-right: 1rem;
+        }
+
+        h1 {
+            text-align: center;
+
+        }
+        
+        form {
+			width: 50%;
+			margin: auto;
+			
+			padding: 20px;
+			
+			font-family: Arial, sans-serif;
+			font-size: 16px;
+			color: #333;
+		}
+		label {
+			display: inline;
+			margin-bottom: 10px;
+			font-weight: bold;
+            
+		}
+		input[type="text"], input[type="submit"] {
+			padding: 5px;
+			font-size: 16px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			box-sizing: border-box;
+			width: 100%;
+			margin-bottom: 10px;
+		}
+	    .submit-button {
+			background-color: #ff919d;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			padding: 10px 20px;
+			font-size: 16px;
+			cursor: pointer;
+		}
+        
+        
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="title-area">
+            <h1>Fetch using Email</h1>
+            <div class="profile">
+                <div class="name">Admin</div><img src="/teacherPages/dashboard/profile.png" alt="">
+            </div>
+        </div>
+
+    </header>
+
+    <form>
+		<label for="faculty-name">Faculty Name:</label>
+		<input type="text" id="faculty-name" name="faculty-name" required>
+        <br>
+
+		<label for="erp-id">ERP ID:</label>
+		<input type="text" id="erp-id" name="erp-id" required>
+        <br>
+
+		<label for="department">Department:</label>
+		<input type="text" id="department" name="department" required>
+        <br>
+        <label for="offemail">Email:</label>
+		<input type="text" id="offemail" name="offemail" required>
+        <br>
+
+		
+
+		<input type="submit" value="Fetch" class="submit-button">
+	</form>
+</body>
+
+</html>
