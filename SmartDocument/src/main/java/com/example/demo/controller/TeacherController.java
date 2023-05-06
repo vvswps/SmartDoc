@@ -53,6 +53,14 @@ public class TeacherController {
 			model.addAttribute("user", user);
 			model.addAttribute("puser", puser);
 
+			System.out
+					.println("\n\n==============================================================================\n\n");
+			System.out.println("User: " + user);
+			System.out.println("PersonalDtls: " + puser);
+
+			System.out
+					.println("\n\n==============================================================================\n\n");
+
 			List<DatabaseFile> files = fileRepo.findByUser(user);
 			System.out.println("Files: " + files);
 			model.addAttribute("files", files);
@@ -64,7 +72,7 @@ public class TeacherController {
 
 	@PostMapping("/updateTeacher")
 	public String updateUser(Principal p, @RequestParam("name") String name,
-			@RequestParam("erpId") String erpId, @RequestParam("gender") String gender) {
+			@RequestParam("erpId") String erpId, @RequestParam(value = "gender", required = false) String gender) {
 
 		String email = p.getName();
 		UserDtls user = userRepo.findByEmail(email);

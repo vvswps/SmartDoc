@@ -181,7 +181,7 @@
     </form>
 
     <div class="details">
-        <h2>Research</h2>
+        <h2>Awards</h2>
         <table class="stats">
             <tr>
                 <th>Sr. no.</th>
@@ -189,26 +189,17 @@
                 <th>Date Awarded</th>
                 <th>Download</th>
             </tr>
-            <tr>
-                <td>1</td>
-                <td>Patents</td>
-                <td>12/12/2020</td>
-                <td><a href="#">Download</a></td>
+            <tr th:if="${not #lists.isEmpty(files)}" th:each="file, iteration : ${files}">
+                <td th:text="${iteration.count}"></td>
+                <td th:text="${file.fileName}"></td>
+                <td th:text="${file.id}"></td>
+                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
             </tr>
-            <tr>
-                <td>2</td>
-                <td>Best Teacher</td>
-                <td>12/12/2020</td>
-                <td><a href="#">Download</a></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Miss NIET</td>
-                <td>12/12/2020</td>
-                <td><a href="#">Download</a></td>
+            <tr th:if="${#lists.isEmpty(files)}">
+                <td colspan="2">No documents found</td>
             </tr>
         </table>
-        <button class="upload-button" onclick="showResearchModal()">Upload</button>
+        <button onclick="showResearchModal()" class="upload-button">Upload</button>
     </div>
 
     <div class=" details">

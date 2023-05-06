@@ -53,6 +53,7 @@ public class PersonalDtls {
 
 	public void setUser(UserDtls user) {
 		this.user = user;
+		// this.id = user.getId();
 	}
 
 	public String getCurrCity() {
