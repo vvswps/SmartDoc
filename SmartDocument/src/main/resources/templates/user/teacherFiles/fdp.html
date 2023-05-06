@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Awards & Achievements</title>
     <style>
-        .upload-modal {
+        .upload-modal,.upload-modal1,.upload-modal2 {
             margin: 0 auto;
             width: 500px;
             padding: 20px;
@@ -22,18 +22,20 @@
             transform: translate(-50%, -50%);
             z-index: 1000;
             box-shadow: 0px 19px 60px rgb(0 0 0 / .4);
+             max-height: calc(100vh - 210px);
+            overflow-y: auto;
 
         }
 
-        .upload-modal.show {
+        .upload-modal.show,.upload-modal1.show,.upload-modal2.show {
             display: block;
         }
 
-        .upload-modal.show .details {
+        .upload-modal.show .details,.upload-modal1.show .details,.upload-modal2.show .details {
             opacity: 0.5;
         }
 
-        .upload-modal svg {
+        .upload-modal svg,.upload-modal1 svg,.upload-modal2 svg {
             position: relative;
             max-width: 1rem;
             left: 95%;
@@ -43,17 +45,17 @@
             fill: #242d49;
         }
 
-        .upload-modal svg:hover {
+        .upload-modal svg:hover,.upload-modal1 svg:hover,.upload-modal2 svg:hover {
             transform: rotate(90deg);
             fill: #ff919d;
         }
 
-        .upload-modal h2 {
+        .upload-modal h2,.upload-modal1 h2,.upload-modal2 h2 {
             margin-bottom: 20px;
             text-align: center;
         }
 
-        .upload-modal label {
+        .upload-modal label,.upload-modal1 label,.upload-modal2 label {
             display: block;
             margin-bottom: 10px;
             color: #333;
@@ -61,7 +63,11 @@
 
         .upload-modal input[type="text"],
         .upload-modal input[type="date"],
-        .upload-modal input[type="file"] {
+        .upload-modal input[type="file"],.upload-modal input[type="number"],.upload-modal1 input[type="text"],
+        .upload-modal1 input[type="date"],
+        .upload-modal1 input[type="file"],.upload-modal1 input[type="number"],.upload-modal2 input[type="text"],
+        .upload-modal2 input[type="date"],
+        .upload-modal2 input[type="file"],.upload-modal2 input[type="number"] {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -70,7 +76,7 @@
             box-sizing: border-box;
         }
 
-        .upload-modal input[type="submit"] {
+        .upload-modal input[type="submit"],.upload-modal1 input[type="submit"],.upload-modal2 input[type="submit"] {
             background-color: #ff919d;
             color: #fff;
             border: none;
@@ -81,11 +87,11 @@
             transition: all .3s ease-in-out;
         }
 
-        .upload-modal input[type="submit"]:hover {
+        .upload-modal input[type="submit"]:hover,.upload-modal1 input[type="submit"]:hover,.upload-modal2 input[type="submit"]:hover {
             background-color: #ff7585;
         }
 
-        .upload-modal input[type="file"] {
+        .upload-modal input[type="file"],.upload-modal1 input[type="file"],.upload-modal2 input[type="file"] {
             padding-top: 7px;
         }
 
@@ -159,8 +165,8 @@
             </div>
         </div>
     </header>
-    <form class="upload-modal">
-        <h2>Upload New Achievement</h2>
+    <form class="upload-modal" action="/uploadDoc" method="post" enctype="multipart/form-data">
+        <h2>Upload New FDP</h2>
         <!-- x svg to close the modal -->
         <svg onclick="closeModal()" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
             viewBox="0 0 512 512" id="close-modal">
@@ -168,11 +174,104 @@
                 d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
             </path>
         </svg>
-        <label for="title">Title of Achievement:</label>
+        <label for="title">Title of FDP:</label>
         <input type="text" id="title" name="title"><br><br>
 
-        <label for="date">Date of Achievement:</label>
-        <input type="date" id="date" name="date"><br><br>
+       <label for="nature">Nature of FDP:</label>
+       <input type="radio" name="nature" value="online">
+            Online<br>
+       <input type="radio" name="nature" value="offline">
+            Offline<br><br>
+            
+        <label for="fdp-from">Duration of FDP From:</label>
+        <input type="date" id="fdp-from" name="fdp-from">
+  
+        <label for="fdp-to">Duration of FDP To:</label>
+        <input type="date" id="fdp-to" name="fdp-to">
+  
+        <label for="num-days-attend">Number of Days Attend:</label>
+        <input type="number" id="num-days-attend" name="num-days-attend" readonly>     <br><br>    
+       
+       <label for="organization">Organization Conducted FDP:</label>
+        <input type="text" id="organization" name="organization"><br><br>
+       
+
+        <label for="document">Supporting Document:</label>
+        <input type="file" id="document" name="document"><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+    
+    
+    <form class="upload-modal1" action="/uploadDoc" method="post" enctype="multipart/form-data">
+        <h2>Upload New STTP</h2>
+        <!-- x svg to close the modal -->
+        <svg onclick="closeModal1()" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
+            viewBox="0 0 512 512" id="close-modal">
+            <path
+                d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
+            </path>
+        </svg>
+        <label for="title">Title of STTP:</label>
+        <input type="text" id="title" name="title"><br><br>
+
+       <label for="nature">Nature of STTP:</label>
+       <input type="radio" name="nature" value="online">
+            Online<br>
+       <input type="radio" name="nature" value="offline">
+            Offline<br><br>
+            
+        <label for="fdp-from">Duration of STTP From:</label>
+        <input type="date" id="fdp-from" name="fdp-from">
+  
+        <label for="fdp-to">Duration of STTP To:</label>
+        <input type="date" id="fdp-to" name="fdp-to">
+  
+        <label for="num-days-attend">Number of Days Attend:</label>
+        <input type="number" id="num-days-attend" name="num-days-attend" readonly>     <br><br>    
+       
+       <label for="organization">Organization Conducted STTP:</label>
+        <input type="text" id="organization" name="organization"><br><br>
+       
+
+        <label for="document">Supporting Document:</label>
+        <input type="file" id="document" name="document"><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+    
+    
+    
+    <form class="upload-modal2" action="/uploadDoc" method="post" enctype="multipart/form-data">
+        <h2>Upload New QIP</h2>
+        <!-- x svg to close the modal -->
+        <svg onclick="closeModal2()" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
+            viewBox="0 0 512 512" id="close-modal">
+            <path
+                d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
+            </path>
+        </svg>
+        <label for="title">Title of QIPP:</label>
+        <input type="text" id="title" name="title"><br><br>
+
+       <label for="nature">Nature of QIP:</label>
+       <input type="radio" name="nature" value="online">
+            Online<br>
+       <input type="radio" name="nature" value="offline">
+            Offline<br><br>
+            
+        <label for="fdp-from">Duration of QIP From:</label>
+        <input type="date" id="fdp-from" name="fdp-from">
+  
+        <label for="fdp-to">Duration of QIP To:</label>
+        <input type="date" id="fdp-to" name="fdp-to">
+  
+        <label for="num-days-attend">Number of Days Attend:</label>
+        <input type="number" id="num-days-attend" name="num-days-attend" readonly>     <br><br>    
+       
+       <label for="organization">Organization Conducted QIP:</label>
+        <input type="text" id="organization" name="organization"><br><br>
+       
 
         <label for="document">Supporting Document:</label>
         <input type="file" id="document" name="document"><br><br>
@@ -207,14 +306,17 @@
                 <th>Date Awarded</th>
                 <th>Download</th>
             </tr>
-            <tr>
-                <td>1</td>
-                <td>Patents</td>
-                <td>12/12/2020</td>
-                <td><a href="#">Download</a></td>
-            </tr>
+             <tr th:if="${not #lists.isEmpty(files)}" th:each="file, iteration : ${files}">
+        <td th:text="${iteration.count}"></td>
+        <td th:text="${file.fileName}"></td>
+        <td th:text="${file.id}"></td>
+        <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(files)}">
+        <td colspan="2">No documents found</td>
+      </tr>
         </table>
-        <button class="upload-button" onclick="showModal()">Upload</button>
+        <button class="upload-button" onclick="showModal1()">Upload</button>
     </div>
     <div class="details">
         <h2>QIP</h2>
@@ -232,7 +334,26 @@
                 <td><a href="#">Download</a></td>
             </tr>
         </table>
-        <button class="upload-button" onclick="showModal()">Upload</button>
+        <button class="upload-button" onclick="showModal2()">Upload</button>
+    </div>
+    
+    <div class="details">
+        <h2>WORKSHOP</h2>
+        <table class="stats">
+            <tr>
+                <th>Sr. no.</th>
+                <th>Award Name</th>
+                <th>Date Awarded</th>
+                <th>Download</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Patents</td>
+                <td>12/12/2020</td>
+                <td><a href="#">Download</a></td>
+            </tr>
+        </table>
+        <button class="upload-button" onclick="showModal2()">Upload</button>
     </div>
 
     <script>
@@ -241,6 +362,41 @@
         }
         function closeModal() {
             document.querySelector('.upload-modal').classList.remove('show');
+        }
+        
+        function showModal1() {
+            document.querySelector('.upload-modal1').classList.add('show');
+        }
+        function closeModal1() {
+            document.querySelector('.upload-modal1').classList.remove('show');
+        }
+        
+        function showModal2() {
+            document.querySelector('.upload-modal2').classList.add('show');
+        }
+        function closeModal2() {
+            document.querySelector('.upload-modal2').classList.remove('show');
+        }
+        
+        
+        
+        
+        
+        
+        const fdpFromInput = document.getElementById("fdp-from");
+        const fdpToInput = document.getElementById("fdp-to");
+        const numDaysAttendInput = document.getElementById("num-days-attend");
+
+        // Listen for changes on the input elements
+        fdpFromInput.addEventListener("input", calculateNumDaysAttend);
+        fdpToInput.addEventListener("input", calculateNumDaysAttend);
+
+        // Calculate the number of days attend based on the duration of FDP from and to
+        function calculateNumDaysAttend() {
+          const fdpFrom = new Date(fdpFromInput.value);
+          const fdpTo = new Date(fdpToInput.value);
+          const numDaysAttend = Math.ceil((fdpTo - fdpFrom) / (1000 * 60 * 60 * 24));
+          numDaysAttendInput.value = numDaysAttend;
         }
     </script>
 </body>

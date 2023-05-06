@@ -48,6 +48,8 @@ public class TeacherController {
 			UserDtls user = userRepo.findByEmail(email);
 
 			PersonalDtls puser = personalRepository.findById(user.getId());
+			//PersonalDtls puser = personalRepository.findByUser(user);
+
 			model.addAttribute("user", user);
 			model.addAttribute("puser", puser);
 
@@ -62,12 +64,14 @@ public class TeacherController {
 
 	@PostMapping("/updateTeacher")
 	public String updateUser(Principal p, @RequestParam("name") String name,
-			@RequestParam("erpId") String erpId, @RequestParam("gender") String gender, @RequestParam("offEmail") String offEmail, @RequestParam("perEmail") String perEmail, @RequestParam("dept") String dept, @RequestParam("whatsNumber") String whatsNumber, @RequestParam("mobileNumber") String mobileNumber, @RequestParam("dob") String dob, @RequestParam("expInd") String expInd, @RequestParam("expAcd") String expAcd, @RequestParam("doj") String doj, @RequestParam("dol") String dol, @RequestParam("perAdd") String perAdd, @RequestParam("curAdd") String curAdd, @RequestParam("googleId") String googleId, @RequestParam("scopusId") String scopusId, @RequestParam("sciId") String sciId, @RequestParam("currCity") String currCity, @RequestParam("currState") String currState) {
-		
+			@RequestParam("erpId") String erpId, @RequestParam("gender") String gender) {
+
 		String email = p.getName();
 		UserDtls user = userRepo.findByEmail(email);
 		try {
-			PersonalDtls existingPersonalDtls = personalRepository.findById(user.getId());
+			PersonalDtls puser = personalRepository.findByUser(user);
+
+			PersonalDtls existingPersonalDtls = personalRepository.findByUser(puser.getUser());
 
 			// update the fields with the new values
 			existingPersonalDtls.setName(name);
