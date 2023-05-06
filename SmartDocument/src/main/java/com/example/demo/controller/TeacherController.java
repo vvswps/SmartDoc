@@ -47,8 +47,8 @@ public class TeacherController {
 			String email = p.getName();
 			UserDtls user = userRepo.findByEmail(email);
 
-			// PersonalDtls puser = personalRepository.findById(user.getId());
-			PersonalDtls puser = personalRepository.findByUser(user);
+			PersonalDtls puser = personalRepository.findById(user.getId());
+			//PersonalDtls puser = personalRepository.findByUser(user);
 
 			model.addAttribute("user", user);
 			model.addAttribute("puser", puser);

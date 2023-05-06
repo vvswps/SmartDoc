@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research & Publications</title>
     <style>
-        .research-modal,
-        .research-modal1 {
+        .research-modal {
             margin: 0 auto;
             width: 500px;
             padding: 20px;
@@ -24,23 +23,17 @@
             z-index: 1000;
             box-shadow: 0px 19px 60px rgb(0 0 0 / .4);
 
-            max-height: calc(100vh - 210px);
-            overflow-y: auto;
-
         }
 
-        .research-modal.show,
-        .research-modal1.show {
+        .research-modal.show {
             display: block;
         }
 
-        .research-modal.show .details,
-        .research-modal1.show .details {
+        .research-modal.show .details {
             opacity: 0.5;
         }
 
-        .research-modal svg,
-        .research-modal1 svg {
+        .research-modal svg {
             position: relative;
             max-width: 1rem;
             left: 95%;
@@ -50,20 +43,17 @@
             fill: #242d49;
         }
 
-        .research-modal svg:hover,
-        .research-modal1 svg:hover {
+        .research-modal svg:hover {
             transform: rotate(90deg);
             fill: #ff919d;
         }
 
-        .research-modal h2,
-        .research-modal1 h2 {
+        .research-modal h2 {
             margin-bottom: 20px;
             text-align: center;
         }
 
-        .research-modal label,
-        .research-modal1 label {
+        .research-modal label {
             display: block;
             margin-bottom: 10px;
             color: #333;
@@ -71,10 +61,7 @@
 
         .research-modal input[type="text"],
         .research-modal input[type="date"],
-        .research-modal input[type="file"],
-        .research-modal1 input[type="text"],
-        .research-modal1 input[type="date"],
-        .research-modal1 input[type="file"] {
+        .research-modal input[type="file"] {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -83,8 +70,7 @@
             box-sizing: border-box;
         }
 
-        .research-modal input[type="submit"],
-        .research-modal1 input[type="submit"] {
+        .research-modal input[type="submit"] {
             background-color: #ff919d;
             color: #fff;
             border: none;
@@ -95,26 +81,13 @@
             transition: all .3s ease-in-out;
         }
 
-        .research-modal input[type="submit"]:hover,
-        .research-modal1 input[type="submit"]:hover {
+        .research-modal input[type="submit"]:hover {
             background-color: #ff7585;
         }
 
-        .research-modal input[type="file"],
-        .research-modal1 input[type="file"] {
+        .research-modal input[type="file"] {
             padding-top: 7px;
         }
-
-
-
-
-
-
-
-
-
-
-
 
 
         .title-area {
@@ -186,7 +159,7 @@
             </div>
         </div>
     </header>
-    <form class="research-modal" action="/uploadDoc" method="post" enctype="multipart/form-data">
+    <form class="research-modal">
         <h2>Upload New Research</h2>
         <!-- x svg to close the modal -->
         <svg onclick="closeResearchModal()" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
@@ -195,82 +168,17 @@
                 d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
             </path>
         </svg>
-        <label for="title">Title of Paper:</label>
+        <label for="title">Title of Achievement:</label>
         <input type="text" id="title" name="title"><br><br>
 
-        <label for="date">Date of Publishing:</label>
+        <label for="date">Date of Achievement:</label>
         <input type="date" id="date" name="date"><br><br>
 
-        <label for="publishingType">Type of Publishing:</label>
-        <input type="radio" name="publicationType" value="conference">
-        Conference<br>
-        <div id="conferencePaperNameWrapper" style="display:none">
-            <label for="conferencePaperName">Conference Paper Name:</label>
-            <input type="text" id="conferencePaperName" name="conferencePaperName">
-        </div>
-        <input type="radio" name="publicationType" value="journal">
-        Journal <br>
-        <div id="journalPaperNameWrapper" style="display:none">
-            <label for="journalPaperName">Journal Paper Name:</label>
-            <input type="text" id="journalPaperName" name="journalPaperName">
-        </div>
-
-        <br>
-
-        <label for="issn">ISSN Number:</label>
-        <input type="text" id="issn" name="issn"><br><br>
-
-        <label for="doi"> Digital Object Identifier (DOI):</label>
-        <input type="text" id="doi" name="doi"><br><br>
-
-        <label for="value"> Value:</label>
-        <input type="text" id="value" name="value"><br><br>
-
-
-
         <label for="document">Supporting Document:</label>
-        <input type="file" id="file" name="file"><br><br>
+        <input type="file" id="document" name="document"><br><br>
 
         <input type="submit" value="Submit">
     </form>
-
-
-
-
-    <form class="research-modal1" action="/uploadDoc" method="post" enctype="multipart/form-data">
-        <h2>Upload New Publication</h2>
-        <!-- x svg to close the modal -->
-        <svg onclick="closeResearchModal1()" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
-            viewBox="0 0 512 512" id="close-modal">
-            <path
-                d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
-            </path>
-        </svg>
-        <label for="title">Title of Book/Book Chapter:</label>
-        <input type="text" id="title" name="title"><br><br>
-
-        <label for="date">Date of Publishing:</label>
-        <input type="date" id="date" name="date"><br><br>
-
-
-
-        <label for="pubName">Name of Publisher:</label>
-        <input type="text" id="pubName" name="pubName"><br><br>
-
-
-        <label for="isbn"> ISBN Number:</label>
-        <input type="text" id="value" name="value"><br><br>
-
-
-
-        <label for="document">Supporting Document:</label>
-        <input type="file" id="file" name="file"><br><br>
-
-        <input type="submit" value="Submit">
-    </form>
-
-
-
 
     <div class="details">
         <h2>Research</h2>
@@ -281,17 +189,26 @@
                 <th>Date Awarded</th>
                 <th>Download</th>
             </tr>
-            <tr th:if="${not #lists.isEmpty(files)}" th:each="file, iteration : ${files}">
-                <td th:text="${iteration.count}"></td>
-                <td th:text="${file.fileName}"></td>
-                <td th:text="${file.id}"></td>
-                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+            <tr>
+                <td>1</td>
+                <td>Patents</td>
+                <td>12/12/2020</td>
+                <td><a href="#">Download</a></td>
             </tr>
-            <tr th:if="${#lists.isEmpty(files)}">
-                <td colspan="2">No documents found</td>
+            <tr>
+                <td>2</td>
+                <td>Best Teacher</td>
+                <td>12/12/2020</td>
+                <td><a href="#">Download</a></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Miss NIET</td>
+                <td>12/12/2020</td>
+                <td><a href="#">Download</a></td>
             </tr>
         </table>
-        <button onclick="showResearchModal()()" class="upload-button">Upload</button>
+        <button class="upload-button" onclick="showResearchModal()">Upload</button>
     </div>
 
     <div class=" details">
@@ -323,7 +240,7 @@
                 <td><a href="#">Download</a></td>
             </tr>
         </table>
-        <button class="upload-button" onclick="showResearchModal1()">Upload</button>
+        <button class="upload-button" onclick="showResearchModal()">Upload</button>
     </div>
 
     <script>
@@ -333,44 +250,6 @@
         function closeResearchModal() {
             document.querySelector('.research-modal').classList.remove('show');
         }
-
-
-
-        function showResearchModal1() {
-            document.querySelector('.research-modal1').classList.add('show');
-        }
-        function closeResearchModal1() {
-            document.querySelector('.research-modal1').classList.remove('show');
-        }
-
-        const conferenceRadio = document.querySelector('input[value="conference"]');
-        const journalRadio = document.querySelector('input[value="journal"]');
-        const conferencePaperNameWrapper = document.getElementById('conferencePaperNameWrapper');
-        const journalPaperNameWrapper = document.getElementById('journalPaperNameWrapper');
-        const conferencePaperNameInput = document.getElementById('conferencePaperName');
-        const journalPaperNameInput = document.getElementById('journalPaperName');
-
-        function togglePaperNameInput() {
-            if (conferenceRadio.checked) {
-                conferencePaperNameWrapper.style.display = 'block';
-                journalPaperNameWrapper.style.display = 'none';
-                conferencePaperNameInput.required = true;
-                journalPaperNameInput.required = false;
-            } else if (journalRadio.checked) {
-                conferencePaperNameWrapper.style.display = 'none';
-                journalPaperNameWrapper.style.display = 'block';
-                conferencePaperNameInput.required = false;
-                journalPaperNameInput.required = true;
-            } else {
-                conferencePaperNameWrapper.style.display = 'none';
-                journalPaperNameWrapper.style.display = 'none';
-                conferencePaperNameInput.required = false;
-                journalPaperNameInput.required = false;
-            }
-        }
-
-        conferenceRadio.addEventListener('change', togglePaperNameInput);
-        journalRadio.addEventListener('change', togglePaperNameInput);
     </script>
 </body>
 

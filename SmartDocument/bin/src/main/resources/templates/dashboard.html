@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Dashboard</title>
+	<style type="text/css">
+	/* Global styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: #2fb8ab;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header styles */
+header {
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+nav ul {
+  display: flex;
+}
+
+nav li {
+  margin-left: 20px;
+}
+
+/* Main styles */
+main {
+  margin-top: 80px; /* adjust to account for header height */
+  display: flex;
+}
+
+.document-list {
+  display: block;
+  flex: 1;
+  overflow-y: scroll;
+  max-height: 100vh;
+  overflow-x: hidden;
+}
+.document-list ul {
+  padding: 20px;
+  margin-top: 0;
+}
+
+.document-list h2 {
+  display: block;
+  margin-top: 0;
+  /* position: fixed; */
+  background-color: #fff;
+  width: 100%;
+  /* margin-right: 20px; */
+  padding: 20px;
+}
+
+.document-list ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* .document-list ul li:nth-child(even),
+.document-list ul li:nth-child(even) a {
+  background-color: #8c9e95;
+  color: #333;
+} */
+
+.document-list ul li button {
+  background-color: #2fb8ab;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+
+.document-list ul li button:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.capture-btn {
+  background-color: #2fb8ab;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.upload-section {
+  width: 400px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.upload-section h2 {
+  margin-top: 0;
+}
+
+.upload-section form {
+  display: flex;
+  flex-direction: column;
+}
+
+.upload-section label {
+  margin-bottom: 10px;
+}
+
+.upload-section input[type="text"],
+.upload-section input[type="file"],
+.upload-section input[type="submit"] {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.upload-section input[type="submit"] {
+  background-color: #2fb8ab;
+  color: #fff;
+  border: none;
+}
+
+.upload-section input[type="submit"]:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+/* Page title styles */
+h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 600px) {
+  header {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: center;
+  }
+
+  nav {
+    margin-top: 20px;
+  }
+
+  nav li {
+    margin: 0;
+    margin-left: 10px;
+  }
+
+  main {
+    flex-direction: column;
+  }
+
+  .document-list {
+    margin-bottom: 20px;
+  }
+
+  .upload-section {
+    width: 100%;
+  }
+}
+	
+	</style>
+	<script defer>
+	
+	</script>
+</head>
+
+<body>
+	<!-- 
+		title
+		uploaded list view    -upload new button
+
+
+		list    --title   -download
+
+		upload button opens up into a modal
+		modal has a title field   and a upload and click picture
+	 -->
+	<header>
+		<h1>SmartDoc</h1>
+		<nav>
+			<ul>
+				<li><a href="#">Dashboard</a></li>
+				<li><a href="#">Settings</a></li>
+				<li><a href="#">Logout</a></li>
+			</ul>
+		</nav>
+	</header>
+	<main>
+		<div class="document-list">
+			<h2>List of Documents</h2>
+			<ul>
+				<li><a href="#">Document 1</a><button>Download</button></li>
+				
+
+			</ul>
+		</div>
+		<div class="upload-section">
+			<h2>Upload New Document</h2>
+			<form>
+				<label for="doc_title">Title:</label>
+				<input type="text" id="doc_title" name="doc_title"><br><br>
+				<label for="doc_file">Select file:</label>
+				<input type="file" id="doc_file" name="doc_file"><br><br>
+				<button class="capture-btn">Capture Document</button>
+				<input type="submit" value="Upload">
+			</form>
+		</div>
+	</main>
+
+</body>
+
+</html>

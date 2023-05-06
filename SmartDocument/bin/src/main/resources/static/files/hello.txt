@@ -1,0 +1,25 @@
+These are properties for configuring the file upload settings in a Spring application that uses the Servlet API.
+
+    spring.servlet.multipart.file-size-threshold: This property sets the size threshold for uploading files. If a file is smaller than the threshold, it will be stored in memory, otherwise, it will be stored on disk. In this example, the threshold is set to 2KB.
+
+    spring.servlet.multipart.max-file-size: This property sets the maximum size of a single uploaded file. If a file is larger than this size, it will not be uploaded. In this example, the maximum file size is set to 200MB.
+
+    spring.servlet.multipart.max-request-size: This property sets the maximum size of the entire request, including all uploaded files and other form data. If the request size exceeds this limit, it will not be processed. In this example, the maximum request size is set to 215MB.
+
+By setting these properties, you can control the size of files that can be uploaded in your Spring application and ensure that large files do not cause performance issues or server crashes. It is important to set reasonable limits for file size and request size to ensure that your application can handle file uploads without running out of memory or causing other issues.
+
+The error message "Data truncation: Data too long for column 'data' at row 1" typically indicates that you are trying to insert or update a value in a database column that is too long for the column's data type or size.
+
+To resolve this issue, you should do the following:
+
+    Check the length of the data you are trying to insert or update: Make sure that the length of the data you are trying to insert or update does not exceed the maximum length allowed for the column. You can check the maximum length of the column in the database schema.
+
+    Modify the column's data type or size: If the data you are trying to insert or update is too long for the column, you can modify the column's data type or size to allow for longer data. This can be done by altering the table schema in the database.
+
+    Trim the data before inserting or updating: If you do not need to store the entire value, you can trim the data before inserting or updating it in the database. This can be done using string manipulation functions in your code.
+
+    Use a text data type: If the data you are trying to insert or update is too large for the current column data type, you can use a text data type instead. This allows for larger data to be stored in the column.
+
+    Check your database driver and version: Make sure that your database driver and version are compatible with the data you are trying to insert or update. Some database drivers have limitations on the size of the data that can be inserted or updated.
+
+If you have checked all of the above and the issue still persists, you may need to provide more information about your code and the issue you are facing in order to get a more specific answer.
