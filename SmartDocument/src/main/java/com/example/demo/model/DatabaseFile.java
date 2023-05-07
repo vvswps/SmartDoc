@@ -30,7 +30,9 @@ public class DatabaseFile {
 	private FileType type;
 	private String publicationName;
 	private String awardingInstitution;
-	private String typeOfPublication;
+	private String publicationType;
+	
+
 	private String ISSN;
 	private String DOI;
 	private String Volume;
@@ -93,12 +95,12 @@ public class DatabaseFile {
 		this.awardingInstitution = awardingInstitution;
 	}
 
-	public String getTypeOfPublication() {
-		return typeOfPublication;
+	public String getPublicationType() {
+		return publicationType;
 	}
 
-	public void setTypeOfPublication(String typeOfPublication) {
-		this.typeOfPublication = typeOfPublication;
+	public void setPublicationType(String publicationType) {
+		this.publicationType = publicationType;
 	}
 
 	public String getISSN() {
