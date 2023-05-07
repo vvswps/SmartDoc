@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Awards & Achievements</title>
   <style>
-    .upload-modal {
+    .upload-awards-modal {
       margin: 0 auto;
       width: 500px;
       padding: 20px;
@@ -25,15 +25,15 @@
 
     }
 
-    .upload-modal.show {
+    .upload-awards-modal.show {
       display: block;
     }
 
-    .upload-modal.show .details {
+    .upload-awards-modal.show .details {
       opacity: 0.5;
     }
 
-    .upload-modal svg {
+    .upload-awards-modal svg {
       position: relative;
       max-width: 1rem;
       left: 95%;
@@ -43,25 +43,25 @@
       fill: #242d49;
     }
 
-    .upload-modal svg:hover {
+    .upload-awards-modal svg:hover {
       transform: rotate(90deg);
       fill: #ff919d;
     }
 
-    .upload-modal h2 {
+    .upload-awards-modal h2 {
       margin-bottom: 20px;
       text-align: center;
     }
 
-    .upload-modal label {
+    .upload-awards-modal label {
       display: block;
       margin-bottom: 10px;
       color: #333;
     }
 
-    .upload-modal input[type="text"],
-    .upload-modal input[type="date"],
-    .upload-modal input[type="file"] {
+    .upload-awards-modal input[type="text"],
+    .upload-awards-modal input[type="date"],
+    .upload-awards-modal input[type="file"] {
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
@@ -70,7 +70,7 @@
       box-sizing: border-box;
     }
 
-    .upload-modal input[type="submit"] {
+    .upload-awards-modal input[type="submit"] {
       background-color: #ff919d;
       color: #fff;
       border: none;
@@ -81,16 +81,16 @@
       transition: all .3s ease-in-out;
     }
 
-    .upload-modal input[type="submit"]:hover {
+    .upload-awards-modal input[type="submit"]:hover {
       background-color: #ff7585;
     }
 
-    .upload-modal input[type="file"] {
+    .upload-awards-modal input[type="file"] {
       padding-top: 7px;
     }
-    
-    
-    .upload-modal1 {
+
+
+    .upload-achievement-modal {
       margin: 0 auto;
       width: 500px;
       padding: 20px;
@@ -108,15 +108,15 @@
 
     }
 
-    .upload-modal1.show {
+    .upload-achievement-modal.show {
       display: block;
     }
 
-    .upload-modal1.show .details {
+    .upload-achievement-modal.show .details {
       opacity: 0.5;
     }
 
-    .upload-modal1 svg {
+    .upload-achievement-modal svg {
       position: relative;
       max-width: 1rem;
       left: 95%;
@@ -126,25 +126,25 @@
       fill: #242d49;
     }
 
-    .upload-modal1 svg:hover {
+    .upload-achievement-modal svg:hover {
       transform: rotate(90deg);
       fill: #ff919d;
     }
 
-    .upload-modal1 h2 {
+    .upload-achievement-modal h2 {
       margin-bottom: 20px;
       text-align: center;
     }
 
-    .upload-modal1 label {
+    .upload-achievement-modal label {
       display: block;
       margin-bottom: 10px;
       color: #333;
     }
 
-    .upload-modal1 input[type="text"],
-    .upload-modal1 input[type="date"],
-    .upload-modal1 input[type="file"] {
+    .upload-achievement-modal input[type="text"],
+    .upload-achievement-modal input[type="date"],
+    .upload-achievement-modal input[type="file"] {
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
@@ -153,7 +153,7 @@
       box-sizing: border-box;
     }
 
-    .upload-modal1 input[type="submit"] {
+    .upload-achievement-modal input[type="submit"] {
       background-color: #ff919d;
       color: #fff;
       border: none;
@@ -164,22 +164,13 @@
       transition: all .3s ease-in-out;
     }
 
-    .upload-modal1 input[type="submit"]:hover {
+    .upload-achievement-modal input[type="submit"]:hover {
       background-color: #ff7585;
     }
 
-    .upload-modal1 input[type="file"] {
+    .upload-achievement-modal input[type="file"] {
       padding-top: 7px;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-
 
     .title-area {
       display: flex;
@@ -249,64 +240,58 @@
       </div>
     </div>
   </header>
-  <form class="upload-modal" action="/uploadDoc" method="post" enctype="multipart/form-data">
+  <form class="upload-awards-modal" action="/uploadDoc" method="post" enctype="multipart/form-data">
     <h2>Upload New Awards</h2>
     <!-- x svg to close the modal -->
-    <svg onclick="closeModal()" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
+    <svg onclick="closeAwardsModal()" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
       viewBox="0 0 512 512" id="close-modal">
       <path
         d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
       </path>
     </svg>
     <label for="title">Title of Award:</label>
-    <input type="text" id="title" name="title"><br><br>
+    <input type="text" id="title" name="title" required><br><br>
 
     <label for="date">Date of Award:</label>
-    <input type="date" id="date" name="date"><br><br>
-    
-    <label for="authority">Issuing Authority:</label>
-    <input type="text" id="authority" name="authority"><br><br>
 
-    <label for="document">Supporting Document:</label>
-    <input type="file" id="file" name="file"><br><br>
+<input type="date" id="date" name="date" required><br><br>
 
+    <label for="awardingInstitution">Issuing Authority:</label>
+    <input type="text" id="awardingInstitution" name="awardingInstitution" required><br><br>
+
+
+    <label for="file">Supporting Document:</label>
+    <input type="file" id="file" name="file" required><br><br>
+
+    <input type="hidden" name="type" value="award">
     <input type="submit" value="Submit">
   </form>
-  
-  
-  
-   <form class="upload-modal1" action="/uploadDoc" method="post" enctype="multipart/form-data">
+
+  <form class="upload-achievement-modal" action="/uploadDoc" method="post" enctype="multipart/form-data">
     <h2>Upload New Achievements</h2>
     <!-- x svg to close the modal -->
-    <svg onclick="closeModal1()" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
+    <svg onclick="closeAchievementModal()" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
       viewBox="0 0 512 512" id="close-modal">
       <path
         d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
       </path>
     </svg>
     <label for="title">Title of Achievement:</label>
-    <input type="text" id="title" name="title"><br><br>
+    <input type="text" id="title" name="title" required><br><br>
 
     <label for="date">Date of Achievement:</label>
-    <input type="date" id="date" name="date"><br><br>
-    
-    <label for="authority">Issuing Authority:</label>
-    <input type="text" id="authority" name="authority"><br><br>
 
-    <label for="document">Supporting Document:</label>
-    <input type="file" id="file" name="file"><br><br>
+    <input type="date" id="date" name="date" required><br><br>
 
+    <label for="awardingInstitution">Issuing Authority:</label>
+    <input type="text" id="awardingInstitution" name="awardingInstitution" required><br><br>
+
+    <label for="file">Supporting Document:</label>
+    <input type="file" id="file" name="file" required><br><br>
+
+    <input type="hidden" name="type" value="achievement">
     <input type="submit" value="Submit">
   </form>
-  
-  
-  
-  
-  
-  
-  
-  
-  
 
   <div class="details">
     <h2>Awards</h2>
@@ -318,20 +303,20 @@
         <th>Issuing Authority</th>
         <th>Download</th>
       </tr>
-      <tr th:if="${not #lists.isEmpty(files)}" th:each="file, iteration : ${files}">
+      <tr th:if="${not #lists.isEmpty(awardsFiles)}" th:each="file, iteration : ${awardsFiles}">
         <td th:text="${iteration.count}"></td>
-        <td th:text="${file.fileName}"></td>
-        <td th:text="${file.id}"></td>
+        <td th:text="${file.title}"></td>
+        <td th:text="${file.date}"></td>
+        <td th:text="${file.awardingInstitution}"></td>
         <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
       </tr>
-      <tr th:if="${#lists.isEmpty(files)}">
-        <td colspan="2">No documents found</td>
+      <tr th:if="${#lists.isEmpty(awardsFiles)}">
+        <td colspan="7">No documents found</td>
       </tr>
     </table>
-    <button onclick="showModal()" class="upload-button">Upload</button>
+    <button onclick="showAwardsModal()" class="upload-button">Upload</button>
   </div>
-
-  <div class=" details">
+  <div class="details">
     <h2>Achievements</h2>
     <table class="stats">
       <tr>
@@ -341,30 +326,42 @@
         <th>Issuing Authority</th>
         <th>Download</th>
       </tr>
-     
+
+      <tr th:if="${not #lists.isEmpty(achievementsFiles)}" th:each="file, iteration : ${achievementsFiles}">
+        <td th:text="${iteration.count}"></td>
+        <td th:text="${file.title}"></td>
+        <td th:text="${file.date}"></td>
+        <td th:text="${file.awardingInstitution}"></td>
+        <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(achievementsFiles)}">
+        <td colspan="7">No documents found</td>
+      </tr>
     </table>
-    <button onclick="showModal1()" class="upload-button">Upload</button>
+    <button onclick="showAchievementModal()" class="upload-button">Upload</button>
+  </div>
+  </table>
 
   </div>
 
   <script>
-    function showModal() {
-      document.querySelector('.upload-modal').classList.add('show');
+    function showAwardsModal() {
+      document.querySelector('.upload-awards-modal').classList.add('show');
     }
-    function closeModal() {
-      document.querySelector('.upload-modal').classList.remove('show');
+    function closeAwardsModal() {
+      document.querySelector('.upload-awards-modal').classList.remove('show');
     }
-    
-    
-    function showModal1() {
-        document.querySelector('.upload-modal1').classList.add('show');
-      }
-      function closeModal1() {
-        document.querySelector('.upload-modal1').classList.remove('show');
-      }
-    
-    
-    
+
+
+    function showAchievementModal() {
+      document.querySelector('.upload-achievement-modal').classList.add('show');
+    }
+    function closeAchievementModal() {
+      document.querySelector('.upload-achievement-modal').classList.remove('show');
+    }
+
+
+
   </script>
 </body>
 

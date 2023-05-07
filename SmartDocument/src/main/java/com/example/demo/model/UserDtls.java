@@ -16,6 +16,12 @@ import lombok.Data;
 @Entity
 public class UserDtls {
 
+	@Override
+	public String toString() {
+		return "UserDtls(id=" + id + ", name=" + name + ", branch=" + branch + ", email=" + email + ", password="
+				+ password + ", role=" + role + ", mobileNumber=" + mobileNumber + ", files=" + files + ")";
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;

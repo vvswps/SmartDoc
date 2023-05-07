@@ -11,4 +11,8 @@ import com.example.demo.model.UserDtls;
 @Repository
 public interface DatabaseFileRepository extends JpaRepository<DatabaseFile, String> {
     List<DatabaseFile> findByUser(UserDtls user);
+
+    List<DatabaseFile> findByUserAndType(UserDtls user, DatabaseFile.FileType type);
+
+    List<DatabaseFile> findByType(DatabaseFile.FileType type);
 }
