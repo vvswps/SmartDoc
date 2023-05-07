@@ -146,7 +146,7 @@
 
         .stats tr {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
             gap: 2rem;
             place-items: center;
             margin-bottom: 2rem;
@@ -209,37 +209,37 @@
         <label for="date">Date of Publishing:</label>
         <input type="date" id="date" name="date"><br><br>
 
-        <label for="publishingType">Type of Publishing:</label>
-        <input type="radio" name="publicationType" value="conference">
+        <label for="publicationType">Type of Publishing:</label>
+        <input type="radio" name="publicationType" value="Conference">
         Conference<br>
-        <div id="conferencePaperNameWrapper" style="display:none">
-            <label for="conferencePaperName">Conference Paper Name:</label>
-            <input type="text" id="conferencePaperName" name="conferencePaperName">
-        </div>
-        <input type="radio" name="publicationType" value="journal">
+        <input type="radio" name="publicationType" value="Journal">
         Journal <br>
-        <div id="journalPaperNameWrapper" style="display:none">
-            <label for="journalPaperName">Journal Paper Name:</label>
-            <input type="text" id="journalPaperName" name="journalPaperName">
-        </div>
+        <label for=" publicationName">Publication Name</label>
+        <input type="text" id=" publicationName" name=" publicationName"><br><br>
 
-        <br>
 
-        <label for="issn">ISSN Number:</label>
-        <input type="text" id="issn" name="issn"><br><br>
 
-        <label for="doi"> Digital Object Identifier (DOI):</label>
-        <input type="text" id="doi" name="doi"><br><br>
+
+        <label for="ISSN">ISSN Number:</label>
+        <input type="text" id="ISSN" name="ISSN"><br><br>
+
+        <label for="DOI"> Digital Object Identifier (DOI):</label>
+        <input type="text" id="DOI" name="DOI"><br><br>
 
         <label for="volume"> Volume:</label>
         <input type="text" id="volume" name="volume"><br><br>
+
+
 
         <label for="document">Supporting Document:</label>
         <input type="file" id="file" name="file"><br><br>
 
         <input type="hidden" name="type" value="research">
         <input type="submit" value="Submit">
+
     </form>
+
+
 
 
     <form class="research-modal1" action="/uploadDoc" method="post" enctype="multipart/form-data">
@@ -251,32 +251,40 @@
                 d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
             </path>
         </svg>
-        <label for="publication-type">Type of Publication</label>
-        <input type="radio" id="book" name="publication-type" value="book">
-        <label for="book">Book</label>
-        <input type="radio" id="bookChapter" name="publication-type" value="bookChapter">
-        <label for="bookChapter">Book Chapter</label><br><br>
 
+        <label for="book">Type of Publication</label>
+        <input type="radio" name="book" value="book">
+        Book<br>
+        <input type="radio" name="book" value="bookChapter">
+        Book Chapter<br><br>
         <label for="title">Title:</label>
-        <input type="text" id="title" name="title" required><br><br>
+        <input type="text" id="title" name="title"><br><br>
 
-        <label for="publish-date">Date of Publishing:</label>
-        <input type="date" id="publish-date" name="publish-date" required><br><br>
+        <label for="date">Date of Publishing:</label>
+        <input type="date" id="date" name="date"><br><br>
 
-        <label for="publisher-name">Name of Publisher:</label>
-        <input type="text" id="publisher-name" name="publisher-name" required><br><br>
 
-        <label for="isbn">ISBN Number:</label>
-        <input type="text" id="isbn" name="isbn" required><br><br>
 
-        <label for="supporting-doc">Supporting Document:</label>
-        <input type="file" id="supporting-doc" name="supporting-doc" required><br><br>
+        <label for="publicationName">Name of Publisher:</label>
+        <input type="text" id="pubName" name="publicationName"><br><br>
+
+
+        <label for="ISBN"> ISBN Number:</label>
+        <input type="text" id="value" name="ISBN"><br><br>
+
+
+
+        <label for="document">Supporting Document:</label>
+        <input type="file" id="file" name="file"><br><br>
+
 
         <input type="hidden" name="type" value="book">
-
         <input type="submit" value="Submit">
 
+
     </form>
+
+
 
 
     <div class="details">
@@ -286,15 +294,19 @@
                 <th>Title of Paper</th>
                 <th>Date of Publishing</th>
                 <th>Type of Publisher</th>
+                <th>Publication Name</th>
                 <th>ISSN Number</th>
                 <th>DOI</th>
                 <th>Volume</th>
                 <th>Download</th>
             </tr>
+
             <tr th:if="${not #lists.isEmpty(researchFiles)}" th:each="file, iteration : ${researchFiles}">
+                <!--<td th:text="${iteration.count}"></td>-->
                 <td th:text="${file.title}"></td>
                 <td th:text="${file.date}"></td>
-                <td th:text="${file.typeOfPublication}"></td>
+                <td th:text="${file.publicationType}"></td>
+                <td th:text="${file.publicationName}"></td>
                 <td th:text="${file.ISSN}"></td>
                 <td th:text="${file.DOI}"></td>
                 <td th:text="${file.Volume}"></td>
@@ -303,8 +315,9 @@
             <tr th:if="${#lists.isEmpty(researchFiles)}">
                 <td colspan="7">No documents found</td>
             </tr>
+
         </table>
-        <button onclick="showResearchModal()" class="upload-button">Upload</button>
+        <button onclick="showResearchModal()()" class="upload-button">Upload</button>
     </div>
 
 
@@ -318,15 +331,16 @@
                 <th>ISBN Number</th>
                 <th>Download</th>
             </tr>
-            <tr th:if="${not #lists.isEmpty(publicationFiles)}" th:each="file, iteration : ${publicationFiles}">
+            <tr th:if="${not #lists.isEmpty(bookFiles)}" th:each="file, iteration : ${bookFiles}">
+                <!--<td th:text="${iteration.count}"></td>-->
                 <td th:text="${file.title}"></td>
                 <td th:text="${file.date}"></td>
-                <td th:text="${file.publisherName}"></td>
-                <td th:text="${file.isbnNumber}"></td>
+                <td th:text="${file.publicationName}"></td>
+                <td th:text="${file.ISBN}"></td>
                 <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
             </tr>
-            <tr th:if="${#lists.isEmpty(publicationFiles)}">
-                <td colspan="5">No documents found</td>
+            <tr th:if="${#lists.isEmpty(bookFiles)}">
+                <td colspan="7">No documents found</td>
             </tr>
         </table>
         <button class="upload-button" onclick="showPublicationsModal()">Upload</button>
@@ -350,34 +364,9 @@
             document.querySelector('.research-modal1').classList.remove('show');
         }
 
-        const conferenceRadio = document.querySelector('input[value="conference"]');
-        const journalRadio = document.querySelector('input[value="journal"]');
-        const conferencePaperNameWrapper = document.getElementById('conferencePaperNameWrapper');
-        const journalPaperNameWrapper = document.getElementById('journalPaperNameWrapper');
-        const conferencePaperNameInput = document.getElementById('conferencePaperName');
-        const journalPaperNameInput = document.getElementById('journalPaperName');
 
-        function togglePaperNameInput() {
-            if (conferenceRadio.checked) {
-                conferencePaperNameWrapper.style.display = 'block';
-                journalPaperNameWrapper.style.display = 'none';
-                conferencePaperNameInput.required = true;
-                journalPaperNameInput.required = false;
-            } else if (journalRadio.checked) {
-                conferencePaperNameWrapper.style.display = 'none';
-                journalPaperNameWrapper.style.display = 'block';
-                conferencePaperNameInput.required = false;
-                journalPaperNameInput.required = true;
-            } else {
-                conferencePaperNameWrapper.style.display = 'none';
-                journalPaperNameWrapper.style.display = 'none';
-                conferencePaperNameInput.required = false;
-                journalPaperNameInput.required = false;
-            }
-        }
 
-        conferenceRadio.addEventListener('change', togglePaperNameInput);
-        journalRadio.addEventListener('change', togglePaperNameInput);
+
     </script>
 </body>
 

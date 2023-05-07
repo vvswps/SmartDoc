@@ -76,7 +76,7 @@ public class FileUploadController {
                 case "research":
                     document.setType(DatabaseFile.FileType.RESEARCH_PAPER);
                     document.setPublicationName(publicationName);
-                    document.setTypeOfPublication(publicationType);
+                    document.setPublicationType(publicationType);
                     document.setISSN(ISSN);
                     document.setDOI(DOI);
                     document.setVolume(volume);
