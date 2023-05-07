@@ -253,10 +253,12 @@
     <input type="text" id="title" name="title" required><br><br>
 
     <label for="date">Date of Award:</label>
-    <input type="date" id="date" name="date" required><br><br>
+
+<input type="date" id="date" name="date" required><br><br>
 
     <label for="awardingInstitution">Issuing Authority:</label>
     <input type="text" id="awardingInstitution" name="awardingInstitution" required><br><br>
+
 
     <label for="file">Supporting Document:</label>
     <input type="file" id="file" name="file" required><br><br>
@@ -278,6 +280,7 @@
     <input type="text" id="title" name="title" required><br><br>
 
     <label for="date">Date of Achievement:</label>
+
     <input type="date" id="date" name="date" required><br><br>
 
     <label for="awardingInstitution">Issuing Authority:</label>
@@ -323,6 +326,7 @@
         <th>Issuing Authority</th>
         <th>Download</th>
       </tr>
+
       <tr th:if="${not #lists.isEmpty(achievementsFiles)}" th:each="file, iteration : ${achievementsFiles}">
         <td th:text="${iteration.count}"></td>
         <td th:text="${file.title}"></td>
