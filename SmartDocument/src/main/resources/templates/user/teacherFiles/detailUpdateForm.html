@@ -274,29 +274,45 @@
 	<form method="post" action="updateTeacher" th:object="${puser}">
 
 		<label for="name">Name:</label>
-		<input th:field="*{name}" type="text" id="name" name="name">
-		<label for="erp-id">ERP ID:</label>
-		<input th:field="*{erpId}" type="text" id="erp-id" name="erpId">
+		<input required th:field="*{name}" type="text" id="name" name="name">
+
+
+		<div class="two-in-a-row">
+			<div>
+				<label for="erp-id">ERP ID:</label>
+				<input required th:field="*{erpId}" type="text" id="erp-id" name="erpId">
+			</div>
+
+			<div>
+				<label for="gender">Gender</label>
+				<select required th:field="*{gender}" id="gender" name="gender">
+					<option value="" disabled selected>Gender</option>
+					<option value="Female">Female</option>
+					<option value="Male">Male</option>
+				</select>
+			</div>
+		</div>
+
 
 		<div class="two-in-a-row">
 			<div>
 				<label for="official-email">Official Email:</label>
-				<input th:field="*{offEmail}" type="email" id="offEmail" name="official-email">
+				<input required th:field="*{offEmail}" type="email" id="offEmail" name="official-email">
 			</div>
 
 			<div>
 				<!-- <label for="personal-email">Personal Email:</label>
-					<input type="email" id="perEmail"
+					<input required type="email" id="perEmail"
 					name="personal-email" > -->
 				<label for="personal-email">Personal Email</label>
-				<input type="text" id="perEmail" th:field="*{perEmail}" name="personal-email">
+				<input required type="text" id="perEmail" th:field="*{perEmail}" name="personal-email">
 			</div>
 		</div>
 
 		<div class="two-in-a-row">
 			<div>
 				<label for="dob">Date of Birth:</label>
-				<input th:field="*{dob}" type="date" id="dob" name="dob">
+				<input required th:field="*{dob}" type="date" id="dob" name="dob">
 			</div>
 			<div>
 				<label for="dept">Department:</label>
@@ -316,13 +332,16 @@
 		<div class="two-in-a-row">
 			<div>
 				<label for="phone">Phone:</label>
-				<input th:field="*{mobileNumber}" type="tel" id="phone" name="mobileNumber" pattern="[0-9]{10}">
+				<input required th:field="*{mobileNumber}" type="tel" id="phone" name="mobileNumber"
+					pattern="[0-9]{10}">
 
 			</div>
 			<div>
 				<label for="whatsapp">Whatsapp: </label>
-				<input th:field="*{whatsNumber}" type="tel" id="whatsapp" name="whatsNumber" pattern="[0-9]{10}">
-				<label> <input class="copy-phone-checkbox" type="checkbox" onclick="copyPhoneNumber()"> Same as phone
+				<input required th:field="*{whatsNumber}" type="tel" id="whatsapp" name="whatsNumber"
+					pattern="[0-9]{10}">
+				<label> <input required class="copy-phone-checkbox" type="checkbox" onclick="copyPhoneNumber()"> Same as
+					phone
 					number
 
 				</label>
@@ -372,52 +391,52 @@
 		</div>
 
 		<h2>Permanent Address</h2>
-		<label for="permanent-address-line-1">Address</label>
-		<input th:field="*{perAdd}" type="text" id="permanent-address-line-1" name="perAdd">
+		<label for="permanent-address">Address</label>
+		<input required th:field="*{perAdd}" type="text" id="permanent-address" name="perAdd">
 		<div class="two-in-a-row">
 			<div>
 				<label for="permanent-city">City:</label>
-				<input type="text" id="permanent-city" name="perCity">
+				<input required th:field="*{perCity}" type="text" id="permanent-city" name="perCity">
 			</div>
 			<div>
 				<label for="permanent-state">State:</label>
-				<input type="text" id="permanent-state" name="perState">
+				<input required th:field="*{perState}" type="text" id="permanent-state" name="perState">
 			</div>
 		</div>
 		<div class="two-in-a-row">
 			<div>
 				<label for="permanent-country">Country:</label>
-				<input type="text" id="permanent-country" name="perCunt">
+				<input required th:field="*{perCunt}" type="text" id="permanent-country" name="perCunt">
 			</div>
 			<div>
 				<label for="permanent-pincode">Pincode:</label>
-				<input type="text" id="permanent-pincode" name="perPin">
+				<input required th:field="*{perPin}" type="text" id="permanent-pincode" name="perPin">
 			</div>
 		</div>
 
 		<h2>Current Address</h2>
-		<label> <input type="checkbox" onclick="copyPermanentAddress()"> Same as permanent address
-		</label> <label for="current-address-line-1">Address Line 1:</label>
-		<input type="text" id="current-address-line-1" name="curAdd">
+		<label> <input required type="checkbox" onclick="copyPermanentAddress()"> Same as permanent address
+		</label> <label for="current-address">Address:</label>
+		<input required th:field="*{curAdd}" type="text" id="current-address" name="curAdd">
 
 		<div class="two-in-a-row">
 			<div>
 				<label for="current-city">City:</label>
-				<input type="text" id="current-city" name="currCity">
+				<input required th:field="*{currCity}" type="text" id="current-city" name="currCity">
 			</div>
 			<div>
 				<label for="current-state">State:</label>
-				<input type="text" id="current-state" name="currState">
+				<input required th:field="*{currState}" type="text" id="current-state" name="currState">
 			</div>
 		</div>
 		<div class="two-in-a-row">
 			<div>
 				<label for="current-country">Country:</label>
-				<input type="text" id="current-country" name="currCunt">
+				<input required th:field="*{currCunt}" type="text" id="current-country" name="currCunt">
 			</div>
 			<div>
 				<label for="current-pincode">Pincode:</label>
-				<input type="text" id="current-pincode" name="currPin">
+				<input required th:field="*{currPin}" type="text" id="current-pincode" name="currPin">
 			</div>
 		</div>
 
@@ -436,11 +455,9 @@
 		}
 
 		function copyPermanentAddress() {
-			if (document.getElementById("permanent-address-line-1").value != "") {
-				document.getElementById("current-address-line-1").value = document
-					.getElementById("permanent-address-line-1").value;
-				document.getElementById("current-address-line-2").value = document
-					.getElementById("permanent-address-line-2").value;
+			if (document.getElementById("permanent-address").value != "") {
+				document.getElementById("current-address").value = document
+					.getElementById("permanent-address").value;
 				document.getElementById("current-city").value = document
 					.getElementById("permanent-city").value;
 				document.getElementById("current-state").value = document
@@ -450,8 +467,7 @@
 				document.getElementById("current-pincode").value = document
 					.getElementById("permanent-pincode").value;
 			} else {
-				document.getElementById("current-address-line-1").value = "";
-				document.getElementById("current-address-line-2").value = "";
+				document.getElementById("current-address").value = "";
 				document.getElementById("current-city").value = "";
 				document.getElementById("current-state").value = "";
 				document.getElementById("current-country").value = "";

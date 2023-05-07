@@ -34,18 +34,19 @@ public class PersonalDtls {
 	private String expAcd;
 	private String doj;
 	private String dol;
-	private String perAdd;
-	private String curAdd;
 	private String googleId;
 	private String scopusId;
 	private String sciId;
+	private String curAdd;
 	private String currCity;
 	private String currState;
 	private String currCunt;
 	private String currPin;
+	private String perAdd;
 	private String perCity;
 	private String perState;
 	private String perCunt;
+	private String perPin;
 
 	public UserDtls getUser() {
 		return user;
@@ -119,8 +120,6 @@ public class PersonalDtls {
 	public void setPerPin(String perPin) {
 		this.perPin = perPin;
 	}
-
-	private String perPin;
 
 	public int getId() {
 		return id;

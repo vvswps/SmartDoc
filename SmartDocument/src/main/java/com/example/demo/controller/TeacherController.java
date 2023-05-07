@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.model.DatabaseFile;
 import com.example.demo.model.PersonalDtls;
 import com.example.demo.model.UserDtls;
+import com.example.demo.model.DatabaseFile.FileType;
 import com.example.demo.repositary.DatabaseFileRepository;
 import com.example.demo.repositary.UserRepositary;
 import com.example.demo.service.PersonalService;
@@ -48,22 +50,93 @@ public class TeacherController {
 			UserDtls user = userRepo.findByEmail(email);
 
 			PersonalDtls puser = personalRepository.findById(user.getId());
-			//PersonalDtls puser = personalRepository.findByUser(user);
+			// PersonalDtls puser = personalRepository.findByUser(user);
 
 			model.addAttribute("user", user);
 			model.addAttribute("puser", puser);
 
-			System.out
-					.println("\n\n==============================================================================\n\n");
-			System.out.println("User: " + user);
-			System.out.println("PersonalDtls: " + puser);
-
-			System.out
-					.println("\n\n==============================================================================\n\n");
+			List<DatabaseFile> awardsFiles = new ArrayList<>();
+			List<DatabaseFile> achievementsFiles = new ArrayList<>();
+			List<DatabaseFile> researchFiles = new ArrayList<>();
+			List<DatabaseFile> bookFiles = new ArrayList<>();
+			List<DatabaseFile> fdpFiles = new ArrayList<>();
+			List<DatabaseFile> sttpFiles = new ArrayList<>();
+			List<DatabaseFile> qipFiles = new ArrayList<>();
+			List<DatabaseFile> workshopFiles = new ArrayList<>();
 
 			List<DatabaseFile> files = fileRepo.findByUser(user);
-			System.out.println("Files: " + files);
-			model.addAttribute("files", files);
+			System.out.println("\n\n\n===============================================\n\n\n");
+			System.out.println(files);
+			System.out.println("\n\n\n===============================================\n\n\n");
+			try {
+				for (DatabaseFile file : files) {
+					FileType fileType = file.getType();
+					System.out.println(file + "Type:\t" + fileType);
+					switch (fileType) {
+						case AWARD:
+							System.out.println("File Type is Award");
+							awardsFiles.add(file);
+							break;
+						case ACHIEVEMENT:
+							achievementsFiles.add(file);
+							break;
+						case RESEARCH_PAPER:
+							researchFiles.add(file);
+							break;
+						case BOOK_OR_CHAPTER:
+							bookFiles.add(file);
+							break;
+						case FDP:
+							fdpFiles.add(file);
+							break;
+						case STTP:
+							sttpFiles.add(file);
+							break;
+						case QIP:
+							qipFiles.add(file);
+							break;
+						case WORKSHOP:
+							workshopFiles.add(file);
+							break;
+						default:
+							System.out.println("Unknown file type");
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if (!awardsFiles.isEmpty()) {
+				System.out.println("Awards Files are not empty");
+				model.addAttribute("awardsFiles", awardsFiles);
+
+			}
+			if (!achievementsFiles.isEmpty()) {
+				model.addAttribute("achievementsFiles", achievementsFiles);
+			}
+
+			if (!researchFiles.isEmpty()) {
+				model.addAttribute("researchFiles", researchFiles);
+			}
+
+			if (!bookFiles.isEmpty()) {
+				model.addAttribute("bookFiles", bookFiles);
+			}
+
+			if (!fdpFiles.isEmpty()) {
+				model.addAttribute("fdpFiles", fdpFiles);
+			}
+
+			if (!sttpFiles.isEmpty()) {
+				model.addAttribute("sttpFiles", sttpFiles);
+			}
+
+			if (!qipFiles.isEmpty()) {
+				model.addAttribute("qipFiles", qipFiles);
+			}
+
+			if (!workshopFiles.isEmpty()) {
+				model.addAttribute("workshopFiles", workshopFiles);
+			}
 		} else {
 			model.addAttribute("user", null);
 		}
@@ -71,8 +144,33 @@ public class TeacherController {
 	}
 
 	@PostMapping("/updateTeacher")
-	public String updateUser(Principal p, @RequestParam("name") String name,
-			@RequestParam("erpId") String erpId, @RequestParam(value = "gender", required = false) String gender) {
+	public String updateUser(Principal p,
+			@RequestParam(value = "name", required = true) String name,
+			@RequestParam(value = "erpId", required = true) String erpId,
+			@RequestParam(value = "offEmail", required = true) String offEmail,
+			@RequestParam(value = "perEmail", required = true) String perEmail,
+			@RequestParam(value = "dept", required = true) String dept,
+			@RequestParam(value = "whatsNumber", required = true) String whatsNumber,
+			@RequestParam(value = "mobileNumber", required = true) String mobileNumber,
+			@RequestParam(value = "dob", required = true) String dob,
+			@RequestParam(value = "gender", required = true) String gender,
+			@RequestParam(value = "expInd", required = false) String expInd,
+			@RequestParam(value = "expAcd", required = false) String expAcd,
+			@RequestParam(value = "doj", required = false) String doj,
+			@RequestParam(value = "dol", required = false) String dol,
+			@RequestParam(value = "googleId", required = false) String googleId,
+			@RequestParam(value = "scopusId", required = false) String scopusId,
+			@RequestParam(value = "sciId", required = false) String sciId,
+			@RequestParam(value = "curAdd", required = true) String curAdd,
+			@RequestParam(value = "currCity", required = true) String currCity,
+			@RequestParam(value = "currState", required = true) String currState,
+			@RequestParam(value = "currCunt", required = true) String currCunt,
+			@RequestParam(value = "currPin", required = true) String currPin,
+			@RequestParam(value = "perAdd", required = true) String perAdd,
+			@RequestParam(value = "perCity", required = true) String perCity,
+			@RequestParam(value = "perState", required = true) String perState,
+			@RequestParam(value = "perCunt", required = true) String perCunt,
+			@RequestParam(value = "perPin", required = true) String perPin) {
 
 		String email = p.getName();
 		UserDtls user = userRepo.findByEmail(email);
@@ -84,7 +182,30 @@ public class TeacherController {
 			// update the fields with the new values
 			existingPersonalDtls.setName(name);
 			existingPersonalDtls.setErpId(erpId);
+			existingPersonalDtls.setOffEmail(offEmail);
+			existingPersonalDtls.setPerEmail(perEmail);
+			existingPersonalDtls.setDept(dept);
+			existingPersonalDtls.setWhatsNumber(whatsNumber);
+			existingPersonalDtls.setMobileNumber(mobileNumber);
 			existingPersonalDtls.setGender(gender);
+			existingPersonalDtls.setDob(dob);
+			existingPersonalDtls.setExpInd(expInd);
+			existingPersonalDtls.setExpAcd(expAcd);
+			existingPersonalDtls.setDoj(doj);
+			existingPersonalDtls.setDol(dol);
+			existingPersonalDtls.setGoogleId(googleId);
+			existingPersonalDtls.setScopusId(scopusId);
+			existingPersonalDtls.setSciId(sciId);
+			existingPersonalDtls.setCurAdd(curAdd);
+			existingPersonalDtls.setCurrCity(currCity);
+			existingPersonalDtls.setCurrState(currState);
+			existingPersonalDtls.setCurrCunt(currCunt);
+			existingPersonalDtls.setCurrPin(currPin);
+			existingPersonalDtls.setPerAdd(perAdd);
+			existingPersonalDtls.setPerCity(perCity);
+			existingPersonalDtls.setPerState(perState);
+			existingPersonalDtls.setPerCunt(perCunt);
+			existingPersonalDtls.setPerPin(perPin);
 
 			// save the updated personal details object
 			personalRepository.save(existingPersonalDtls);
