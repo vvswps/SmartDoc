@@ -210,7 +210,7 @@
 
     .stats tr {
       display: grid;
-      grid-template-columns: 2fr 6fr 4fr 2fr;
+      grid-template-columns: 2fr 2fr 2fr 2fr 2fr;
       gap: 5rem;
       place-items: center;
       margin-bottom: 2rem;
@@ -263,6 +263,9 @@
 
     <label for="date">Date of Award:</label>
     <input type="date" id="date" name="date"><br><br>
+    
+    <label for="authority">Issuing Authority:</label>
+    <input type="text" id="authority" name="authority"><br><br>
 
     <label for="document">Supporting Document:</label>
     <input type="file" id="file" name="file"><br><br>
@@ -286,6 +289,9 @@
 
     <label for="date">Date of Achievement:</label>
     <input type="date" id="date" name="date"><br><br>
+    
+    <label for="authority">Issuing Authority:</label>
+    <input type="text" id="authority" name="authority"><br><br>
 
     <label for="document">Supporting Document:</label>
     <input type="file" id="file" name="file"><br><br>
@@ -309,6 +315,7 @@
         <th>Sr. no.</th>
         <th>Award Name</th>
         <th>Date Awarded</th>
+        <th>Issuing Authority</th>
         <th>Download</th>
       </tr>
       <tr th:if="${not #lists.isEmpty(files)}" th:each="file, iteration : ${files}">
@@ -329,30 +336,12 @@
     <table class="stats">
       <tr>
         <th>Sr. no.</th>
-        <th>Award Name</th>
+        <th>Achievement Name</th>
         <th>Date Awarded</th>
+        <th>Issuing Authority</th>
         <th>Download</th>
       </tr>
-      <tr>
-        <td>1</td>
-        <td>Patents</td>
-        <td>12/12/2020</td>
-        <td><a href="#">Download</a></td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>Best Teacher</td>
-        <td>12/12/2020</td>
-        <td><a href="#">Download</a></td>
-
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Miss NIET</td>
-        <td>12/12/2020</td>
-        <td><a href="#">Download</a></td>
-
-      </tr>
+     
     </table>
     <button onclick="showModal1()" class="upload-button">Upload</button>
 

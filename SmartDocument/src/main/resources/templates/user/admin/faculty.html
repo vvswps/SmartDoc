@@ -73,6 +73,52 @@
             font-size: 16px;
             cursor: pointer;
         }
+        
+        
+        .cards {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .card {
+            border-radius: 10px;
+            color: #fff;
+            width: 20rem;
+            height: 10rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            transition: 0.3s ease-in-out;
+        }
+        
+        .card a{
+        text-decoration:none;
+        color: #fff;
+        
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card:first-child {
+            background: linear-gradient(180deg, #bb67ff 0%, #c484f3 100%);
+            box-shadow: 0px 10px 20px 0px #e0c6f5;
+        }
+
+        
+
+        .card:last-child {
+            background: linear-gradient(rgb(248, 212, 154) -146.42%,
+                    rgb(255 202 113) -46.42%);
+            box-shadow: 0px 10px 20px 0px #f9d59b;
+        }
+        
     </style>
 </head>
 
@@ -86,46 +132,15 @@
         </div>
 
     </header>
-    <form>
-        <label for="faculty-name">Faculty Name:</label>
-        <input type="text" id="faculty-name" name="faculty-name" required>
-        <br>
-
-        <label for="erp-id">ERP ID:</label>
-        <input type="text" id="erp-id" name="erp-id" required>
-        <br>
-
-        <label for="department">Department:</label>
-        <input type="text" id="department" name="department" required>
-        <br>
-
-        <label>Check the boxes for the following:</label>
-        <br>
-        <br>
-        <div>
-            <input type="checkbox" id="research-paper" name="research-paper">
-            <label for="research-paper">Research Paper</label>
-        </div>
-        <div>
-            <input type="checkbox" id="fdp" name="fdp">
-            <label for="fdp">FDP</label>
-        </div>
-        <div>
-            <input type="checkbox" id="publication" name="publication">
-            <label for="publication">Publication</label>
-        </div>
-        <div>
-            <input type="checkbox" id="awards" name="awards">
-            <label for="awards">Awards</label>
-        </div>
-        <div>
-            <input type="checkbox" id="achievements" name="achievements">
-            <label for="achievements">Achievements</label>
-        </div>
-        <br>
-
-        <input type="submit" value="Fetch" class="submit-button">
-    </form>
+     <div class="cards">
+                <div class="card">
+                    <h2><a href="deptView">Using Department</a></h2>
+                </div>
+                <div class="card">
+                    <h2><a href="mailView">Using Email</a></h2>
+                </div>
+               
+     </div>
 </body>
 
 </html>
