@@ -234,15 +234,12 @@
         <label for="volume"> Volume:</label>
         <input type="text" id="volume" name="volume"><br><br>
 
-
-
         <label for="document">Supporting Document:</label>
         <input type="file" id="file" name="file"><br><br>
 
+        <input type="hidden" name="type" value="research">
         <input type="submit" value="Submit">
     </form>
-
-
 
 
     <form class="research-modal1" action="/uploadDoc" method="post" enctype="multipart/form-data">
@@ -254,36 +251,32 @@
                 d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
             </path>
         </svg>
+        <label for="publication-type">Type of Publication</label>
+        <input type="radio" id="book" name="publication-type" value="book">
+        <label for="book">Book</label>
+        <input type="radio" id="bookChapter" name="publication-type" value="bookChapter">
+        <label for="bookChapter">Book Chapter</label><br><br>
 
-        <label for="book">Type of Publication</label>
-        <input type="radio" name="book" value="book">
-        Book<br>
-        <input type="radio" name="book" value="bookChapter">
-        bookChapter<br><br>
         <label for="title">Title:</label>
-        <input type="text" id="title" name="title"><br><br>
+        <input type="text" id="title" name="title" required><br><br>
 
-        <label for="date">Date of Publishing:</label>
-        <input type="date" id="date" name="date"><br><br>
+        <label for="publish-date">Date of Publishing:</label>
+        <input type="date" id="publish-date" name="publish-date" required><br><br>
 
+        <label for="publisher-name">Name of Publisher:</label>
+        <input type="text" id="publisher-name" name="publisher-name" required><br><br>
 
+        <label for="isbn">ISBN Number:</label>
+        <input type="text" id="isbn" name="isbn" required><br><br>
 
-        <label for="pubName">Name of Publisher:</label>
-        <input type="text" id="pubName" name="pubName"><br><br>
+        <label for="supporting-doc">Supporting Document:</label>
+        <input type="file" id="supporting-doc" name="supporting-doc" required><br><br>
 
-
-        <label for="isbn"> ISBN Number:</label>
-        <input type="text" id="value" name="value"><br><br>
-
-
-
-        <label for="document">Supporting Document:</label>
-        <input type="file" id="file" name="file"><br><br>
+        <input type="hidden" name="type" value="book">
 
         <input type="submit" value="Submit">
+
     </form>
-
-
 
 
     <div class="details">
@@ -298,12 +291,24 @@
                 <th>Volume</th>
                 <th>Download</th>
             </tr>
-
+            <tr th:if="${not #lists.isEmpty(researchFiles)}" th:each="file, iteration : ${researchFiles}">
+                <td th:text="${file.title}"></td>
+                <td th:text="${file.date}"></td>
+                <td th:text="${file.typeOfPublication}"></td>
+                <td th:text="${file.ISSN}"></td>
+                <td th:text="${file.DOI}"></td>
+                <td th:text="${file.Volume}"></td>
+                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(researchFiles)}">
+                <td colspan="7">No documents found</td>
+            </tr>
         </table>
-        <button onclick="showResearchModal()()" class="upload-button">Upload</button>
+        <button onclick="showResearchModal()" class="upload-button">Upload</button>
     </div>
 
-    <div class=" details">
+
+    <div class="details">
         <h2>Publications</h2>
         <table class="stats1">
             <tr>
@@ -313,28 +318,20 @@
                 <th>ISBN Number</th>
                 <th>Download</th>
             </tr>
-            <tr>
-                <td>1</td>
-                <td>Patents</td>
-                <td>12/12/2020</td>
-                <td><a href="#">Download</a></td>
+            <tr th:if="${not #lists.isEmpty(publicationFiles)}" th:each="file, iteration : ${publicationFiles}">
+                <td th:text="${file.title}"></td>
+                <td th:text="${file.date}"></td>
+                <td th:text="${file.publisherName}"></td>
+                <td th:text="${file.isbnNumber}"></td>
+                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
             </tr>
-            <tr>
-                <td>2</td>
-                <td>Best Teacher</td>
-                <td>12/12/2020</td>
-                <td><a href="#">Download</a></td>
-
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Miss NIET</td>
-                <td>12/12/2020</td>
-                <td><a href="#">Download</a></td>
+            <tr th:if="${#lists.isEmpty(publicationFiles)}">
+                <td colspan="5">No documents found</td>
             </tr>
         </table>
-        <button class="upload-button" onclick="showResearchModal1()">Upload</button>
+        <button class="upload-button" onclick="showPublicationsModal()">Upload</button>
     </div>
+
 
     <script>
         function showResearchModal() {

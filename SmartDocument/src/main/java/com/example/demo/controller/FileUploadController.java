@@ -25,41 +25,6 @@ public class FileUploadController {
     @Autowired
     private UserRepositary UserRepositary;
 
-    // @PostMapping("/uploadDoc")
-    // public ResponseEntity<?> uploadDoc(@RequestParam("file") MultipartFile file,
-    // Principal principal) {
-    // if (principal == null) {
-
-    // // Handle case where user is not authenticated
-    // // You can redirect to a login page or display an error message
-    // // return "redirect:/login";
-    // return new ResponseEntity<>("User not authenticated",
-    // HttpStatus.UNAUTHORIZED);
-    // }
-
-    // try {
-    // DatabaseFile document = new DatabaseFile();
-    // // this is the file name whatever the user uploads
-    // document.setFileName(file.getOriginalFilename());
-    // // this is the file type i.e pdf, docx, jpg etc
-    // document.setFileType(file.getContentType());
-    // // this is the actual file content
-    // document.setData(file.getBytes());
-
-    // UserDtls user = UserRepositary.findByEmail(principal.getName());
-
-    // document.setUserId(user);
-
-    // // now lets get into other details of the file
-
-    // DatabaseFileRepository.save(document);
-    // return ResponseEntity.ok().build();
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // return ResponseEntity.badRequest().build();
-    // }
-    // }
-
     @PostMapping("/uploadDoc")
     public ResponseEntity<?> uploadDoc(@RequestParam("file") MultipartFile file,
             @RequestParam("type") String fileType,
@@ -111,6 +76,7 @@ public class FileUploadController {
                 case "research":
                     document.setType(DatabaseFile.FileType.RESEARCH_PAPER);
                     document.setPublicationName(publicationName);
+                    document.setTypeOfPublication(publicationType);
                     document.setISSN(ISSN);
                     document.setDOI(DOI);
                     document.setVolume(volume);
