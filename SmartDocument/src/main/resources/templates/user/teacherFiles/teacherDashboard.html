@@ -36,6 +36,7 @@
             justify-content: space-evenly;
             align-items: center;
             transition: 0.3s ease-in-out;
+            border: none;
         }
 
         .card:hover {
@@ -57,10 +58,11 @@
                     rgb(255 202 113) -46.42%);
             box-shadow: 0px 10px 20px 0px #f9d59b;
         }
-        .card a{
-        text-decoration:none;
-        color: #fff;
-        
+
+        .card a {
+            text-decoration: none;
+            color: #fff;
+
         }
 
         .title-area {
@@ -137,15 +139,15 @@
                 </div>
             </div>
             <div class="cards">
-                <div class="card">
-                    <h2><a href="personalInfo">Personal Info</a></h2>
-                </div>
-                <div class="card">
-                    <h2><a href="research">Research</a></h2>
-                </div>
-                <div class="card">
-                    <h2><a href="awards">Awards</a></h2>
-                </div>
+                <button class="card" onclick="window.location.href='personalInfo'">
+                    <h2>Personal Info</h2>
+                </button>
+                <button class="card" onclick="window.location.href='research'">
+                    <h2>Research</h2>
+                </button>
+                <button class="card" onclick="window.location.href='awards'">
+                    <h2>Awards</h2>
+                </button>
             </div>
         </header>
         <div class="statistics">
@@ -160,26 +162,30 @@
                 <tr>
                     <td>1</td>
                     <td>Research Papers</td>
-                    <td>10</td>
-                    <td><a href="#">Details</a></td>
+                    <td>[[${researchFiles != null ?
+                        #lists.size(researchFiles) : 'None'}]]</td>
+                    <td><a href="research">Details</a></td>
                 </tr>
                 <tr>
                     <td>2</td>
                     <td>Publications</td>
-                    <td>10</td>
-                    <td><a href="#">Details</a></td>
+                    <td>[[${bookFiles != null ?
+                        #lists.size(bookFiles) : 'None'}]]</td>
+                    <td><a href="research">Details</a></td>
                 </tr>
                 <tr>
                     <td>3</td>
                     <td>Awards</td>
-                    <td>10</td>
-                    <td><a href="#">Details</a></td>
+                    <td>[[${awardsFiles != null ?
+                        #lists.size(awardsFiles) : 'None'}]]</td>
+                    <td><a href="awards">Details</a></td>
                 </tr>
                 <tr>
                     <td>4</td>
                     <td>FDP</td>
-                    <td>10</td>
-                    <td><a href="#">Details</a></td>
+                    <td>[[${fdpFiles != null ? #lists.size(fdpFiles) :
+                        'None'}]]</td>
+                    <td><a href="fdp">Details</a></td>
                 </tr>
             </table>
         </div>

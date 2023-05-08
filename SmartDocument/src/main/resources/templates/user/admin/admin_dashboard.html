@@ -25,6 +25,59 @@
             max-width: 5rem;
             margin-right: 1rem;
         }
+
+        .cards {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 4rem;
+        }
+
+        .card {
+            border-radius: 10px;
+            color: #fff;
+            width: 20rem;
+            height: 10rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            transition: all 0.3s ease-in-out;
+            border: none;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card:first-child {
+            background: linear-gradient(180deg, #fc8d8d 0%, #f9b1a5 100%);
+            box-shadow: 0px 10px 20px 0px #f5a5a5;
+        }
+
+        .card:last-child {
+            background: linear-gradient(180deg, #88d3ce 0%, #6e8e97 100%);
+            box-shadow: 0px 10px 20px 0px #b4d3d0;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        .card:first-child:hover {
+            background: linear-gradient(180deg, #f9b1a5 0%, #fc8d8d 100%);
+        }
+
+        .card:last-child:hover {
+            background: linear-gradient(180deg, #6e8e97 0%, #88d3ce 100%);
+        }
+
+        .welcome {
+            margin-left: 2rem;
+        }
     </style>
 </head>
 
@@ -38,7 +91,16 @@
         </div>
 
     </header>
-    <h1>Welcome Admin!!!!!</h1>
+    <h1 class="welcome">Welcome Admin!!!!!</h1>
+
+    <div class="cards">
+        <button class="card" onclick="window.location.href='facultyView'">
+            <h2>View Faculty Data</h2>
+        </button>
+        <button class="card" onclick="window.location.href='studentView'">
+            <h2>View Student Data</h2>
+        </button>
+    </div>
 </body>
 
 </html>

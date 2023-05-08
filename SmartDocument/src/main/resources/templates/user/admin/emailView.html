@@ -139,12 +139,14 @@
                 <div class="name">Admin</div><img src="/teacherPages/dashboard/profile.png" alt="">
             </div>
         </div>
-
     </header>
+
+
+    <a href="downloadCSV">Download as CSV</a>
 
     <fieldset>
         <legend>Personal Information</legend>
-        <div class="grid-container">
+        <div class=" grid-container">
             <div class="grid-item"><span class="field">Name: </span>[[${puser != null ? puser.name : ''}]]</div>
             <div class="grid-item"><span class="field">ERP ID: </span>[[${puser != null ? puser.erpId : ''}]]</div>
             <div class="grid-item"><span class="field">DOJ: </span>[[${puser != null ? puser.doj : ''}]]</div>
@@ -189,7 +191,7 @@
                 <tr th:if="${not #lists.isEmpty(researchFiles)}" th:each="file, iteration : ${researchFiles}">
                     <td th:text="${file.title}"></td>
                     <td th:text="${file.date}"></td>
-                    <td th:text="${file.typeOfPublication}"></td>
+                    <td th:text="${file.publicationType}"></td>
                     <td th:text="${file.ISSN}"></td>
                     <td th:text="${file.DOI}"></td>
                     <td th:text="${file.Volume}"></td>

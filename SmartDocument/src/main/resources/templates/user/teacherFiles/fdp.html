@@ -7,7 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Awards & Achievements</title>
     <style>
-        .upload-modal,.upload-modal1,.upload-modal2,.upload-modal3 {
+        .upload-modal,
+        .upload-modal1,
+        .upload-modal2,
+        .upload-modal3 {
             margin: 0 auto;
             width: 500px;
             padding: 20px;
@@ -22,20 +25,29 @@
             transform: translate(-50%, -50%);
             z-index: 1000;
             box-shadow: 0px 19px 60px rgb(0 0 0 / .4);
-             max-height: calc(100vh - 210px);
+            max-height: calc(100vh - 210px);
             overflow-y: auto;
 
         }
 
-        .upload-modal.show,.upload-modal1.show,.upload-modal2.show,.upload-modal3.show {
+        .upload-modal.show,
+        .upload-modal1.show,
+        .upload-modal2.show,
+        .upload-modal3.show {
             display: block;
         }
 
-        .upload-modal.show .details,.upload-modal1.show .details,.upload-modal2.show .details,.upload-modal3.show .details {
+        .upload-modal.show .details,
+        .upload-modal1.show .details,
+        .upload-modal2.show .details,
+        .upload-modal3.show .details {
             opacity: 0.5;
         }
 
-        .upload-modal svg,.upload-modal1 svg,.upload-modal2 svg,.upload-modal3 svg {
+        .upload-modal svg,
+        .upload-modal1 svg,
+        .upload-modal2 svg,
+        .upload-modal3 svg {
             position: relative;
             max-width: 1rem;
             left: 95%;
@@ -45,17 +57,26 @@
             fill: #242d49;
         }
 
-        .upload-modal svg:hover,.upload-modal1 svg:hover,.upload-modal2 svg:hover,.upload-modal3 svg:hover {
+        .upload-modal svg:hover,
+        .upload-modal1 svg:hover,
+        .upload-modal2 svg:hover,
+        .upload-modal3 svg:hover {
             transform: rotate(90deg);
             fill: #ff919d;
         }
 
-        .upload-modal h2,.upload-modal1 h2,.upload-modal2 h2,.upload-modal3 h2 {
+        .upload-modal h2,
+        .upload-modal1 h2,
+        .upload-modal2 h2,
+        .upload-modal3 h2 {
             margin-bottom: 20px;
             text-align: center;
         }
 
-        .upload-modal label,.upload-modal1 label,.upload-modal2 label,.upload-modal3 label {
+        .upload-modal label,
+        .upload-modal1 label,
+        .upload-modal2 label,
+        .upload-modal3 label {
             display: block;
             margin-bottom: 10px;
             color: #333;
@@ -63,13 +84,20 @@
 
         .upload-modal input[type="text"],
         .upload-modal input[type="date"],
-        .upload-modal input[type="file"],.upload-modal input[type="number"],.upload-modal1 input[type="text"],
+        .upload-modal input[type="file"],
+        .upload-modal input[type="number"],
+        .upload-modal1 input[type="text"],
         .upload-modal1 input[type="date"],
-        .upload-modal1 input[type="file"],.upload-modal1 input[type="number"],.upload-modal2 input[type="text"],
+        .upload-modal1 input[type="file"],
+        .upload-modal1 input[type="number"],
+        .upload-modal2 input[type="text"],
         .upload-modal2 input[type="date"],
-        .upload-modal2 input[type="file"],.upload-modal2 input[type="number"],.upload-modal3 input[type="text"],
+        .upload-modal2 input[type="file"],
+        .upload-modal2 input[type="number"],
+        .upload-modal3 input[type="text"],
         .upload-modal3 input[type="date"],
-        .upload-modal3 input[type="file"],.upload-modal3 input[type="number"] {
+        .upload-modal3 input[type="file"],
+        .upload-modal3 input[type="number"] {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -78,7 +106,10 @@
             box-sizing: border-box;
         }
 
-        .upload-modal input[type="submit"],.upload-modal1 input[type="submit"],.upload-modal2 input[type="submit"],.upload-modal3 input[type="submit"] {
+        .upload-modal input[type="submit"],
+        .upload-modal1 input[type="submit"],
+        .upload-modal2 input[type="submit"],
+        .upload-modal3 input[type="submit"] {
             background-color: #ff919d;
             color: #fff;
             border: none;
@@ -89,11 +120,17 @@
             transition: all .3s ease-in-out;
         }
 
-        .upload-modal input[type="submit"]:hover,.upload-modal1 input[type="submit"]:hover,.upload-modal2 input[type="submit"]:hover,.upload-modal3 input[type="submit"]:hover {
+        .upload-modal input[type="submit"]:hover,
+        .upload-modal1 input[type="submit"]:hover,
+        .upload-modal2 input[type="submit"]:hover,
+        .upload-modal3 input[type="submit"]:hover {
             background-color: #ff7585;
         }
 
-        .upload-modal input[type="file"],.upload-modal1 input[type="file"],.upload-modal2 input[type="file"],.upload-modal3 input[type="file"] {
+        .upload-modal input[type="file"],
+        .upload-modal1 input[type="file"],
+        .upload-modal2 input[type="file"],
+        .upload-modal3 input[type="file"] {
             padding-top: 7px;
         }
 
@@ -179,24 +216,24 @@
         <label for="title">Title of FDP:</label>
         <input type="text" id="title" name="title"><br><br>
 
-       <label for="nature">Nature of FDP:</label>
-       <input type="radio" name="nature" value="online">
-            Online<br>
-       <input type="radio" name="nature" value="offline">
-            Offline<br><br>
-            
+        <label for="nature">Nature of FDP:</label>
+        <input type="radio" name="nature" value="online">
+        Online<br>
+        <input type="radio" name="nature" value="offline">
+        Offline<br><br>
+
         <label for="durationFrom">Duration of FDP From:</label>
         <input type="date" id="durationFrom" name="durationFrom">
-  
+
         <label for="durationTo">Duration of FDP To:</label>
         <input type="date" id="durationTo" name="durationTo">
-  
+
         <label for="noOfDays">Number of Days Attend:</label>
-        <input type="number" id="noOfDays" name="noOfDays" readonly>     <br><br>    
-       
-       <label for="organizedBy">Organization Conducted FDP:</label>
+        <input type="number" id="noOfDays" name="noOfDays" readonly> <br><br>
+
+        <label for="organizedBy">Organization Conducted FDP:</label>
         <input type="text" id="organizedBy" name="organizedBy"><br><br>
-       
+
 
         <label for="document">Supporting Document:</label>
         <input type="file" id="file" name="file"><br><br>
@@ -204,8 +241,8 @@
         <input type="hidden" name="type" value="fdp">
         <input type="submit" value="Submit">
     </form>
-    
-    
+
+
     <form class="upload-modal1" action="/uploadDoc" method="post" enctype="multipart/form-data">
         <h2>Upload New STTP</h2>
         <!-- x svg to close the modal -->
@@ -215,27 +252,27 @@
                 d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
             </path>
         </svg>
-         <label for="title">Title of STTP:</label>
+        <label for="title">Title of STTP:</label>
         <input type="text" id="title" name="title"><br><br>
 
-       <label for="nature">Nature of STTP:</label>
-       <input type="radio" name="nature" value="online">
-            Online<br>
-       <input type="radio" name="nature" value="offline">
-            Offline<br><br>
-            
+        <label for="nature">Nature of STTP:</label>
+        <input type="radio" name="nature" value="online">
+        Online<br>
+        <input type="radio" name="nature" value="offline">
+        Offline<br><br>
+
         <label for="durationFrom">Duration of STTP From:</label>
         <input type="date" id="durationFrom1" name="durationFrom">
-  
+
         <label for="durationTo">Duration of STTP To:</label>
         <input type="date" id="durationTo1" name="durationTo">
-  
+
         <label for="noOfDays">Number of Days Attend:</label>
-        <input type="number" id="noOfDays1" name="noOfDays" readonly>     <br><br>    
-       
-       <label for="organizedBy">Organization Conducted STTP:</label>
+        <input type="number" id="noOfDays1" name="noOfDays" readonly> <br><br>
+
+        <label for="organizedBy">Organization Conducted STTP:</label>
         <input type="text" id="organizedBy" name="organizedBy"><br><br>
-       
+
 
         <label for="document">Supporting Document:</label>
         <input type="file" id="file" name="file"><br><br>
@@ -243,9 +280,9 @@
         <input type="hidden" name="type" value="sttp">
         <input type="submit" value="Submit">
     </form>
-    
-    
-    
+
+
+
     <form class="upload-modal2" action="/uploadDoc" method="post" enctype="multipart/form-data">
         <h2>Upload New QIP</h2>
         <!-- x svg to close the modal -->
@@ -255,27 +292,27 @@
                 d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
             </path>
         </svg>
-       <label for="title">Title of QIP:</label>
+        <label for="title">Title of QIP:</label>
         <input type="text" id="title" name="title"><br><br>
 
-       <label for="nature">Nature of QIP:</label>
-       <input type="radio" name="nature" value="Online">
-            Online<br>
-       <input type="radio" name="nature" value="Offline">
-            Offline<br><br>
-            
+        <label for="nature">Nature of QIP:</label>
+        <input type="radio" name="nature" value="Online">
+        Online<br>
+        <input type="radio" name="nature" value="Offline">
+        Offline<br><br>
+
         <label for="durationFrom">Duration of QIP From:</label>
         <input type="date" id="durationFrom2" name="durationFrom">
-  
+
         <label for="durationTo">Duration of QIP To:</label>
         <input type="date" id="durationTo2" name="durationTo">
-  
+
         <label for="noOfDays">Number of Days Attend:</label>
-        <input type="number" id="noOfDays2" name="noOfDays" readonly>     <br><br>    
-       
-       <label for="organizedBy">Organization Conducted QIP:</label>
+        <input type="number" id="noOfDays2" name="noOfDays" readonly> <br><br>
+
+        <label for="organizedBy">Organization Conducted QIP:</label>
         <input type="text" id="organizedBy" name="organizedBy"><br><br>
-       
+
 
         <label for="document">Supporting Document:</label>
         <input type="file" id="file" name="file"><br><br>
@@ -283,8 +320,8 @@
         <input type="hidden" name="type" value="qip">
         <input type="submit" value="Submit">
     </form>
-    
-    
+
+
     <form class="upload-modal3" action="/uploadDoc" method="post" enctype="multipart/form-data">
         <h2>Upload New Workshop</h2>
         <!-- x svg to close the modal -->
@@ -294,27 +331,27 @@
                 d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
             </path>
         </svg>
-       <label for="title">Title of Workshop:</label>
+        <label for="title">Title of Workshop:</label>
         <input type="text" id="title" name="title"><br><br>
 
-       <label for="nature">Nature of Workshop:</label>
-       <input type="radio" name="nature" value="Online">
-            Online<br>
-       <input type="radio" name="nature" value="Offline">
-            Offline<br><br>
-            
+        <label for="nature">Nature of Workshop:</label>
+        <input type="radio" name="nature" value="Online">
+        Online<br>
+        <input type="radio" name="nature" value="Offline">
+        Offline<br><br>
+
         <label for="durationFrom">Duration of Workshop From:</label>
         <input type="date" id="durationFrom3" name="durationFrom">
-  
+
         <label for="durationTo">Duration of Workshop To:</label>
         <input type="date" id="durationTo3" name="durationTo">
-  
+
         <label for="noOfDays">Number of Days Attend:</label>
-        <input type="number" id="noOfDays3" name="noOfDays" readonly>     <br><br>    
-       
-       <label for="organizedBy">Organization Conducted Workshop:</label>
+        <input type="number" id="noOfDays3" name="noOfDays" readonly> <br><br>
+
+        <label for="organizedBy">Organization Conducted Workshop:</label>
         <input type="text" id="organizedBy" name="organizedBy"><br><br>
-       
+
 
         <label for="document">Supporting Document:</label>
         <input type="file" id="file" name="file"><br><br>
@@ -322,13 +359,6 @@
         <input type="hidden" name="type" value="workshop">
         <input type="submit" value="Submit">
     </form>
-    
-    
-    
-    
-    
-    
-    
 
     <div class="details">
         <h2>FDP</h2>
@@ -341,16 +371,16 @@
                 <th>Download</th>
             </tr>
             <tr th:if="${not #lists.isEmpty(fdpFiles)}" th:each="file, iteration : ${fdpFiles}">
-         <!--<td th:text="${iteration.count}"></td>-->
-        <td th:text="${file.title}"></td>
-        <td th:text="${file.nature}"></td>
-        <td th:text="${file.noOfDays}"></td>
-        <td th:text="${file.organizedBy}"></td>
-        <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
-      </tr>
-      <tr th:if="${#lists.isEmpty(fdpFiles)}">
-        <td colspan="7">No documents found</td>
-      </tr>
+                <!--<td th:text="${iteration.count}"></td>-->
+                <td th:text="${file.title}"></td>
+                <td th:text="${file.nature}"></td>
+                <td th:text="${file.noOfDays}"></td>
+                <td th:text="${file.organizedBy}"></td>
+                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(fdpFiles)}">
+                <td colspan="7">No documents found</td>
+            </tr>
         </table>
         <button class="upload-button" onclick="showModal()">Upload</button>
     </div>
@@ -364,17 +394,17 @@
                 <th>Organization Conducted</th>
                 <th>Download</th>
             </tr>
-             <tr th:if="${not #lists.isEmpty(sttpFiles)}" th:each="file, iteration : ${sttpFiles}">
-         <!--<td th:text="${iteration.count}"></td>-->
-        <td th:text="${file.title}"></td>
-        <td th:text="${file.nature}"></td>
-        <td th:text="${file.noOfDays}"></td>
-        <td th:text="${file.organizedBy}"></td>
-        <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
-      </tr>
-      <tr th:if="${#lists.isEmpty(sttpFiles)}">
-        <td colspan="7">No documents found</td>
-      </tr>
+            <tr th:if="${not #lists.isEmpty(sttpFiles)}" th:each="file, iteration : ${sttpFiles}">
+                <!--<td th:text="${iteration.count}"></td>-->
+                <td th:text="${file.title}"></td>
+                <td th:text="${file.nature}"></td>
+                <td th:text="${file.noOfDays}"></td>
+                <td th:text="${file.organizedBy}"></td>
+                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(sttpFiles)}">
+                <td colspan="7">No documents found</td>
+            </tr>
         </table>
         <button class="upload-button" onclick="showModal1()">Upload</button>
     </div>
@@ -389,20 +419,20 @@
                 <th>Download</th>
             </tr>
             <tr th:if="${not #lists.isEmpty(qipFiles)}" th:each="file, iteration : ${qipFiles}">
-         <!--<td th:text="${iteration.count}"></td>-->
-        <td th:text="${file.title}"></td>
-        <td th:text="${file.nature}"></td>
-        <td th:text="${file.noOfDays}"></td>
-        <td th:text="${file.organizedBy}"></td>
-        <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
-      </tr>
-      <tr th:if="${#lists.isEmpty(qipFiles)}">
-        <td colspan="7">No documents found</td>
-      </tr>
+                <!--<td th:text="${iteration.count}"></td>-->
+                <td th:text="${file.title}"></td>
+                <td th:text="${file.nature}"></td>
+                <td th:text="${file.noOfDays}"></td>
+                <td th:text="${file.organizedBy}"></td>
+                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(qipFiles)}">
+                <td colspan="7">No documents found</td>
+            </tr>
         </table>
         <button class="upload-button" onclick="showModal2()">Upload</button>
     </div>
-    
+
     <div class="details">
         <h2>WORKSHOP</h2>
         <table class="stats">
@@ -413,18 +443,18 @@
                 <th>Organization Conducted</th>
                 <th>Download</th>
             </tr>
-           </tr>
+            </tr>
             <tr th:if="${not #lists.isEmpty(workshopFiles)}" th:each="file, iteration : ${workshopFiles}">
-         <!--<td th:text="${iteration.count}"></td>-->
-        <td th:text="${file.title}"></td>
-        <td th:text="${file.nature}"></td>
-        <td th:text="${file.noOfDays}"></td>
-        <td th:text="${file.organizedBy}"></td>
-        <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
-      </tr>
-      <tr th:if="${#lists.isEmpty(workshopFiles)}">
-        <td colspan="7">No documents found</td>
-      </tr>
+                <!--<td th:text="${iteration.count}"></td>-->
+                <td th:text="${file.title}"></td>
+                <td th:text="${file.nature}"></td>
+                <td th:text="${file.noOfDays}"></td>
+                <td th:text="${file.organizedBy}"></td>
+                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(workshopFiles)}">
+                <td colspan="7">No documents found</td>
+            </tr>
         </table>
         <button class="upload-button" onclick="showModal3()">Upload</button>
     </div>
@@ -436,33 +466,28 @@
         function closeModal() {
             document.querySelector('.upload-modal').classList.remove('show');
         }
-        
+
         function showModal1() {
             document.querySelector('.upload-modal1').classList.add('show');
         }
         function closeModal1() {
             document.querySelector('.upload-modal1').classList.remove('show');
         }
-        
+
         function showModal2() {
             document.querySelector('.upload-modal2').classList.add('show');
         }
         function closeModal2() {
             document.querySelector('.upload-modal2').classList.remove('show');
         }
-        
+
         function showModal3() {
             document.querySelector('.upload-modal3').classList.add('show');
         }
         function closeModal3() {
             document.querySelector('.upload-modal3').classList.remove('show');
         }
-        
-        
-        
-        
-        
-        
+
         const fdpFromInput = document.getElementById("durationFrom");
         const fdpToInput = document.getElementById("durationTo");
         const numDaysAttendInput = document.getElementById("noOfDays");
@@ -473,14 +498,11 @@
 
         // Calculate the number of days attend based on the duration of FDP from and to
         function calculateNumDaysAttend() {
-          const fdpFrom = new Date(fdpFromInput.value);
-          const fdpTo = new Date(fdpToInput.value);
-          const numDaysAttend = Math.ceil((fdpTo - fdpFrom) / (1000 * 60 * 60 * 24));
-          numDaysAttendInput.value = numDaysAttend;
+            const fdpFrom = new Date(fdpFromInput.value);
+            const fdpTo = new Date(fdpToInput.value);
+            const numDaysAttend = Math.ceil((fdpTo - fdpFrom) / (1000 * 60 * 60 * 24));
+            numDaysAttendInput.value = numDaysAttend;
         }
-        
-        
-        
 
         const fdpFromInput1 = document.getElementById("durationFrom1");
         const fdpToInput1 = document.getElementById("durationTo1");
@@ -492,13 +514,13 @@
 
         // Calculate the number of days attend based on the duration of FDP from and to
         function calculateNumDaysAttend() {
-          const fdpFrom1 = new Date(fdpFromInput1.value);
-          const fdpTo1 = new Date(fdpToInput1.value);
-          const numDaysAttend1 = Math.ceil((fdpTo1 - fdpFrom1) / (1000 * 60 * 60 * 24));
-          numDaysAttendInput1.value = numDaysAttend1;
+            const fdpFrom1 = new Date(fdpFromInput1.value);
+            const fdpTo1 = new Date(fdpToInput1.value);
+            const numDaysAttend1 = Math.ceil((fdpTo1 - fdpFrom1) / (1000 * 60 * 60 * 24));
+            numDaysAttendInput1.value = numDaysAttend1;
         }
-        
-        
+
+
         const fdpFromInput2 = document.getElementById("durationFrom2");
         const fdpToInput2 = document.getElementById("durationTo2");
         const numDaysAttendInput2 = document.getElementById("noOfDays2");
@@ -509,13 +531,13 @@
 
         // Calculate the number of days attend based on the duration of FDP from and to
         function calculateNumDaysAttend() {
-          const fdpFrom2 = new Date(fdpFromInput2.value);
-          const fdpTo2 = new Date(fdpToInput2.value);
-          const numDaysAttend2 = Math.ceil((fdpTo2 - fdpFrom2) / (1000 * 60 * 60 * 24));
-          numDaysAttendInput2.value = numDaysAttend2;
+            const fdpFrom2 = new Date(fdpFromInput2.value);
+            const fdpTo2 = new Date(fdpToInput2.value);
+            const numDaysAttend2 = Math.ceil((fdpTo2 - fdpFrom2) / (1000 * 60 * 60 * 24));
+            numDaysAttendInput2.value = numDaysAttend2;
         }
-        
-        
+
+
         const fdpFromInput3 = document.getElementById("durationFrom3");
         const fdpToInput3 = document.getElementById("durationTo3");
         const numDaysAttendInput3 = document.getElementById("noOfDays3");
@@ -526,10 +548,10 @@
 
         // Calculate the number of days attend based on the duration of FDP from and to
         function calculateNumDaysAttend() {
-          const fdpFrom3 = new Date(fdpFromInput3.value);
-          const fdpTo3 = new Date(fdpToInput3.value);
-          const numDaysAttend3 = Math.ceil((fdpTo3 - fdpFrom3) / (1000 * 60 * 60 * 24));
-          numDaysAttendInput3.value = numDaysAttend3;
+            const fdpFrom3 = new Date(fdpFromInput3.value);
+            const fdpTo3 = new Date(fdpToInput3.value);
+            const numDaysAttend3 = Math.ceil((fdpTo3 - fdpFrom3) / (1000 * 60 * 60 * 24));
+            numDaysAttendInput3.value = numDaysAttend3;
         }
     </script>
 </body>

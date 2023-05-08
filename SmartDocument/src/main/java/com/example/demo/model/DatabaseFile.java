@@ -16,7 +16,8 @@ public class DatabaseFile {
 		FDP,
 		STTP,
 		QIP,
-		WORKSHOP
+		WORKSHOP,
+		PROFILE_PICTURE
 	}
 
 	@Id
@@ -31,7 +32,6 @@ public class DatabaseFile {
 	private String publicationName;
 	private String awardingInstitution;
 	private String publicationType;
-	
 
 	private String ISSN;
 	private String DOI;
@@ -51,9 +51,20 @@ public class DatabaseFile {
 	@Lob
 	private byte[] data;
 
+	@Lob
+	private byte[] profilePicture;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private UserDtls user;
+
+	public byte[] getProfilePicture() {
+		return profilePicture;
+	}
+
+	public void setProfilePicture(byte[] profilePicture) {
+		this.profilePicture = profilePicture;
+	}
 
 	public String getTitle() {
 		return title;

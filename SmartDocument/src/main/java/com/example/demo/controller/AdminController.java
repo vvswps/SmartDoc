@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,9 +57,12 @@ public class AdminController {
 	}
 
 	@PostMapping("/getFacultyByEmail")
-	public String getFacultyByEmail(@RequestParam("email") String email, Model model) {
+	public String getFacultyByEmail(@RequestParam("email") String email, Model model, HttpSession session) {
 		System.out.println("In getFacultyByEmail()");
 		UserDtls user = userRepo.findByEmail(email);
+
+		// model.addAttribute("email", email);
+		session.setAttribute("email", email);
 
 		PersonalDtls puser = personalRepository.findById(user.getId());
 		model.addAttribute("puser", puser);
@@ -78,7 +84,6 @@ public class AdminController {
 				System.out.println(file + "Type:\t" + fileType);
 				switch (fileType) {
 					case AWARD:
-						System.out.println("File Type is Award");
 						awardsFiles.add(file);
 						break;
 					case ACHIEVEMENT:
@@ -144,7 +149,11 @@ public class AdminController {
 	}
 
 	@GetMapping("/downloadCSV")
-	public void downloadCSV(@RequestParam("email") String email, HttpServletResponse response) throws IOException {
+	public void downloadCSV(HttpServletResponse response, HttpSession session) throws IOException {
+		System.out.println("In downloadCSV()");
+
+		String email = (String) session.getAttribute("email");
+		System.out.println("Email:\t" + email);
 		UserDtls user = userRepo.findByEmail(email);
 		PersonalDtls puser = personalRepository.findById(user.getId());
 
@@ -164,7 +173,6 @@ public class AdminController {
 				FileType fileType = file.getType();
 				switch (fileType) {
 					case AWARD:
-						System.out.println("File Type is Award");
 						awardsFiles.add(file);
 						break;
 					case ACHIEVEMENT:
@@ -219,9 +227,108 @@ public class AdminController {
 				+ "," + puser.getCurrCunt() + "," + puser.getCurrPin() + "," + puser.getPerAdd() + ","
 				+ puser.getPerCity() + "," + puser.getPerState() + "," + puser.getPerCunt() + "," + puser.getPerPin());
 
+		writer.println("\n\n");
 		writer.println("Research papers");
 
+		for (DatabaseFile file : researchFiles) {
+			writer.println(
+					"Title, Publication Name, Type of Publication, Date of Publishing, ISSN Number, DOI, Volume");
+			writer.println(file.getTitle() + "," + file.getPublicationName() + "," + file.getPublicationType() + ","
+					+ file.getDate() + "," + file.getISSN() + "," + file.getDOI() + ","
+					+ file.getVolume());
+		}
+
+		writer.println("\n\n");
+		writer.println("Books and Chapters");
+
+		// add for other files too
+
 		writer.flush();
+		writer.close();
+	}
+
+	@PostMapping(value = "/getFacultyByDept")
+	public String getFacultyByDept(@RequestParam("department") String dept, Model model, HttpSession session) {
+		System.out.println("\n\n\nIn getFacultyByDept()\n\n\n");
+		List<UserDtls> teachers = userRepo.findByBranchAndRole(dept, "ROLE_TEACHER");
+		model.addAttribute("deptName", dept);
+		session.setAttribute("deptName", dept);
+		model.addAttribute("teachers", teachers);
+
+		Map<String, Map<FileType, Integer>> teacherFileCounts = new HashMap<>();
+
+		for (UserDtls teacher : teachers) {
+			Map<FileType, Integer> fileCounts = new HashMap<>();
+			for (FileType fileType : FileType.values()) {
+				fileCounts.put(fileType, 0);
+			}
+			for (DatabaseFile file : teacher.getFiles()) {
+				FileType fileType = file.getType();
+				fileCounts.put(fileType, fileCounts.get(fileType) + 1);
+			}
+			teacherFileCounts.put(teacher.getName(), fileCounts);
+		}
+
+		System.out.println("\n\nTeacher file counts!!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println(teacherFileCounts);
+
+		model.addAttribute("teacherFileCounts", teacherFileCounts);
+
+		return "user/admin/deptView";
+	}
+
+	@GetMapping("/downloadDeptCSV")
+	public void downloadDeptCSV(HttpServletResponse response, HttpSession session)
+			throws IOException {
+		String deptName = (String) session.getAttribute("deptName");
+		List<UserDtls> teachers = userRepo.findByBranchAndRole(deptName, "ROLE_TEACHER");
+		Map<String, Map<FileType, Integer>> teacherFileCounts = new HashMap<>();
+
+		for (UserDtls teacher : teachers) {
+			Map<FileType, Integer> fileCounts = new HashMap<>();
+			for (FileType fileType : FileType.values()) {
+				fileCounts.put(fileType, 0);
+			}
+			for (DatabaseFile file : teacher.getFiles()) {
+				FileType fileType = file.getType();
+				fileCounts.put(fileType, fileCounts.get(fileType) + 1);
+			}
+			teacherFileCounts.put(teacher.getName(), fileCounts);
+		}
+
+		response.setContentType("text/csv");
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + deptName + ".csv\"");
+
+		try (PrintWriter writer = response.getWriter()) {
+			generateDeptCSV(writer, teachers, teacherFileCounts);
+		}
+	}
+
+	private void generateDeptCSV(PrintWriter writer, List<UserDtls> teachers,
+			Map<String, Map<FileType, Integer>> teacherFileCounts) {
+		writer.println(
+				"Teacher Name, Email, Research Papers, Awards, Achievements, Books or Chapters, FDP, STTP, QIP, Workshop");
+		for (UserDtls teacher : teachers) {
+			writer.print(teacher.getName());
+			writer.print(",");
+			writer.print(teacher.getEmail());
+			writer.print(",");
+			writer.print(teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.RESEARCH_PAPER, 0));
+			writer.print(",");
+			writer.print(teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.AWARD, 0));
+			writer.print(",");
+			writer.print(teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.ACHIEVEMENT, 0));
+			writer.print(",");
+			writer.print(teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.BOOK_OR_CHAPTER, 0));
+			writer.print(",");
+			writer.print(teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.FDP, 0));
+			writer.print(",");
+			writer.print(teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.STTP, 0));
+			writer.print(",");
+			writer.print(teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.QIP, 0));
+			writer.print(",");
+			writer.println(teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.WORKSHOP, 0));
+		}
 	}
 
 	@GetMapping("/")

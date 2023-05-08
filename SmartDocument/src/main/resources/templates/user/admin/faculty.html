@@ -238,7 +238,7 @@
         <input type="submit" value="Submit">
     </form>
 
-    <form class="dept-modal" action="/deptView" method="post">
+    <form class="dept-modal" action="getFacultyByDept" method="post">
         <h2>Search by Department</h2>
         <!-- x svg to close the modal -->
         <svg onclick="closeDeptModal()" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
@@ -247,7 +247,7 @@
                 d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
             </path>
         </svg>
-        <label for="dept">Department:</label>
+        <label for="department">Department:</label>
         <select id="department" name="department">
             <option value="" disabled selected>Select department</option>
             <option value="Mechanical Engineering">Mechanical
@@ -267,6 +267,7 @@
     <script>
         function showEmailModal() {
             document.querySelector('.email-modal').classList.add('show');
+            document.querySelector('#email').focus();
         }
         function closeEmailModal() {
             document.querySelector('.email-modal').classList.remove('show');
@@ -274,6 +275,7 @@
 
         function showDeptModal() {
             document.querySelector('.dept-modal').classList.add('show');
+            document.querySelector('#department').focus();
         }
         function closeDeptModal() {
             document.querySelector('.dept-modal').classList.remove('show');
