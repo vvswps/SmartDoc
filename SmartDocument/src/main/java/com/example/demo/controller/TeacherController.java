@@ -292,7 +292,7 @@ public class TeacherController {
 
 	@GetMapping("/changePass")
 	public String loadChangePassword() {
-		return "user/change_password";
+		return "user/teacherFiles/settings";
 	}
 
 	@GetMapping("/update-user-details")
@@ -339,7 +339,7 @@ public class TeacherController {
 
 		}
 
-		return "redirect:/user/changePass";
+		return "redirect:/teacher/settings";
 
 	}
 }

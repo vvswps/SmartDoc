@@ -82,7 +82,7 @@
 
         .stats-research tr {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
             gap: 2rem;
             place-items: center;
             margin-bottom: 2rem;
@@ -104,6 +104,13 @@
             margin-bottom: 2rem;
         }
 
+        .stats-fdp tr {
+            display: grid;
+            grid-template-columns: 2fr 2fr 2fr 2fr 2fr;
+            gap: 5rem;
+            place-items: center;
+            margin-bottom: 2rem;
+        }
 
         .grid-container {
             display: grid;
@@ -192,6 +199,7 @@
                     <td th:text="${file.title}"></td>
                     <td th:text="${file.date}"></td>
                     <td th:text="${file.publicationType}"></td>
+                    <td th:text="${file.publicationName}"></td>
                     <td th:text="${file.ISSN}"></td>
                     <td th:text="${file.DOI}"></td>
                     <td th:text="${file.Volume}"></td>
@@ -223,80 +231,6 @@
                 </tr>
                 <tr th:if="${#lists.isEmpty(publicationFiles)}">
                     <td colspan="5">No documents found</td>
-                </tr>
-            </table>
-        </div>
-
-        <!-- FDP, STTP, QIP and Workshop -->
-
-        <div class="details">
-            <h2>FDP</h2>
-            <table class="stats">
-                <tr>
-                    <th>Title</th>
-                    <th>Nature</th>
-                    <th>Number of Days</th>
-                    <th>Organization Conducted</th>
-                    <th>Download</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Patents</td>
-                    <td>12/12/2020</td>
-                    <td>abc</td>
-                    <td><a href="#">Download</a></td>
-                </tr>
-            </table>
-        </div>
-        <div class="details">
-            <h2>STTP</h2>
-            <table class="stats">
-                <tr>
-                    <th>Title</th>
-                    <th>Nature</th>
-                    <th>Number of Days</th>
-                    <th>Organization Conducted</th>
-                    <th>Download</th>
-                </tr>
-
-            </table>
-        </div>
-        <div class="details">
-            <h2>QIP</h2>
-            <table class="stats">
-                <tr>
-                    <th>Title</th>
-                    <th>Nature</th>
-                    <th>Number of Days</th>
-                    <th>Organization Conducted</th>
-                    <th>Download</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Patents</td>
-                    <td>12/12/2020</td>
-                    <td>abc</td>
-                    <td><a href="#">Download</a></td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="details">
-            <h2>WORKSHOP</h2>
-            <table class="stats">
-                <tr>
-                    <th>Title</th>
-                    <th>Nature</th>
-                    <th>Number of Days</th>
-                    <th>Organization Conducted</th>
-                    <th>Download</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Patents</td>
-                    <td>12/12/2020</td>
-                    <td>abc</td>
-                    <td><a href="#">Download</a></td>
                 </tr>
             </table>
         </div>
@@ -348,7 +282,105 @@
             </table>
         </div>
 
+        <!-- FDP, STTP, QIP and Workshop -->
+
+        <div class="details">
+            <h2>FDP</h2>
+            <table class="stats-fdp">
+                <tr>
+                    <th>Title</th>
+                    <th>Nature</th>
+                    <th>Number of Days</th>
+                    <th>Organization Conducted</th>
+                    <th>Download</th>
+                </tr>
+                <tr th:if="${not #lists.isEmpty(fdpFiles)}" th:each="file, iteration : ${fdpFiles}">
+                    <!--<td th:text="${iteration.count}"></td>-->
+                    <td th:text="${file.title}"></td>
+                    <td th:text="${file.nature}"></td>
+                    <td th:text="${file.noOfDays}"></td>
+                    <td th:text="${file.organizedBy}"></td>
+                    <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(fdpFiles)}">
+                    <td colspan="7">No documents found</td>
+                </tr>
+            </table>
+        </div>
+        <div class="details">
+            <h2>STTP</h2>
+            <table class="stats-fdp">
+                <tr>
+                    <th>Title</th>
+                    <th>Nature</th>
+                    <th>Number of Days</th>
+                    <th>Organization Conducted</th>
+                    <th>Download</th>
+                </tr>
+                <tr th:if="${not #lists.isEmpty(sttpFiles)}" th:each="file, iteration : ${sttpFiles}">
+                    <!--<td th:text="${iteration.count}"></td>-->
+                    <td th:text="${file.title}"></td>
+                    <td th:text="${file.nature}"></td>
+                    <td th:text="${file.noOfDays}"></td>
+                    <td th:text="${file.organizedBy}"></td>
+                    <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(sttpFiles)}">
+                    <td colspan="7">No documents found</td>
+                </tr>
+            </table>
+        </div>
+        <div class="details">
+            <h2>QIP</h2>
+            <table class="stats-fdp">
+                <tr>
+                    <th>Title</th>
+                    <th>Nature</th>
+                    <th>Number of Days</th>
+                    <th>Organization Conducted</th>
+                    <th>Download</th>
+                </tr>
+                <tr th:if="${not #lists.isEmpty(qipFiles)}" th:each="file, iteration : ${qipFiles}">
+                    <!--<td th:text="${iteration.count}"></td>-->
+                    <td th:text="${file.title}"></td>
+                    <td th:text="${file.nature}"></td>
+                    <td th:text="${file.noOfDays}"></td>
+                    <td th:text="${file.organizedBy}"></td>
+                    <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(qipFiles)}">
+                    <td colspan="7">No documents found</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="details">
+            <h2>WORKSHOP</h2>
+            <table class="stats-fdp">
+                <tr>
+                    <th>Title</th>
+                    <th>Nature</th>
+                    <th>Number of Days</th>
+                    <th>Organization Conducted</th>
+                    <th>Download</th>
+                </tr>
+                </tr>
+                <tr th:if="${not #lists.isEmpty(workshopFiles)}" th:each="file, iteration : ${workshopFiles}">
+                    <!--<td th:text="${iteration.count}"></td>-->
+                    <td th:text="${file.title}"></td>
+                    <td th:text="${file.nature}"></td>
+                    <td th:text="${file.noOfDays}"></td>
+                    <td th:text="${file.organizedBy}"></td>
+                    <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(workshopFiles)}">
+                    <td colspan="7">No documents found</td>
+                </tr>
+            </table>
+        </div>
     </div>
+
+
 </body>
 
 </html>

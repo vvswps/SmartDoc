@@ -241,7 +241,52 @@ public class AdminController {
 		writer.println("\n\n");
 		writer.println("Books and Chapters");
 
-		// add for other files too
+		for (DatabaseFile file : bookFiles) {
+			writer.println(
+					"Title, Publication Name, Type of Publication, Date of Publishing, ISBN Number");
+			writer.println(file.getTitle() + "," + file.getPublicationName() + "," + file.getPublicationType() + ","
+					+ file.getDate() + "," + file.getISBN());
+		}
+
+		writer.println("\n\n");
+		writer.println("FDPs");
+
+		for (DatabaseFile file : fdpFiles) {
+			writer.println(
+					"Title, Online/Offline, Number of days, Organization");
+			writer.println(file.getTitle() + "," + file.getNature() + ","
+					+ file.getNoOfDays() + "," + file.getOrganizedBy());
+		}
+
+		writer.println("\n\n");
+		writer.println("STTPs");
+
+		for (DatabaseFile file : sttpFiles) {
+			writer.println(
+					"Title, Online/Offline, Number of days, Organization");
+			writer.println(file.getTitle() + "," + file.getNature() + ","
+					+ file.getNoOfDays() + "," + file.getOrganizedBy());
+		}
+
+		writer.println("\n\n");
+		writer.println("QIPs");
+
+		for (DatabaseFile file : qipFiles) {
+			writer.println(
+					"Title, Online/Offline, Number of days, Organization");
+			writer.println(file.getTitle() + "," + file.getNature() + ","
+					+ file.getNoOfDays() + "," + file.getOrganizedBy());
+		}
+
+		writer.println("\n\n");
+		writer.println("Workshops");
+
+		for (DatabaseFile file : workshopFiles) {
+			writer.println(
+					"Title, Online/Offline, Number of days, Organization");
+			writer.println(file.getTitle() + "," + file.getNature() + ","
+					+ file.getNoOfDays() + "," + file.getOrganizedBy());
+		}
 
 		writer.flush();
 		writer.close();
@@ -260,10 +305,16 @@ public class AdminController {
 		for (UserDtls teacher : teachers) {
 			Map<FileType, Integer> fileCounts = new HashMap<>();
 			for (FileType fileType : FileType.values()) {
+				if (fileType == FileType.PROFILE_PICTURE)
+					continue;
+
 				fileCounts.put(fileType, 0);
 			}
 			for (DatabaseFile file : teacher.getFiles()) {
 				FileType fileType = file.getType();
+
+				if (fileType == FileType.PROFILE_PICTURE)
+					continue;
 				fileCounts.put(fileType, fileCounts.get(fileType) + 1);
 			}
 			teacherFileCounts.put(teacher.getName(), fileCounts);
@@ -394,7 +445,7 @@ public class AdminController {
 
 		}
 
-		return "redirect:/user/changePass";
+		return "redirect:/admin/settings";
 
 	}
 
