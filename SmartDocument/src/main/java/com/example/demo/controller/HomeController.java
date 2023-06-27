@@ -121,6 +121,36 @@ public class HomeController {
 
 	}
 
+	// @PostMapping("/forgotPassword")
+	// public String forgotPassword(@RequestParam String email, @RequestParam String
+	// mobileNum) {
+	// UserDtls user = userRepo.findByEmailAndMobileNumber(email, mobileNum);
+	// if (user != null) {
+	// // Create token
+	// ConfirmationToken confirmationToken = new ConfirmationToken(user);
+
+	// // Save it
+	// confirmationTokenRepository.save(confirmationToken);
+
+	// // Create the email message
+	// SimpleMailMessage mailMessage = new SimpleMailMessage();
+	// mailMessage.setTo(user.getEmail());
+	// mailMessage.setSubject("Password Reset Request");
+	// mailMessage.setFrom("your-outlook-email@example.com");
+	// mailMessage.setText("To reset your password, please click here: "
+	// + "http://localhost:8080/resetPassword?token=" +
+	// confirmationToken.getConfirmationToken());
+
+	// // Send the email message
+	// emailSenderService.sendEmail(mailMessage);
+
+	// return "redirect:/passwordResetRequestSent";
+	// } else {
+	// System.out.println("Invalid email or mobile number");
+	// return "forgot_password";
+	// }
+	// }
+
 	@PostMapping("/changePassword")
 	public String resetPassword(@RequestParam String psw, @RequestParam Integer id) {
 

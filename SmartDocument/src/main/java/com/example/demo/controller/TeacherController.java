@@ -65,16 +65,13 @@ public class TeacherController {
 			List<DatabaseFile> workshopFiles = new ArrayList<>();
 
 			List<DatabaseFile> files = fileRepo.findByUser(user);
-			System.out.println("\n\n\n===============================================\n\n\n");
-			System.out.println(files);
-			System.out.println("\n\n\n===============================================\n\n\n");
 			try {
 				for (DatabaseFile file : files) {
 					FileType fileType = file.getType();
-					System.out.println(file + "Type:\t" + fileType);
+					// System.out.println(file + "Type:\t" + fileType);
 					switch (fileType) {
 						case AWARD:
-							System.out.println("File Type is Award");
+							// System.out.println("File Type is Award");
 							awardsFiles.add(file);
 							break;
 						case ACHIEVEMENT:
@@ -106,7 +103,7 @@ public class TeacherController {
 				e.printStackTrace();
 			}
 			if (!awardsFiles.isEmpty()) {
-				System.out.println("Awards Files are not empty");
+				// System.out.println("Awards Files are not empty");
 				model.addAttribute("awardsFiles", awardsFiles);
 
 			}
@@ -295,7 +292,7 @@ public class TeacherController {
 
 	@GetMapping("/changePass")
 	public String loadChangePassword() {
-		return "user/change_password";
+		return "user/teacherFiles/settings";
 	}
 
 	@GetMapping("/update-user-details")
@@ -342,7 +339,7 @@ public class TeacherController {
 
 		}
 
-		return "redirect:/user/changePass";
+		return "redirect:/teacher/settings";
 
 	}
 }

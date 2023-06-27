@@ -30,57 +30,38 @@
             cursor: pointer;
         }
 
-        .cards {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-evenly;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-top: 4rem;
+
+        h1 {
+            text-align: center;
         }
 
-        .card {
+        .details {
+            background: white;
+            margin: 2rem;
+            padding: 1rem;
             border-radius: 10px;
-            color: #fff;
-            width: 20rem;
-            height: 10rem;
+            box-shadow: 0px 19px 60px rgb(0 0 0 / 8%);
             display: flex;
             flex-direction: column;
-            justify-content: space-evenly;
-            align-items: center;
-            transition: all 0.3s ease-in-out;
+        }
+
+        .stats tr {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            gap: 2rem;
+            place-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .get-by-email {
+            background: none;
             border: none;
+            cursor: pointer;
+            color: blue;
         }
 
-        .card:hover {
-            transform: scale(1.05);
-        }
-
-        .card:first-child {
-            background: linear-gradient(180deg, #fc8d8d 0%, #f9b1a5 100%);
-            box-shadow: 0px 10px 20px 0px #f5a5a5;
-        }
-
-        .card:last-child {
-            background: linear-gradient(180deg, #88d3ce 0%, #6e8e97 100%);
-            box-shadow: 0px 10px 20px 0px #b4d3d0;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.2);
-        }
-
-        .card:first-child:hover {
-            background: linear-gradient(180deg, #f9b1a5 0%, #fc8d8d 100%);
-        }
-
-        .card:last-child:hover {
-            background: linear-gradient(180deg, #6e8e97 0%, #88d3ce 100%);
-        }
-
-        .welcome {
-            margin-left: 2rem;
+        .get-by-email:hover {
+            text-decoration: underline;
         }
 
         .modal {
@@ -124,7 +105,7 @@
 <body>
     <header>
         <div class="title-area">
-            <h1>Admin Dashboard</h1>
+            <h1>Fetch all the records</h1>
             <div class="profile">
                 <div class="name">[[${user.name}]]</div>
                 <img src="/profilePicture" alt="" onclick="openModal(this)">
@@ -137,16 +118,47 @@
             <img src="/profilePicture" alt="">
         </div>
     </div>
-    <h1 class="welcome">Welcome Admin!!!!!</h1>
 
-    <div class="cards">
-        <button class="card" onclick="window.location.href='facultyView'">
-            <h2>View Faculty Data</h2>
-        </button>
-        <button class="card" onclick="window.location.href='studentView'">
-            <h2>View Student Data</h2>
-        </button>
+    <a href="downloadDeptCSV">Download as CSV</a>
+
+    <div class="details">
+        <h2>View By Department of [[${deptName}]]</h2>
+        <h3>Total Faculty: [[${noOfTeachers}]]</h3>
+        <table class="stats">
+            <tr>
+                <th>Faculty Name</th>
+                <th>Email</th>
+                <th>Research Papers</th>
+                <th>Books</th>
+                <th>Awards</th>
+                <th>Achievements</th>
+                <th>FDP</th>
+                <th>STTP</th>
+                <th>QIP</th>
+                <th>Workshops</th>
+            </tr>
+            <tr th:if="${not #lists.isEmpty(teachers)}" th:each="teacher : ${teachers}">
+                <td th:text="${teacher.name}"></td>
+                <td>
+                    <form action="getFacultyByEmail" method="post">
+                        <input class="get-by-email" type="submit" name="email" th:value="${teacher.email}">
+                    </form>
+                </td>
+                <td th:each="entry : ${teacherFileCounts[teacher.name]}">
+                    <span th:text="${entry.value}"></span>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(teachers)}">
+                <td colspan="9">No teachers found</td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(teachers)}">
+                <td colspan="9">No teachers found</td>
+            </tr>
+        </table>
     </div>
+
+
     <script>
         var modal = document.getElementById("myModal");
         var img = document.querySelector(".title-area .profile img");

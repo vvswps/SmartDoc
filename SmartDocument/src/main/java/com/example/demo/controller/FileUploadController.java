@@ -3,8 +3,10 @@ package com.example.demo.controller;
 import java.io.IOException;
 import java.net.URI;
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,8 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.model.DatabaseFile;
 import com.example.demo.model.UserDtls;
+import com.example.demo.model.DatabaseFile.FileType;
 import com.example.demo.repositary.DatabaseFileRepository;
 import com.example.demo.repositary.UserRepositary;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 public class FileUploadController {
@@ -25,40 +30,46 @@ public class FileUploadController {
     @Autowired
     private UserRepositary UserRepositary;
 
-    // @PostMapping("/uploadDoc")
-    // public ResponseEntity<?> uploadDoc(@RequestParam("file") MultipartFile file,
-    // Principal principal) {
-    // if (principal == null) {
+    @PostMapping("/uploadProfilePicture")
+    public ResponseEntity<?> uploadProfilePicture(@RequestParam("file") MultipartFile file, Principal principal,
+            HttpServletRequest request) throws IOException {
+        System.out.println("\n\n\n\nuploadProfilePicture\n\n\n\n");
+        if (principal == null) {
+            return new ResponseEntity<>("User not authenticated", HttpStatus.UNAUTHORIZED);
+        }
+        try {
+            System.out.println("\n\n\nTrying\n\n\n\n");
+            UserDtls user = UserRepositary.findByEmail(principal.getName());
+            List<DatabaseFile> profileList = DatabaseFileRepository.findByUserAndType(user, FileType.PROFILE_PICTURE);
+            DatabaseFile document;
+            if (!profileList.isEmpty()) {
+                document = profileList.get(0);
+                document.setProfilePicture(file.getBytes());
+                document.setFileName(file.getOriginalFilename());
+                document.setFileType(file.getContentType());
+                document.setData(file.getBytes());
+            } else {
+                document = new DatabaseFile();
+                document.setProfilePicture(file.getBytes());
+                document.setType(FileType.PROFILE_PICTURE);
+                document.setFileName(file.getOriginalFilename());
+                document.setFileType(file.getContentType());
+                document.setData(file.getBytes());
+                document.setUserId(user);
+            }
+            System.out.println("\n\n\nJust a lil bit\n\n\n\n");
 
-    // // Handle case where user is not authenticated
-    // // You can redirect to a login page or display an error message
-    // // return "redirect:/login";
-    // return new ResponseEntity<>("User not authenticated",
-    // HttpStatus.UNAUTHORIZED);
-    // }
-
-    // try {
-    // DatabaseFile document = new DatabaseFile();
-    // // this is the file name whatever the user uploads
-    // document.setFileName(file.getOriginalFilename());
-    // // this is the file type i.e pdf, docx, jpg etc
-    // document.setFileType(file.getContentType());
-    // // this is the actual file content
-    // document.setData(file.getBytes());
-
-    // UserDtls user = UserRepositary.findByEmail(principal.getName());
-
-    // document.setUserId(user);
-
-    // // now lets get into other details of the file
-
-    // DatabaseFileRepository.save(document);
-    // return ResponseEntity.ok().build();
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // return ResponseEntity.badRequest().build();
-    // }
-    // }
+            DatabaseFileRepository.save(document);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String referer = request.getHeader("Referer");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create(referer));
+        return new ResponseEntity<>(headers, HttpStatus.FOUND);
+        // return new ResponseEntity<>("Profile picture uploaded successfully",
+        // HttpStatus.OK);
+    }
 
     @PostMapping("/uploadDoc")
     public ResponseEntity<?> uploadDoc(@RequestParam("file") MultipartFile file,
