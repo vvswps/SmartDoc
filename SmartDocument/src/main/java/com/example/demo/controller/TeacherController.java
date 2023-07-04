@@ -17,10 +17,10 @@ import com.example.demo.model.DatabaseFile;
 import com.example.demo.model.PersonalDtls;
 import com.example.demo.model.UserDtls;
 import com.example.demo.model.DatabaseFile.FileType;
-import com.example.demo.repositary.DatabaseFileRepository;
-import com.example.demo.repositary.UserRepositary;
+import com.example.demo.repository.DatabaseFileRepository;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.personalRepository;
 import com.example.demo.service.PersonalService;
-import com.example.demo.repositary.personalRepository;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -29,7 +29,7 @@ import jakarta.servlet.http.HttpSession;
 public class TeacherController {
 
 	@Autowired
-	private UserRepositary userRepo;
+	private UserRepository userRepo;
 
 	@Autowired
 	private DatabaseFileRepository fileRepo;
@@ -142,32 +142,32 @@ public class TeacherController {
 
 	@PostMapping("/updateTeacher")
 	public String updateUser(Principal p,
-			@RequestParam(value = "name", required = true) String name,
-			@RequestParam(value = "erpId", required = true) String erpId,
-			@RequestParam(value = "offEmail", required = true) String offEmail,
-			@RequestParam(value = "perEmail", required = true) String perEmail,
-			@RequestParam(value = "dept", required = true) String dept,
-			@RequestParam(value = "whatsNumber", required = true) String whatsNumber,
-			@RequestParam(value = "mobileNumber", required = true) String mobileNumber,
-			@RequestParam(value = "dob", required = true) String dob,
-			@RequestParam(value = "gender", required = true) String gender,
-			@RequestParam(value = "expInd", required = false) String expInd,
-			@RequestParam(value = "expAcd", required = false) String expAcd,
-			@RequestParam(value = "doj", required = false) String doj,
-			@RequestParam(value = "dol", required = false) String dol,
-			@RequestParam(value = "googleId", required = false) String googleId,
-			@RequestParam(value = "scopusId", required = false) String scopusId,
-			@RequestParam(value = "sciId", required = false) String sciId,
-			@RequestParam(value = "curAdd", required = true) String curAdd,
-			@RequestParam(value = "currCity", required = true) String currCity,
-			@RequestParam(value = "currState", required = true) String currState,
-			@RequestParam(value = "currCunt", required = true) String currCunt,
-			@RequestParam(value = "currPin", required = true) String currPin,
-			@RequestParam(value = "perAdd", required = true) String perAdd,
-			@RequestParam(value = "perCity", required = true) String perCity,
-			@RequestParam(value = "perState", required = true) String perState,
-			@RequestParam(value = "perCunt", required = true) String perCunt,
-			@RequestParam(value = "perPin", required = true) String perPin) {
+			@RequestParam(required = true) String name,
+			@RequestParam(required = true) String erpId,
+			@RequestParam(required = true) String offEmail,
+			@RequestParam(required = true) String perEmail,
+			@RequestParam(required = true) String dept,
+			@RequestParam(required = true) String whatsNumber,
+			@RequestParam(required = true) String mobileNumber,
+			@RequestParam(required = true) String dob,
+			@RequestParam(required = true) String gender,
+			@RequestParam(required = false) String expInd,
+			@RequestParam(required = false) String expAcd,
+			@RequestParam(required = false) String doj,
+			@RequestParam(required = false) String dol,
+			@RequestParam(required = false) String googleId,
+			@RequestParam(required = false) String scopusId,
+			@RequestParam(required = false) String sciId,
+			@RequestParam(required = true) String curAdd,
+			@RequestParam(required = true) String currCity,
+			@RequestParam(required = true) String currState,
+			@RequestParam(required = true) String currCunt,
+			@RequestParam(required = true) String currPin,
+			@RequestParam(required = true) String perAdd,
+			@RequestParam(required = true) String perCity,
+			@RequestParam(required = true) String perState,
+			@RequestParam(required = true) String perCunt,
+			@RequestParam(required = true) String perPin) {
 
 		String email = p.getName();
 		UserDtls user = userRepo.findByEmail(email);
@@ -317,8 +317,8 @@ public class TeacherController {
 	}
 
 	@PostMapping("/updatePassword")
-	public String changePassword(Principal p, @RequestParam("oldPass") String oldPass,
-			@RequestParam("newPass") String newPass, HttpSession session) {
+	public String changePassword(Principal p, @RequestParam String oldPass,
+			@RequestParam String newPass, HttpSession session) {
 
 		String email = p.getName();
 		UserDtls loginUser = userRepo.findByEmail(email);

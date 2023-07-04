@@ -1,5 +1,10 @@
+/*
+ * Handles file download requests
+ */
+
 package com.example.demo.controller;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -17,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.DatabaseFile;
 import com.example.demo.model.UserDtls;
 import com.example.demo.model.DatabaseFile.FileType;
-import com.example.demo.repositary.DatabaseFileRepository;
-import com.example.demo.repositary.UserRepositary;
+import com.example.demo.repository.DatabaseFileRepository;
+import com.example.demo.repository.UserRepository;
 
 @RestController
 public class FileDownloadController {
@@ -27,20 +32,26 @@ public class FileDownloadController {
     private DatabaseFileRepository DatabaseFileRepository;
 
     @Autowired
-    private UserRepositary UserRepositary;
+    private UserRepository UserRepository;
 
     @GetMapping("/documents/{id}")
     public ResponseEntity<byte[]> downloadFile(@PathVariable String id) {
-        Optional<DatabaseFile> optionalDocument = DatabaseFileRepository.findById(id);
-        if (optionalDocument.isPresent()) {
-            DatabaseFile document = optionalDocument.get();
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentDisposition(
-                    ContentDisposition.builder("attachment").filename(document.getFileName()).build());
-            headers.setContentType(MediaType.parseMediaType(document.getFileType()));
-            return new ResponseEntity<>(document.getData(), headers, HttpStatus.OK);
-        } else {
-            return ResponseEntity.notFound().build();
+        try {
+            Optional<DatabaseFile> optionalDocument = DatabaseFileRepository.findById(id);
+            if (optionalDocument.isPresent()) {
+                DatabaseFile document = optionalDocument.get();
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentDisposition(
+                        ContentDisposition.builder("attachment").filename(document.getFileName()).build());
+                headers.setContentType(MediaType.parseMediaType(document.getFileType()));
+                return new ResponseEntity<>(document.getData(), headers, HttpStatus.OK);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            String errorMessage = "Failed to download the file.";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(errorMessage.getBytes(StandardCharsets.UTF_8));
         }
     }
 
@@ -49,7 +60,7 @@ public class FileDownloadController {
         if (principal == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        UserDtls user = UserRepositary.findByEmail(principal.getName());
+        UserDtls user = UserRepository.findByEmail(principal.getName());
         List<DatabaseFile> profileList = DatabaseFileRepository.findByUserAndType(user, FileType.PROFILE_PICTURE);
 
         if (!profileList.isEmpty()) {

@@ -1,3 +1,7 @@
+/*
+ * Handles the file upload requests
+ */
+
 package com.example.demo.controller;
 
 import java.io.IOException;
@@ -16,8 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.model.DatabaseFile;
 import com.example.demo.model.UserDtls;
 import com.example.demo.model.DatabaseFile.FileType;
-import com.example.demo.repositary.DatabaseFileRepository;
-import com.example.demo.repositary.UserRepositary;
+import com.example.demo.repository.DatabaseFileRepository;
+import com.example.demo.repository.UserRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -28,20 +32,27 @@ public class FileUploadController {
     private DatabaseFileRepository DatabaseFileRepository;
 
     @Autowired
-    private UserRepositary UserRepositary;
+    private UserRepository UserRepositary;
 
     @PostMapping("/uploadProfilePicture")
-    public ResponseEntity<?> uploadProfilePicture(@RequestParam("file") MultipartFile file, Principal principal,
+    public ResponseEntity<?> uploadProfilePicture(@RequestParam MultipartFile file, Principal principal,
             HttpServletRequest request) throws IOException {
         System.out.println("\n\n\n\nuploadProfilePicture\n\n\n\n");
+
+        // Check if the user is authenticated
         if (principal == null) {
             return new ResponseEntity<>("User not authenticated", HttpStatus.UNAUTHORIZED);
         }
+
         try {
-            System.out.println("\n\n\nTrying\n\n\n\n");
+            // Get the user details based on the authenticated principal
             UserDtls user = UserRepositary.findByEmail(principal.getName());
+
+            // Find the profile picture of the user, if it exists
             List<DatabaseFile> profileList = DatabaseFileRepository.findByUserAndType(user, FileType.PROFILE_PICTURE);
             DatabaseFile document;
+
+            // Update existing profile picture or create a new one
             if (!profileList.isEmpty()) {
                 document = profileList.get(0);
                 document.setProfilePicture(file.getBytes());
@@ -57,12 +68,14 @@ public class FileUploadController {
                 document.setData(file.getBytes());
                 document.setUserId(user);
             }
-            System.out.println("\n\n\nJust a lil bit\n\n\n\n");
 
+            // Save the updated or new profile picture
             DatabaseFileRepository.save(document);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Redirect back to the referring page after the upload
         String referer = request.getHeader("Referer");
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(referer));
@@ -72,22 +85,22 @@ public class FileUploadController {
     }
 
     @PostMapping("/uploadDoc")
-    public ResponseEntity<?> uploadDoc(@RequestParam("file") MultipartFile file,
+    public ResponseEntity<?> uploadDoc(@RequestParam MultipartFile file,
             @RequestParam("type") String fileType,
-            @RequestParam(value = "title", required = false) String title,
-            @RequestParam(value = "date", required = false) String date,
-            @RequestParam(value = "publicationType", required = false) String publicationType,
-            @RequestParam(value = "publicationName", required = false) String publicationName,
-            @RequestParam(value = "ISBN", required = false) String ISBN,
-            @RequestParam(value = "ISSN", required = false) String ISSN,
-            @RequestParam(value = "DOI", required = false) String DOI,
-            @RequestParam(value = "volume", required = false) String volume,
-            @RequestParam(value = "awardingInstitution", required = false) String awardingInstitution,
-            @RequestParam(value = "nature", required = false) String nature,
-            @RequestParam(value = "durationFrom", required = false) String durationFrom,
-            @RequestParam(value = "durationTo", required = false) String durationTo,
-            @RequestParam(value = "noOfDays", required = false) Integer noOfDays,
-            @RequestParam(value = "organizedBy", required = false) String organizedBy,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String date,
+            @RequestParam(required = false) String publicationType,
+            @RequestParam(required = false) String publicationName,
+            @RequestParam(required = false) String ISBN,
+            @RequestParam(required = false) String ISSN,
+            @RequestParam(required = false) String DOI,
+            @RequestParam(required = false) String volume,
+            @RequestParam(required = false) String awardingInstitution,
+            @RequestParam(required = false) String nature,
+            @RequestParam(required = false) String durationFrom,
+            @RequestParam(required = false) String durationTo,
+            @RequestParam(required = false) Integer noOfDays,
+            @RequestParam(required = false) String organizedBy,
             Principal principal) {
         if (principal == null) {
             return new ResponseEntity<>("User not authenticated", HttpStatus.UNAUTHORIZED);

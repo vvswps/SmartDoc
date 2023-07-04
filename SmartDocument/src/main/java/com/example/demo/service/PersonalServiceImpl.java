@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.PersonalDtls;
-import com.example.demo.repositary.personalRepository;
+import com.example.demo.repository.personalRepository;
 
 @Service
 public class PersonalServiceImpl implements PersonalService {

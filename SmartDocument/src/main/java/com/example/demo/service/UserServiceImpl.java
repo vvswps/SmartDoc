@@ -6,14 +6,14 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.model.PersonalDtls;
 import com.example.demo.model.UserDtls;
-import com.example.demo.repositary.UserRepositary;
-import com.example.demo.repositary.personalRepository;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.personalRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
-	private UserRepositary userRepo;
+	private UserRepository userRepo;
 
 	@Autowired
 	private personalRepository personalRepository;
