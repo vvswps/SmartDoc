@@ -23,9 +23,9 @@ import com.example.demo.model.DatabaseFile;
 import com.example.demo.model.PersonalDtls;
 import com.example.demo.model.UserDtls;
 import com.example.demo.model.DatabaseFile.FileType;
-import com.example.demo.repositary.DatabaseFileRepository;
-import com.example.demo.repositary.UserRepositary;
-import com.example.demo.repositary.personalRepository;
+import com.example.demo.repository.DatabaseFileRepository;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.personalRepository;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -35,7 +35,7 @@ import jakarta.servlet.http.HttpSession;
 public class AdminController {
 
 	@Autowired
-	private UserRepositary userRepo;
+	private UserRepository userRepo;
 	@Autowired
 	private BCryptPasswordEncoder passwordEncode;
 
@@ -57,7 +57,7 @@ public class AdminController {
 	}
 
 	@PostMapping("/getFacultyByEmail")
-	public String getFacultyByEmail(@RequestParam("email") String email, Model model, HttpSession session) {
+	public String getFacultyByEmail(@RequestParam String email, Model model, HttpSession session) {
 		System.out.println("In getFacultyByEmail()");
 		UserDtls user = userRepo.findByEmail(email);
 
@@ -387,6 +387,14 @@ public class AdminController {
 		return "user/admin/admin";
 	}
 
+	@GetMapping("/permissions")
+	public String permissions(@RequestParam("dept") String dept, Model model) {
+		List<UserDtls> teachers = userRepo.findByRole("ROLE_TEACHER");
+
+		model.addAttribute("teachers", teachers);
+		return "user/admin/permissions";
+	}
+
 	@GetMapping("/adminDashboard")
 	public String adminDashboard() {
 		return "user/admin/admin_dashboard";
@@ -423,8 +431,8 @@ public class AdminController {
 	}
 
 	@PostMapping("/updatePassword")
-	public String changePassword(Principal p, @RequestParam("oldPass") String oldPass,
-			@RequestParam("newPass") String newPass, HttpSession session) {
+	public String changePassword(Principal p, @RequestParam String oldPass,
+			@RequestParam String newPass, HttpSession session) {
 
 		String email = p.getName();
 		UserDtls loginUser = userRepo.findByEmail(email);

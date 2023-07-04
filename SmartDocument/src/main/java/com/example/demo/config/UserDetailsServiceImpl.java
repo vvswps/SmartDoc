@@ -7,11 +7,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.UserDtls;
-import com.example.demo.repositary.UserRepositary;
+import com.example.demo.repository.UserRepository;
+
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService{
+public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
-	private UserRepositary userRepo;
+	private UserRepository userRepo;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -22,8 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 		}
 
 		throw new UsernameNotFoundException("user not available");
-		
+
 	}
-	
 
 }

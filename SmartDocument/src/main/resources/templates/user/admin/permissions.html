@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Admin Role Assignment</title>
+</head>
+
+<body>
+    <h1>Admin Role Assignment</h1>
+    <form th:action="@{/assignRole}" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${not #lists.isEmpty(teachers)}" th:each="teacher : ${teachers}">
+                    <td th:text="${user.name}"></td>
+                    <td>
+                        <select name="roles" th:field="*{roles[__${user.id}__]}" multiple>
+                            <option value="teacher" th:selected="${user.hasRole('teacher')}">Teacher</option>
+                            <option value="HOD" th:selected="${user.hasRole('HOD')}">HOD</option>
+                            <option value="admin" th:selected="${user.hasRole('admin')}">Admin</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(teachers)}">
+                    <td colspan="2">No teachers found</td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="submit">Update Roles</button>
+    </form>
+</body>
+
+</html>

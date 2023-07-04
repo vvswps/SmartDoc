@@ -1,3 +1,8 @@
+/*
+ * This is the UserController class which handles user-related operations.
+ * It is responsible for handling requests related to user profile, password change, and updating the password.
+ */
+
 package com.example.demo.controller;
 
 import java.security.Principal;
@@ -13,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.model.UserDtls;
-import com.example.demo.repositary.UserRepositary;
+import com.example.demo.repository.UserRepository;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -21,50 +26,72 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/user")
 public class UserController {
 	@Autowired
-	private UserRepositary userRepo;
+	private UserRepository userRepo;
 
 	@Autowired
-	private BCryptPasswordEncoder passwordEncode;
+	private BCryptPasswordEncoder passwordEncoder;
 
+	/*
+	 * This method is responsible for adding the logged-in user's details to the
+	 * model attribute.
+	 * The user's details are obtained from the user repository using the email
+	 * obtained from Principal.
+	 * The user object is added to the model to be used in the views.
+	 */
 	@ModelAttribute
-	private void userDetails(Model model, Principal p) {
-
-		String email = p.getName();
+	private void userDetails(Model model, Principal principal) {
+		String email = principal.getName();
 		UserDtls user = userRepo.findByEmail(email);
-
 		model.addAttribute("user", user);
-
 	}
 
+	/*
+	 * This method handles the GET request for the home page of the user.
+	 * It returns the "user/home" view to display the user's home page.
+	 */
 	@GetMapping("/")
 	public String home() {
 		return "user/home";
 	}
 
+	/*
+	 * This method handles the GET request for loading the change password page.
+	 * It returns the "user/change_password" view to display the change password
+	 * page.
+	 */
 	@GetMapping("/changePass")
 	public String loadChangePassword() {
 		return "user/change_password";
 	}
 
+	/*
+	 * This method handles the POST request for updating the user's password.
+	 * It takes the old password, new password, Principal, and HttpSession as
+	 * parameters.
+	 * It checks if the old password provided matches the user's current password.
+	 * If the passwords match, it encrypts and updates the new password in the
+	 * repository.
+	 * Finally, it redirects the user to the sign-in page.
+	 */
 	@PostMapping("/updatePassword")
-	public String changePassword(Principal p, @RequestParam("oldPass") String oldPass,
-			@RequestParam("newPass") String newPass, HttpSession session) {
+	public String changePassword(Principal principal, @RequestParam String oldPass,
+			@RequestParam String newPass, HttpSession session) {
 
-		String email = p.getName();
+		String email = principal.getName();
 		UserDtls loginUser = userRepo.findByEmail(email);
 
-		boolean f = passwordEncode.matches(oldPass, loginUser.getPassword());
+		boolean isPasswordMatched = passwordEncoder.matches(oldPass, loginUser.getPassword());
 
-		if (f) {
-			loginUser.setPassword(passwordEncode.encode(newPass));
-			UserDtls updatePasswordUser = userRepo.save(loginUser);
-			if (updatePasswordUser != null) {
-				System.out.println("password changed successfully");
+		if (isPasswordMatched) {
+			loginUser.setPassword(passwordEncoder.encode(newPass));
+			UserDtls updatedUser = userRepo.save(loginUser);
+			if (updatedUser != null) {
+				System.out.println("Password changed successfully.");
 			} else {
-				System.out.println("something went wrong");
+				System.out.println("Something went wrong while updating the password.");
 			}
 		} else {
-			System.out.println("incorrect password");
+			System.out.println("Incorrect password.");
 		}
 		return "redirect:/signin";
 	}
