@@ -3,6 +3,29 @@
  * It extends the JpaRepository interface, which provides generic CRUD operations out of the box.
  */
 
+//package com.example.demo.repository;
+//
+//import org.springframework.data.jpa.repository.JpaRepository;
+//
+//import com.example.demo.model.UserDtls;
+//import java.util.List;
+//
+//public interface UserRepository extends JpaRepository<UserDtls, Integer> {
+//
+//	public boolean existsByEmail(String email);
+//
+//	public UserDtls findByEmail(String email);
+//
+//	public UserDtls findByEmailAndMobileNumber(String em, String mobno);
+//
+//	public List<UserDtls> findByBranchAndRole(String branch, String role);
+//
+//	public List<UserDtls> findByBranch(String branch);
+//
+//	public List<UserDtls> findByRole(String role);
+//
+//	//public List<UserDtls> findByRoleAndDepartment(String string, String dept);
+//}
 package com.example.demo.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,8 +46,9 @@ public interface UserRepository extends JpaRepository<UserDtls, Integer> {
 	public List<UserDtls> findByBranch(String branch);
 
 	public List<UserDtls> findByRole(String role);
-}
 
+	//public List<UserDtls> findByRoleAndDepartment(String string, String dept);
+}
 /*
  * > but this is an interface and i never implement any of the methods defined
  * here yet i can just use them and they work

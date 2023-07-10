@@ -7,7 +7,8 @@
 
 <body>
     <h1>Admin Role Assignment</h1>
-    <form th:action="@{/assignRole}" method="post">
+
+   <!--  <form th:action="@{/assignRole}" method="post">
         <table>
             <thead>
                 <tr>
@@ -17,12 +18,12 @@
             </thead>
             <tbody>
                 <tr th:if="${not #lists.isEmpty(teachers)}" th:each="teacher : ${teachers}">
-                    <td th:text="${user.name}"></td>
+                    <td th:text="${teacher.name}"></td>
                     <td>
-                        <select name="roles" th:field="*{roles[__${user.id}__]}" multiple>
-                            <option value="teacher" th:selected="${user.hasRole('teacher')}">Teacher</option>
-                            <option value="HOD" th:selected="${user.hasRole('HOD')}">HOD</option>
-                            <option value="admin" th:selected="${user.hasRole('admin')}">Admin</option>
+                        <select name="roles" th:field="*{roles[__${teacher.id}__]}" multiple>
+                            <option value="teacher" th:selected="${teacher.hasRole('teacher')}">Teacher</option>
+                            <option value="HOD" th:selected="${teacher.hasRole('HOD')}">HOD</option>
+                            <option value="admin" th:selected="${teacher.hasRole('admin')}">Admin</option>
                         </select>
                     </td>
                 </tr>
@@ -32,7 +33,121 @@
             </tbody>
         </table>
         <button type="submit">Update Roles</button>
-    </form>
-</body>
+    </form> -->
 
-</html>
+     <form class="dept-modal" action="getpermissions" method="post">
+        <h2>Search by Department</h2>
+
+        <label for="department">Department:</label>
+        <select id="department" name="department">
+            <option value="" disabled selected>Select department</option>
+            <option value="Mechanical Engineering">Mechanical Engineering</option>
+            <option value="Electrical Engineering">Electrical Engineering</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="Civil Engineering">Civil Engineering</option>
+            <option value="Chemical Engineering">Chemical Engineering</option>
+        </select>
+
+        <input type="submit" value="Submit">
+    </form> 
+    <!-- <form class="dept-modal" action="getpermissions" method="post">
+  <h2>Search by Department</h2>
+
+  <form class="dept-modal" action="getpermissions" method="post">
+  <h2>Search by Department</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Serial Number</th>
+        <th>Department</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td><input type="hidden" name="department" value="Mechanical Engineering">Mechanical Engineering</td>
+        <td><input type="submit" value="Submit"></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td><input type="hidden" name="department" value="Electrical Engineering">Electrical Engineering</td>
+        <td><input type="submit" value="Submit"></td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td><input type="hidden" name="department" value="Computer Science">Computer Science</td>
+        <td><input type="submit" value="Submit"></td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td><input type="hidden" name="department" value="Civil Engineering">Civil Engineering</td>
+        <td><input type="submit" value="Submit"></td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td><input type="hidden" name="department" value="Chemical Engineering">Chemical Engineering</td>
+        <td><input type="submit" value="Submit"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  
+</form> -->
+
+
+  
+
+
+    <!-- <div class="details">
+        <h3>Total Faculty: <span th:text="${noOfTeachers}"></span></h3>
+        <table class="stats">
+            <tr>
+                <th>Faculty Name</th>
+                <th>Email</th>
+            </tr>
+            <tr th:if="${not #lists.isEmpty(teachers)}" th:each="teacher : ${teachers}">
+                <td th:text="${teacher.name}"></td>
+                <td>
+                    <form action="getFacultyByEmail" method="post">
+                        <input class="get-by-email" type="submit" name="email" th:value="${teacher.email}">
+                    </form>
+                </td>
+                <td th:each="entry : ${teacherFileCounts[teacher.name]}">
+                    <span th:text="${entry.value}"></span>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(teachers)}">
+                <td colspan="2">No teachers found</td>
+            </tr>
+        </table>
+    </div> -->
+
+    <script>
+        var modal = document.getElementById("myModal");
+        var img = document.querySelector(".title-area .profile img");
+        var modalImg = document.querySelector("#myModal img");
+        img.onclick = function () {
+            modal.style.display = "flex";
+            modalImg.src = this.src;
+        }
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        function showDeptModal() {
+            document.querySelector('.dept-modal').classList.add('show');
+            document.querySelector('#department').focus();
+        }
+
+        function closeDeptModal() {
+            document.querySelector('.dept-modal').classList.remove('show');
+        }
+    </script>
+</body>
+</html> 
+
+
+
