@@ -237,6 +237,20 @@
       display: flex;
       justify-content: space-between;
     }
+
+    #remember {
+      display: flex;
+      gap: 1rem;
+      color: #999;
+      font-size: 0.9rem;
+      margin: 1rem 0;
+
+    }
+
+    .message {
+      color: red;
+      font-size: 1.2rem;
+    }
   </style>
 </head>
 
@@ -273,6 +287,10 @@
           <a href="loadForgotPassword">Forgot Password?</a>
         </div>
         <input type="submit" class="btn" value="Login">
+        <div id="remember">
+          <label for="rememberMe">Remember Me</label>
+          <input type="checkbox" id="rememberMe" name="remember-me">
+        </div>
         <span th:if="${message}" class="message" th:text="${message}"></span>
       </form>
     </div>
