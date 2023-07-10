@@ -1,0 +1,188 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .title-area {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            margin-top: 3rem;
+            margin-left: 2rem;
+        }
+
+        .title-area .profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .title-area .profile img {
+            margin-right: 1rem;
+            width: 5rem;
+            height: 5rem;
+            object-fit: cover;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+
+        h1 {
+            text-align: center;
+        }
+
+        .details {
+            background: white;
+            margin: 2rem;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0px 19px 60px rgb(0 0 0 / 8%);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stats tr {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 2rem;
+            place-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .get-by-email {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: blue;
+        }
+
+        .get-by-email:hover {
+            text-decoration: underline;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        /* Close button */
+        .close {
+            color: #fff;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="title-area">
+            <h1>Access</h1>
+            <div class="profile">
+                <div class="name" th:text="${user.name}"></div>
+                <img src="/profilePicture" alt="" onclick="openModal(this)">
+            </div>
+        </div>
+    </header>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img src="/profilePicture" alt="">
+        </div>
+    </div>
+
+    <!-- <a href="downloadDeptCSV">Download as CSV</a> -->
+
+    <div class="details">
+        <h2>View By Department of <span th:text="${deptName}"></span></h2>
+        <h3>Total Faculty: [[${#lists.size(teachers)}]]</h3>
+       <form action="saveRoles" method="post">
+        <table class="stats">
+            <tr>
+                <th>Serial Number</th>
+                <th>Faculty Name</th>
+                <th>Email</th>
+                <th>Role</th>
+            </tr>
+            <tr th:if="${not #lists.isEmpty(teachers)}" th:each="teacher, stat : ${teachers}">
+                <td th:text="${stat.count}"></td>
+                <td th:text="${teacher.name}"></td>
+                <td>
+                    <form action="getFacultyByEmail" method="post">
+                        <input class="get-by-email" type="submit" name="email" th:value="${teacher.email}">
+                    </form>
+                </td>
+               <td>
+                <select name="teachers[${stat.index}].role" class="input" required>
+                    <option value="ROLE_TEACHER" th:selected="${teacher.role == 'ROLE_TEACHER'}">Teacher</option>
+                    <option value="ROLE_HOD" th:selected="${teacher.role == 'ROLE_HOD'}">HOD</option>
+                </select>
+            </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(teachers)}">
+                <td colspan="4">No teachers found</td>
+            </tr>
+            
+            
+        </table>
+         <input type="hidden" id="teachersInput" name="teachers" th:value="${teachersJson}" />
+        <input type="submit" value="Send" class="btn" required />
+        </form>
+        
+    </div>
+
+    <script>
+        var modal = document.getElementById("myModal");
+        var img = document.querySelector(".title-area .profile img");
+        var modalImg = document.querySelector("#myModal img");
+        img.onclick = function () {
+            modal.style.display = "flex";
+            modalImg.src = this.src;
+        }
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+        // Serialize the list of objects into JSON
+        var teachersJson = JSON.stringify(teachers);
+        // Set the JSON value as the input value
+        document.getElementById("teachersInput").value = teachersJson;
+    </script>
+</body>
+
+</html>
+
+
+
+ <!-- <select name="role" class="input" th:model="${teacher.role}" required>
+      <option value="ROLE_TEACHER">Teacher</option>
+      <option value="ROLE_HOD">HOD</option>
+   </select> -->

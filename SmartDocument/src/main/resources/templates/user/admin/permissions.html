@@ -3,36 +3,199 @@
 
 <head>
     <title>Admin Role Assignment</title>
+    <style>
+        .title-area {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            margin-top: 3rem;
+            margin-left: 2rem;
+        }
+
+        .title-area .profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .title-area .profile img {
+            margin-right: 1rem;
+            width: 5rem;
+            height: 5rem;
+            object-fit: cover;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+
+        h1 {
+            text-align: center;
+        }
+
+        .details {
+            background: white;
+            margin: 2rem;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0px 19px 60px rgb(0 0 0 / 8%);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stats tr {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 2rem;
+            place-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .get-by-email {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: blue;
+        }
+
+        .get-by-email:hover {
+            text-decoration: underline;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        /* Close button */
+        .close {
+            color: #fff;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Admin Role Assignment</h1>
-    <form th:action="@{/assignRole}" method="post">
+    <header>
+        <div class="title-area">
+            <h1>Admin Role Assignment</h1>
+            <div class="profile">
+                <div class="name" th:text="${user.name}"></div>
+                <img src="/profilePicture" alt="" onclick="showModal('img-modal')">
+            </div>
+        </div>
+    </header>
+    <div id="img-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('img-modal')">&times;</span>
+            <img src="/profilePicture" alt="">
+        </div>
+    </div>
+
+    <div class="details">
+        <h1>Permissions</h1>
+
+        <form action="permissions" method="post">
+            <label for="department">Select Department:</label>
+            <select name="department" id="department">
+                <option value="" disabled selected>Select department</option>
+                <option value="Mechanical Engineering" th:selected="${deptName == 'Mechanical Engineering'}">Mechanical
+                    Engineering</option>
+                <option value="Electrical Engineering" th:selected="${deptName == 'Electrical Engineering'}">Electrical
+                    Engineering</option>
+                <option value="Computer Science" th:selected="${deptName == 'Computer Science'}">Computer Science
+                </option>
+                <option value="Civil Engineering" th:selected="${deptName == 'Civil Engineering'}">Civil Engineering
+                </option>
+                <option value="Chemical Engineering" th:selected="${deptName == 'Chemical Engineering'}">Chemical
+                    Engineering</option>
+            </select>
+            <input type="submit" value="Submit">
+        </form>
+
+        <hr>
+
+        <h2>
+            Department:
+            <em th:if="${deptName == null or deptName == ''}">
+                No department selected. Please select from the dropdown.
+            </em>
+            <span th:unless="${deptName == null or deptName == ''}" th:text="${deptName}"></span>
+        </h2>
+
+
         <table>
-            <thead>
-                <tr>
-                    <th>User</th>
-                    <th>Role</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:if="${not #lists.isEmpty(teachers)}" th:each="teacher : ${teachers}">
-                    <td th:text="${user.name}"></td>
-                    <td>
-                        <select name="roles" th:field="*{roles[__${user.id}__]}" multiple>
-                            <option value="teacher" th:selected="${user.hasRole('teacher')}">Teacher</option>
-                            <option value="HOD" th:selected="${user.hasRole('HOD')}">HOD</option>
-                            <option value="admin" th:selected="${user.hasRole('admin')}">Admin</option>
+            <tr>
+                <th>Serial Number</th>
+                <th>Faculty Name</th>
+                <th>Email</th>
+                <th>Role</th>
+            </tr>
+
+            <tr th:each="teacher, row : ${teachers}">
+                <td th:text="${row.index + 1}"></td>
+                <td th:text="${teacher.name}"></td>
+                <td th:text="${teacher.email}"></td>
+                <td>
+                    <!-- form to update roles an update button by each teacher -->
+                    <form action="updateRole" method="post">
+                        <input type="hidden" name="teacherId" th:value="${teacher.id}">
+                        <select name="role">
+                            <option value="ROLE_TEACHER" th:selected="${teacher.role == 'ROLE_TEACHER'}">Teacher
+                            </option>
+                            <option value="ROLE_HOD" th:selected="${teacher.role == 'ROLE_HOD'}">HOD</option>
                         </select>
-                    </td>
-                </tr>
-                <tr th:if="${#lists.isEmpty(teachers)}">
-                    <td colspan="2">No teachers found</td>
-                </tr>
-            </tbody>
+                        <input type="submit" value="Update">
+                    </form>
+                </td>
+            </tr>
         </table>
-        <button type="submit">Update Roles</button>
-    </form>
+
+    </div>
+
+
+    <script>
+        function showModal(id) {
+            document.querySelector(`#${id}`).classList.add('show');
+        }
+
+        function closeModal(id) {
+            document.querySelector(`#${id}`).classList.remove('show');
+        }
+
+        // const department = document.querySelector('#department');
+        // department.addEventListener('change', () => {
+        //     department.parentElement.submit();
+        // })
+
+        // page onload check if department is selected
+        // if not, do nothing
+
+    </script>
 </body>
 
 </html>

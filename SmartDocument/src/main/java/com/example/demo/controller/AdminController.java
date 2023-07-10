@@ -4,15 +4,24 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +35,9 @@ import com.example.demo.model.DatabaseFile.FileType;
 import com.example.demo.repository.DatabaseFileRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.personalRepository;
+import com.example.demo.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
@@ -37,6 +48,9 @@ import org.apache.commons.csv.QuoteMode;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	private UserRepository userRepo;
@@ -378,17 +392,44 @@ public class AdminController {
 		}
 	}
 
+	@GetMapping("/permissions")
+	public String permissions(Model model, HttpSession session) {
+		String dept = (String) session.getAttribute("deptName");
+		model.addAttribute("deptName", dept);
+		return "user/admin/permissions";
+	}
+
+	@PostMapping("/permissions")
+	public String getPermissions(@RequestParam("department") String dept, Model model, HttpSession session) {
+		List<UserDtls> teachers = userRepo.findByBranch(dept);
+		model.addAttribute("deptName", dept);
+		session.setAttribute("deptName", dept);
+		model.addAttribute("teachers", teachers);
+		return "user/admin/permissions";
+	}
+
+	@PostMapping("/updateRole")
+	public String updateRole(@RequestParam("teacherId") int teacherId, @RequestParam("role") String role) {
+		// Retrieve the teacher by teacherId from the database
+		// Check if the role is either ROLE_TEACHER or ROLE_HOD so that the admin cannot
+		// change the role of the admin or any other non existing role for that matter :
+		// tu padhri isko :o
+		Set<String> allowedRoles = new HashSet<>(Arrays.asList("ROLE_TEACHER", "ROLE_HOD"));
+
+		Optional<UserDtls> optionalTeacher = userRepo.findById(teacherId);
+		if (optionalTeacher.isPresent() && allowedRoles.contains(role)) {
+			UserDtls teacher = optionalTeacher.get();
+			// Update the role for the teacher
+			teacher.setRole(role);
+			// Save the updated teacher to the database
+			userRepo.save(teacher);
+		}
+		return "redirect:/admin/permissions";
+	}
+
 	@GetMapping("/")
 	public String home() {
 		return "user/admin/admin";
-	}
-
-	@GetMapping("/permissions")
-	public String permissions(@RequestParam("dept") String dept, Model model) {
-		List<UserDtls> teachers = userRepo.findByRole("ROLE_TEACHER");
-
-		model.addAttribute("teachers", teachers);
-		return "user/admin/permissions";
 	}
 
 	@GetMapping("/adminDashboard")
@@ -424,6 +465,16 @@ public class AdminController {
 	@GetMapping("/changePass")
 	public String loadChangePassword() {
 		return "user/change_password";
+	}
+
+	@ControllerAdvice
+	public class GlobalExceptionHandler {
+
+		@ExceptionHandler(Exception.class)
+		public ResponseEntity<String> handleException(Exception ex) {
+			ex.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
+		}
 	}
 
 	@PostMapping("/updatePassword")

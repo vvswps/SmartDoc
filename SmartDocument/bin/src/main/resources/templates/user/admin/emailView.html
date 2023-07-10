@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .title-area {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            margin-top: 3rem;
+            margin-left: 2rem;
+        }
+
+        .title-area .profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .title-area .profile img {
+            max-width: 5rem;
+            margin-right: 1rem;
+        }
+
+        h1 {
+            text-align: center;
+
+        }
+
+        form {
+            width: 50%;
+            margin: auto;
+
+            padding: 20px;
+
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            color: #333;
+        }
+
+        label {
+            display: inline;
+            margin-bottom: 10px;
+            font-weight: bold;
+
+        }
+
+        input[type="text"],
+        input[type="submit"] {
+            padding: 5px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .submit-button {
+            background-color: #ff919d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .details {
+            background: white;
+            margin: 2rem;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0px 19px 60px rgb(0 0 0 / 8%);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stats-research tr {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            gap: 2rem;
+            place-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .stats-publications tr {
+            display: grid;
+            grid-template-columns: 2fr 2fr 4fr 2fr 2fr;
+            gap: 5rem;
+            place-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .stats-award-achievements tr {
+            display: grid;
+            grid-template-columns: 2fr 2fr 2fr 2fr 2fr;
+            gap: 5rem;
+            place-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .stats-fdp tr {
+            display: grid;
+            grid-template-columns: 2fr 2fr 2fr 2fr 2fr;
+            gap: 5rem;
+            place-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 2fr 2fr 2fr;
+            padding: 10px;
+        }
+
+        .grid-item {
+            padding: 25px;
+            font-size: 15px;
+            text-align: left;
+            color: #242d49;
+        }
+
+        fieldset {
+            margin: 3rem;
+            padding: 1rem;
+        }
+
+        legend {
+            font-size: 1.5rem;
+            padding-left: 1.5rem;
+            padding-right: 3rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="title-area">
+            <h1>Fetch using Email</h1>
+            <div class="profile">
+                <div class="name">Admin</div><img src="/teacherPages/dashboard/profile.png" alt="">
+            </div>
+        </div>
+    </header>
+
+
+    <a href="downloadCSV">Download as CSV</a>
+
+    <fieldset>
+        <legend>Personal Information</legend>
+        <div class=" grid-container">
+            <div class="grid-item"><span class="field">Name: </span>[[${puser != null ? puser.name : ''}]]</div>
+            <div class="grid-item"><span class="field">ERP ID: </span>[[${puser != null ? puser.erpId : ''}]]</div>
+            <div class="grid-item"><span class="field">DOJ: </span>[[${puser != null ? puser.doj : ''}]]</div>
+            <div class="grid-item"><span class="field">DOL: </span>[[${puser != null ? puser.dol : ''}]]</div>
+
+            <div class="grid-item"><span class="field">No of Research Papers: </span>[[${researchFiles != null ?
+                #lists.size(researchFiles) : 'None'}]]</div>
+            <div class="grid-item"><span class="field">No of Publications: </span>[[${bookFiles != null ?
+                #lists.size(bookFiles) : 'None'}]]</div>
+            <div class="grid-item"><span class="field">No of FDPs: </span>[[${fdpFiles != null ? #lists.size(fdpFiles) :
+                'None'}]]</div>
+            <div class="grid-item"><span class="field">No of STTPs: </span>[[${sttpFiles != null ?
+                #lists.size(sttpFiles) : 'None'}]]</div>
+            <div class="grid-item"><span class="field">No of QIPs: </span>[[${qipFiles != null ? #lists.size(qipFiles) :
+                'None'}]]</div>
+            <div class="grid-item"><span class="field">No of Workshops: </span>[[${workshopFiles != null ?
+                #lists.size(workshopFiles) : 'None'}]]</div>
+            <div class="grid-item"><span class="field">No of Awards: </span>[[${awardsFiles != null ?
+                #lists.size(awardsFiles) : 'None'}]]</div>
+            <div class="grid-item"><span class="field">No of Achievements: </span>[[${achievementsFiles != null ?
+                #lists.size(achievementsFiles) : 'None'}]]
+            </div>
+
+        </div>
+    </fieldset>
+
+    <div class="files">
+        <!-- Research and Publications -->
+        <div class="details">
+            <h2>Research</h2>
+            <table class="stats-research">
+                <tr>
+                    <th>Title of Paper</th>
+                    <th>Date of Publishing</th>
+                    <th>Type of Publisher</th>
+                    <th>Publication Name</th>
+                    <th>ISSN Number</th>
+                    <th>DOI</th>
+                    <th>Volume</th>
+                    <th>Download</th>
+                </tr>
+                <tr th:if="${not #lists.isEmpty(researchFiles)}" th:each="file, iteration : ${researchFiles}">
+                    <td th:text="${file.title}"></td>
+                    <td th:text="${file.date}"></td>
+                    <td th:text="${file.publicationType}"></td>
+                    <td th:text="${file.publicationName}"></td>
+                    <td th:text="${file.ISSN}"></td>
+                    <td th:text="${file.DOI}"></td>
+                    <td th:text="${file.Volume}"></td>
+                    <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(researchFiles)}">
+                    <td colspan="7">No documents found</td>
+                </tr>
+            </table>
+        </div>
+
+
+        <div class="details">
+            <h2>Publications</h2>
+            <table class="stats-publications">
+                <tr>
+                    <th>Title</th>
+                    <th>Date of Publishing</th>
+                    <th>Name of Publisher</th>
+                    <th>ISBN Number</th>
+                    <th>Download</th>
+                </tr>
+                <tr th:if="${not #lists.isEmpty(publicationFiles)}" th:each="file, iteration : ${publicationFiles}">
+                    <td th:text="${file.title}"></td>
+                    <td th:text="${file.date}"></td>
+                    <td th:text="${file.publisherName}"></td>
+                    <td th:text="${file.isbnNumber}"></td>
+                    <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(publicationFiles)}">
+                    <td colspan="5">No documents found</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Awards and Achievements -->
+
+        <div class="details">
+            <h2>Awards</h2>
+            <table class="stats-award-achievements">
+                <tr>
+                    <th>Sr. no.</th>
+                    <th>Award Name</th>
+                    <th>Date Awarded</th>
+                    <th>Issuing Authority</th>
+                    <th>Download</th>
+                </tr>
+                <tr th:if="${not #lists.isEmpty(awardsFiles)}" th:each="file, iteration : ${awardsFiles}">
+                    <td th:text="${iteration.count}"></td>
+                    <td th:text="${file.title}"></td>
+                    <td th:text="${file.date}"></td>
+                    <td th:text="${file.awardingInstitution}"></td>
+                    <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(awardsFiles)}">
+                    <td colspan="7">No documents found</td>
+                </tr>
+            </table>
+        </div>
+        <div class="details">
+            <h2>Achievements</h2>
+            <table class="stats-award-achievements">
+                <tr>
+                    <th>Sr. no.</th>
+                    <th>Achievement Name</th>
+                    <th>Date Awarded</th>
+                    <th>Issuing Authority</th>
+                    <th>Download</th>
+                </tr>
+                <tr th:if="${not #lists.isEmpty(achievementsFiles)}" th:each="file, iteration : ${achievementsFiles}">
+                    <td th:text="${iteration.count}"></td>
+                    <td th:text="${file.title}"></td>
+                    <td th:text="${file.date}"></td>
+                    <td th:text="${file.awardingInstitution}"></td>
+                    <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(achievementsFiles)}">
+                    <td colspan="7">No documents found</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- FDP, STTP, QIP and Workshop -->
+
+        <div class="details">
+            <h2>FDP</h2>
+            <table class="stats-fdp">
+                <tr>
+                    <th>Title</th>
+                    <th>Nature</th>
+                    <th>Number of Days</th>
+                    <th>Organization Conducted</th>
+                    <th>Download</th>
+                </tr>
+                <tr th:if="${not #lists.isEmpty(fdpFiles)}" th:each="file, iteration : ${fdpFiles}">
+                    <!--<td th:text="${iteration.count}"></td>-->
+                    <td th:text="${file.title}"></td>
+                    <td th:text="${file.nature}"></td>
+                    <td th:text="${file.noOfDays}"></td>
+                    <td th:text="${file.organizedBy}"></td>
+                    <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(fdpFiles)}">
+                    <td colspan="7">No documents found</td>
+                </tr>
+            </table>
+        </div>
+        <div class="details">
+            <h2>STTP</h2>
+            <table class="stats-fdp">
+                <tr>
+                    <th>Title</th>
+                    <th>Nature</th>
+                    <th>Number of Days</th>
+                    <th>Organization Conducted</th>
+                    <th>Download</th>
+                </tr>
+                <tr th:if="${not #lists.isEmpty(sttpFiles)}" th:each="file, iteration : ${sttpFiles}">
+                    <!--<td th:text="${iteration.count}"></td>-->
+                    <td th:text="${file.title}"></td>
+                    <td th:text="${file.nature}"></td>
+                    <td th:text="${file.noOfDays}"></td>
+                    <td th:text="${file.organizedBy}"></td>
+                    <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(sttpFiles)}">
+                    <td colspan="7">No documents found</td>
+                </tr>
+            </table>
+        </div>
+        <div class="details">
+            <h2>QIP</h2>
+            <table class="stats-fdp">
+                <tr>
+                    <th>Title</th>
+                    <th>Nature</th>
+                    <th>Number of Days</th>
+                    <th>Organization Conducted</th>
+                    <th>Download</th>
+                </tr>
+                <tr th:if="${not #lists.isEmpty(qipFiles)}" th:each="file, iteration : ${qipFiles}">
+                    <!--<td th:text="${iteration.count}"></td>-->
+                    <td th:text="${file.title}"></td>
+                    <td th:text="${file.nature}"></td>
+                    <td th:text="${file.noOfDays}"></td>
+                    <td th:text="${file.organizedBy}"></td>
+                    <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(qipFiles)}">
+                    <td colspan="7">No documents found</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="details">
+            <h2>WORKSHOP</h2>
+            <table class="stats-fdp">
+                <tr>
+                    <th>Title</th>
+                    <th>Nature</th>
+                    <th>Number of Days</th>
+                    <th>Organization Conducted</th>
+                    <th>Download</th>
+                </tr>
+                </tr>
+                <tr th:if="${not #lists.isEmpty(workshopFiles)}" th:each="file, iteration : ${workshopFiles}">
+                    <!--<td th:text="${iteration.count}"></td>-->
+                    <td th:text="${file.title}"></td>
+                    <td th:text="${file.nature}"></td>
+                    <td th:text="${file.noOfDays}"></td>
+                    <td th:text="${file.organizedBy}"></td>
+                    <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(workshopFiles)}">
+                    <td colspan="7">No documents found</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

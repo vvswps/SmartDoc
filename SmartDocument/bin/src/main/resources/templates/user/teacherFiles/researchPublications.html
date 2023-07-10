@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research & Publications</title>
     <style>
-        .research-modal {
+        .research-modal,
+        .research-modal1 {
             margin: 0 auto;
             width: 500px;
             padding: 20px;
@@ -23,17 +24,23 @@
             z-index: 1000;
             box-shadow: 0px 19px 60px rgb(0 0 0 / .4);
 
+            max-height: calc(100vh - 210px);
+            overflow-y: auto;
+
         }
 
-        .research-modal.show {
+        .research-modal.show,
+        .research-modal1.show {
             display: block;
         }
 
-        .research-modal.show .details {
+        .research-modal.show .details,
+        .research-modal1.show .details {
             opacity: 0.5;
         }
 
-        .research-modal svg {
+        .research-modal svg,
+        .research-modal1 svg {
             position: relative;
             max-width: 1rem;
             left: 95%;
@@ -43,17 +50,20 @@
             fill: #242d49;
         }
 
-        .research-modal svg:hover {
+        .research-modal svg:hover,
+        .research-modal1 svg:hover {
             transform: rotate(90deg);
             fill: #ff919d;
         }
 
-        .research-modal h2 {
+        .research-modal h2,
+        .research-modal1 h2 {
             margin-bottom: 20px;
             text-align: center;
         }
 
-        .research-modal label {
+        .research-modal label,
+        .research-modal1 label {
             display: block;
             margin-bottom: 10px;
             color: #333;
@@ -61,7 +71,10 @@
 
         .research-modal input[type="text"],
         .research-modal input[type="date"],
-        .research-modal input[type="file"] {
+        .research-modal input[type="file"],
+        .research-modal1 input[type="text"],
+        .research-modal1 input[type="date"],
+        .research-modal1 input[type="file"] {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -70,7 +83,8 @@
             box-sizing: border-box;
         }
 
-        .research-modal input[type="submit"] {
+        .research-modal input[type="submit"],
+        .research-modal1 input[type="submit"] {
             background-color: #ff919d;
             color: #fff;
             border: none;
@@ -81,13 +95,26 @@
             transition: all .3s ease-in-out;
         }
 
-        .research-modal input[type="submit"]:hover {
+        .research-modal input[type="submit"]:hover,
+        .research-modal1 input[type="submit"]:hover {
             background-color: #ff7585;
         }
 
-        .research-modal input[type="file"] {
+        .research-modal input[type="file"],
+        .research-modal1 input[type="file"] {
             padding-top: 7px;
         }
+
+
+
+
+
+
+
+
+
+
+
 
 
         .title-area {
@@ -119,7 +146,15 @@
 
         .stats tr {
             display: grid;
-            grid-template-columns: 2fr 6fr 4fr 2fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            gap: 2rem;
+            place-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .stats1 tr {
+            display: grid;
+            grid-template-columns: 2fr 2fr 4fr 2fr 2fr 2fr;
             gap: 5rem;
             place-items: center;
             margin-bottom: 2rem;
@@ -141,6 +176,51 @@
         .details .upload-button:hover {
             background-color: #ff7585;
         }
+
+        .title-area .profile img {
+            margin-right: 1rem;
+            width: 5rem;
+            height: 5rem;
+            object-fit: cover;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        /* Close button */
+        .close {
+            color: #fff;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -150,16 +230,18 @@
             <h1>Research & Publications</h1>
             <div class="profile">
                 <div class="name">[[${user.name}]]</div>
-                <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512" viewBox="0 0 512 512"
-                    id="user">
-                    <path
-                        d="M376.9 175.9c-.3 49.8-31.7 96.2-78.8 113.4-48.2 17.6-102.7 2.8-135.5-36.6-32.4-38.9-36.2-96-10.2-139.1 26-43.3 78.1-66.4 127.7-56.2 49.2 10.1 87.5 50.3 95.5 99.8C376.5 163.4 376.9 169.7 376.9 175.9c.1 9.6 15.1 9.7 15 0-.3-56.7-36-107.9-89.2-127.6-53-19.7-115.2-2.9-151.2 40.7-36.4 44.2-41.7 108.2-11.8 157.4 29.6 48.5 87.3 73.6 142.9 62.8 54.8-10.7 99.1-56.7 107.5-111.9 1.1-7.1 1.7-14.2 1.7-21.3C392 166.3 377 166.3 376.9 175.9zM22.7 469.8c49.5-48.5 111.9-82.8 180.5-94.4 64.5-10.9 131.8-.6 190.7 27.6 35.2 16.9 67.3 39.6 95.3 66.8 6.9 6.7 17.6-3.9 10.6-10.6-51.1-49.4-115.6-85-185.9-97.6-67.8-12.2-137.8-2.8-200.3 26.3C76 405.5 41.8 430.1 12.1 459.2 5.2 465.9 15.8 476.5 22.7 469.8L22.7 469.8z">
-                    </path>
-                </svg>
+                <img src="/profilePicture" alt="" onclick="openModal(this)">
             </div>
         </div>
     </header>
-    <form class="research-modal">
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img src="/profilePicture" alt="">
+        </div>
+    </div>
+
+    <form class="research-modal" action="/uploadDoc" method="post" enctype="multipart/form-data">
         <h2>Upload New Research</h2>
         <!-- x svg to close the modal -->
         <svg onclick="closeResearchModal()" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
@@ -168,15 +250,69 @@
                 d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
             </path>
         </svg>
-        <label for="title">Title of Achievement:</label>
+        <label for="title">Title of Paper:</label>
         <input type="text" id="title" name="title"><br><br>
 
-        <label for="date">Date of Achievement:</label>
+        <label for="date">Date of Publishing:</label>
         <input type="date" id="date" name="date"><br><br>
 
-        <label for="document">Supporting Document:</label>
-        <input type="file" id="document" name="document"><br><br>
+        <label for="publicationType">Type of Publishing:</label>
+        <input type="radio" name="publicationType" value="Conference">
+        Conference<br>
+        <input type="radio" name="publicationType" value="Journal">
+        Journal <br>
+        <label for=" publicationName">Publication Name</label>
+        <input type="text" id=" publicationName" name=" publicationName"><br><br>
 
+        <label for="ISSN">ISSN Number:</label>
+        <input type="text" id="ISSN" name="ISSN"><br><br>
+
+        <label for="DOI"> Digital Object Identifier (DOI):</label>
+        <input type="text" id="DOI" name="DOI"><br><br>
+
+        <label for="volume"> Volume:</label>
+        <input type="text" id="volume" name="volume"><br><br>
+
+        <label for="document">Supporting Document:</label>
+        <input type="file" id="file" name="file"><br><br>
+
+        <input type="hidden" name="type" value="research">
+        <input type="submit" value="Submit">
+
+    </form>
+
+
+    <form class="research-modal1" action="/uploadDoc" method="post" enctype="multipart/form-data">
+        <h2>Upload New Publication</h2>
+        <!-- x svg to close the modal -->
+        <svg onclick="closePublicationsModal()" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
+            viewBox="0 0 512 512" id="close-modal">
+            <path
+                d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
+            </path>
+        </svg>
+
+        <label for="book">Type of Publication</label>
+        <input type="radio" name="publicationType" value="book">
+        Book<br>
+        <input type="radio" name="publicationType" value="bookChapter">
+        Book Chapter<br><br>
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title"><br><br>
+
+        <label for="date">Date of Publishing:</label>
+        <input type="date" id="date" name="date"><br><br>
+
+        <label for="publicationName">Name of Publisher:</label>
+        <input type="text" id="pubName" name="publicationName"><br><br>
+
+        <label for="ISBN"> ISBN Number:</label>
+        <input type="text" id="value" name="ISBN"><br><br>
+
+        <label for="document">Supporting Document:</label>
+        <input type="file" id="file" name="file"><br><br>
+
+        <input type="hidden" name="type" value="book">
         <input type="submit" value="Submit">
     </form>
 
@@ -184,64 +320,63 @@
         <h2>Research</h2>
         <table class="stats">
             <tr>
-                <th>Sr. no.</th>
-                <th>Award Name</th>
-                <th>Date Awarded</th>
+                <th>Title of Paper</th>
+                <th>Date of Publishing</th>
+                <th>Type of Publisher</th>
+                <th>Publication Name</th>
+                <th>ISSN Number</th>
+                <th>DOI</th>
+                <th>Volume</th>
                 <th>Download</th>
             </tr>
-            <tr>
-                <td>1</td>
-                <td>Patents</td>
-                <td>12/12/2020</td>
-                <td><a href="#">Download</a></td>
+
+            <tr th:if="${not #lists.isEmpty(researchFiles)}" th:each="file, iteration : ${researchFiles}">
+                <!--<td th:text="${iteration.count}"></td>-->
+                <td th:text="${file.title}"></td>
+                <td th:text="${file.date}"></td>
+                <td th:text="${file.publicationType}"></td>
+                <td th:text="${file.publicationName}"></td>
+                <td th:text="${file.ISSN}"></td>
+                <td th:text="${file.DOI}"></td>
+                <td th:text="${file.Volume}"></td>
+                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
             </tr>
-            <tr>
-                <td>2</td>
-                <td>Best Teacher</td>
-                <td>12/12/2020</td>
-                <td><a href="#">Download</a></td>
+            <tr th:if="${#lists.isEmpty(researchFiles)}">
+                <td colspan="7">No documents found</td>
             </tr>
-            <tr>
-                <td>3</td>
-                <td>Miss NIET</td>
-                <td>12/12/2020</td>
-                <td><a href="#">Download</a></td>
-            </tr>
+
         </table>
-        <button class="upload-button" onclick="showResearchModal()">Upload</button>
+        <button onclick="showResearchModal()" class="upload-button">Upload</button>
     </div>
 
-    <div class=" details">
+
+    <div class="details">
         <h2>Publications</h2>
-        <table class="stats">
+        <table class="stats1">
             <tr>
-                <th>Sr. no.</th>
-                <th>Award Name</th>
-                <th>Date Awarded</th>
+                <th>Title</th>
+                <th>Date of Publishing</th>
+                <th>Name of Publisher</th>
+                <th>Book/Chapter</th>
+                <th>ISBN Number</th>
                 <th>Download</th>
             </tr>
-            <tr>
-                <td>1</td>
-                <td>Patents</td>
-                <td>12/12/2020</td>
-                <td><a href="#">Download</a></td>
+            <tr th:if="${not #lists.isEmpty(bookFiles)}" th:each="file, iteration : ${bookFiles}">
+                <!--<td th:text="${iteration.count}"></td>-->
+                <td th:text="${file.title}"></td>
+                <td th:text="${file.date}"></td>
+                <td th:text="${file.publicationName}"></td>
+                <td th:text="${file.publicationType}"></td>
+                <td th:text="${file.ISBN}"></td>
+                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
             </tr>
-            <tr>
-                <td>2</td>
-                <td>Best Teacher</td>
-                <td>12/12/2020</td>
-                <td><a href="#">Download</a></td>
-
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Miss NIET</td>
-                <td>12/12/2020</td>
-                <td><a href="#">Download</a></td>
+            <tr th:if="${#lists.isEmpty(bookFiles)}">
+                <td colspan="7">No documents found</td>
             </tr>
         </table>
-        <button class="upload-button" onclick="showResearchModal()">Upload</button>
+        <button class="upload-button" onclick="showPublicationsModal()">Upload</button>
     </div>
+
 
     <script>
         function showResearchModal() {
@@ -250,6 +385,28 @@
         function closeResearchModal() {
             document.querySelector('.research-modal').classList.remove('show');
         }
+
+
+
+        function showPublicationsModal() {
+            document.querySelector('.research-modal1').classList.add('show');
+        }
+        function closePublicationsModal() {
+            document.querySelector('.research-modal1').classList.remove('show');
+        }
+
+        var modal = document.getElementById("myModal");
+        var img = document.querySelector(".title-area .profile img");
+        var modalImg = document.querySelector("#myModal img");
+        img.onclick = function () {
+            modal.style.display = "flex";
+            modalImg.src = this.src;
+        }
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
     </script>
 </body>
 

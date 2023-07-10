@@ -140,7 +140,7 @@
     }
 
     .input-div>div>input {
-    
+
       position: absolute;
       left: 0;
       top: 0;
@@ -232,19 +232,23 @@
         justify-content: center;
       }
     }
+
+    .forgot {
+      display: flex;
+      justify-content: space-between;
+    }
   </style>
 </head>
 
 <body>
-  <img class="wave"
-    src="https://raw.githubusercontent.com/vvswps/SmartDoc/master/SmartDocument/resources/images/wave1.png">
+  <img class="wave" src="/images/wave1.png">
   <div class="container">
     <div class="img">
-      <img src="https://raw.githubusercontent.com/vvswps/SmartDoc/master/SmartDocument/resources/images/bg2.svg">
+      <img src="/images/bg2.svg">
     </div>
     <div class="login-content">
       <form action="/login" method="post">
-        <img src="https://raw.githubusercontent.com/vvswps/SmartDoc/master/SmartDocument/resources/images/avatar2.svg">
+        <img src="/images/avatar2.svg">
         <h2 class="title">Welcome</h2>
         <div class="input-div one">
           <div class="i">
@@ -264,7 +268,10 @@
             <input type="password" name="password" class="input" id="floatingPassword">
           </div>
         </div>
-        <a href="loadForgotPassword">Forgot Password?</a>
+        <div class="forgot">
+          <a href="registration">New user? Register</a>
+          <a href="loadForgotPassword">Forgot Password?</a>
+        </div>
         <input type="submit" class="btn" value="Login">
         <!-- <button class="btn"><a href="/dashboard">Login</a></button> -->
       </form>

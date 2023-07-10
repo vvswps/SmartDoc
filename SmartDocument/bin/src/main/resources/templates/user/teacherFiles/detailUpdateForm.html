@@ -272,31 +272,51 @@
 <body>
 	<h1>Update Details Form</h1>
 	<form method="post" action="updateTeacher" th:object="${puser}">
+
 		<label for="name">Name:</label>
-		<input th:field="*{name}" type="text" id="name" name="name">
-		<label for="erp-id">ERP ID:</label>
-		<input th:field="*{erpId}" type="text" id="erp-id" name="erpId">
+		<input required th:field="*{name}" type="text" id="name" name="name">
+
 
 		<div class="two-in-a-row">
 			<div>
-				<label for="official-email">Official Email:</label> <input type="email" id="offEmail"
-					name="official-email">
+				<label for="erp-id">ERP ID:</label>
+				<input required th:field="*{erpId}" type="text" id="erp-id" name="erpId">
 			</div>
 
 			<div>
-				<!-- <label for="personal-email">Personal Email:</label> <input type="email" id="perEmail"
+				<label for="gender">Gender</label>
+				<select required th:field="*{gender}" id="gender" name="gender">
+					<option value="" disabled selected>Gender</option>
+					<option value="Female">Female</option>
+					<option value="Male">Male</option>
+				</select>
+			</div>
+		</div>
+
+
+		<div class="two-in-a-row">
+			<div>
+				<label for="official-email">Official Email:</label>
+				<input required th:field="*{offEmail}" type="email" id="offEmail" name="official-email">
+			</div>
+
+			<div>
+				<!-- <label for="personal-email">Personal Email:</label>
+					<input required type="email" id="perEmail"
 					name="personal-email" > -->
-				<label for="personal-email">Personal Email (gender):</label>
-				<input type="text" id="perEmail" th:field="*{gender}" name="personal-email">
+				<label for="personal-email">Personal Email</label>
+				<input required type="text" id="perEmail" th:field="*{perEmail}" name="personal-email">
 			</div>
 		</div>
 
 		<div class="two-in-a-row">
 			<div>
-				<label for="dob">Date of Birth:</label> <input type="date" id="dob" name="dob">
+				<label for="dob">Date of Birth:</label>
+				<input required th:field="*{dob}" type="date" id="dob" name="dob">
 			</div>
 			<div>
-				<label for="dept">Department:</label> <select id="department" name="department">
+				<label for="dept">Department:</label>
+				<select th:field="*{dept}" id="department" name="department">
 					<option value="" disabled selected>Select department</option>
 					<option value="Mechanical Engineering">Mechanical
 						Engineering</option>
@@ -311,14 +331,17 @@
 
 		<div class="two-in-a-row">
 			<div>
-				<label for="phone">Phone:</label> <input th:field="*{mobileNumber}" type="tel" id="phone"
-					name="mobileNumber" pattern="[0-9]{10}">
+				<label for="phone">Phone:</label>
+				<input required th:field="*{mobileNumber}" type="tel" id="phone" name="mobileNumber"
+					pattern="[0-9]{10}">
 
 			</div>
 			<div>
-				<label for="whatsapp">Whatsapp: </label> <input type="tel" id="whatsapp" name="whatsNumber"
+				<label for="whatsapp">Whatsapp: </label>
+				<input required th:field="*{whatsNumber}" type="tel" id="whatsapp" name="whatsNumber"
 					pattern="[0-9]{10}">
-				<label> <input class="copy-phone-checkbox" type="checkbox" onclick="copyPhoneNumber()"> Same as phone
+				<label> <input required class="copy-phone-checkbox" type="checkbox" onclick="copyPhoneNumber()"> Same as
+					phone
 					number
 
 				</label>
@@ -328,85 +351,92 @@
 		<div class="two-in-a-row">
 			<div>
 				<label for="googleId">Google Scholar Id</label>
-				<input type="text" id="googleId" name="googleId">
+				<input th:field="*{googleId}" type="text" id="googleId" name="googleId">
 			</div>
 
 			<div>
 				<label for="scopusId">Scopus Id</label>
-				<input type="text" id="scopusId" name="scopusId">
+				<input th:field="*{scopusId}" type="text" id="scopusId" name="scopusId">
 			</div>
 		</div>
 		<div>
 			<div>
 				<label for="sciId">SCI Id</label>
-				<input type="text" id="sciId" name="sciId">
+				<input th:field="*{sciId}" type="text" id="sciId" name="sciId">
 			</div>
 		</div>
 
 		<h2>Experience</h2>
 		<div class="two-in-a-row">
 			<div>
-				<label for="industry-experience">Industry:</label> <input type="number" id="industry-experience"
-					name="expInd">
+				<label for="industry-experience">Industry:</label>
+				<input th:field="*{expInd}" type="number" id="industry-experience" name="expInd">
 			</div>
 			<div>
-				<label for="academic-experience">Academic:</label> <input type="number" id="academic-experience"
-					name="expAcd">
+				<label for="academic-experience">Academic:</label>
+				<input th:field="*{expAcd}" type="number" id="academic-experience" name="expAcd">
 			</div>
 		</div>
 
 
 		<div class="two-in-a-row">
 			<div>
-				<label for="date-of-joining">Date of Joining:</label> <input type="date" id="date-of-joining"
-					name="doj">
+				<label for="date-of-joining">Date of Joining:</label>
+				<input th:field="*{doj}" type="date" id="date-of-joining" name="doj">
 			</div>
 			<div>
-				<label for="date-of-leaving">Date of Leaving:</label> <input type="date" id="date-of-leaving"
-					name="dol">
+				<label for="date-of-leaving">Date of Leaving:</label>
+				<input th:field="*{dol}" type="date" id="date-of-leaving" name="dol">
 			</div>
 		</div>
 
 		<h2>Permanent Address</h2>
-		<label for="permanent-address-line-1">Address</label> <input type="text" id="permanent-address-line-1"
-			name="perAdd">
+		<label for="permanent-address">Address</label>
+		<input required th:field="*{perAdd}" type="text" id="permanent-address" name="perAdd">
 		<div class="two-in-a-row">
 			<div>
-				<label for="permanent-city">City:</label> <input type="text" id="permanent-city" name="perCity">
+				<label for="permanent-city">City:</label>
+				<input required th:field="*{perCity}" type="text" id="permanent-city" name="perCity">
 			</div>
 			<div>
-				<label for="permanent-state">State:</label> <input type="text" id="permanent-state" name="perState">
+				<label for="permanent-state">State:</label>
+				<input required th:field="*{perState}" type="text" id="permanent-state" name="perState">
 			</div>
 		</div>
 		<div class="two-in-a-row">
 			<div>
-				<label for="permanent-country">Country:</label> <input type="text" id="permanent-country"
-					name="perCunt">
+				<label for="permanent-country">Country:</label>
+				<input required th:field="*{perCunt}" type="text" id="permanent-country" name="perCunt">
 			</div>
 			<div>
-				<label for="permanent-pincode">Pincode:</label> <input type="text" id="permanent-pincode" name="perPin">
+				<label for="permanent-pincode">Pincode:</label>
+				<input required th:field="*{perPin}" type="text" id="permanent-pincode" name="perPin">
 			</div>
 		</div>
 
 		<h2>Current Address</h2>
-		<label> <input type="checkbox" onclick="copyPermanentAddress()"> Same as permanent address
-		</label> <label for="current-address-line-1">Address Line 1:</label> <input type="text"
-			id="current-address-line-1" name="curAdd">
+		<label> <input required type="checkbox" onclick="copyPermanentAddress()"> Same as permanent address
+		</label> <label for="current-address">Address:</label>
+		<input required th:field="*{curAdd}" type="text" id="current-address" name="curAdd">
 
 		<div class="two-in-a-row">
 			<div>
-				<label for="current-city">City:</label> <input type="text" id="current-city" name="currCity">
+				<label for="current-city">City:</label>
+				<input required th:field="*{currCity}" type="text" id="current-city" name="currCity">
 			</div>
 			<div>
-				<label for="current-state">State:</label> <input type="text" id="current-state" name="currState">
+				<label for="current-state">State:</label>
+				<input required th:field="*{currState}" type="text" id="current-state" name="currState">
 			</div>
 		</div>
 		<div class="two-in-a-row">
 			<div>
-				<label for="current-country">Country:</label> <input type="text" id="current-country" name="currCunt">
+				<label for="current-country">Country:</label>
+				<input required th:field="*{currCunt}" type="text" id="current-country" name="currCunt">
 			</div>
 			<div>
-				<label for="current-pincode">Pincode:</label> <input type="text" id="current-pincode" name="currPin">
+				<label for="current-pincode">Pincode:</label>
+				<input required th:field="*{currPin}" type="text" id="current-pincode" name="currPin">
 			</div>
 		</div>
 
@@ -425,11 +455,9 @@
 		}
 
 		function copyPermanentAddress() {
-			if (document.getElementById("permanent-address-line-1").value != "") {
-				document.getElementById("current-address-line-1").value = document
-					.getElementById("permanent-address-line-1").value;
-				document.getElementById("current-address-line-2").value = document
-					.getElementById("permanent-address-line-2").value;
+			if (document.getElementById("permanent-address").value != "") {
+				document.getElementById("current-address").value = document
+					.getElementById("permanent-address").value;
 				document.getElementById("current-city").value = document
 					.getElementById("permanent-city").value;
 				document.getElementById("current-state").value = document
@@ -439,8 +467,7 @@
 				document.getElementById("current-pincode").value = document
 					.getElementById("permanent-pincode").value;
 			} else {
-				document.getElementById("current-address-line-1").value = "";
-				document.getElementById("current-address-line-2").value = "";
+				document.getElementById("current-address").value = "";
 				document.getElementById("current-city").value = "";
 				document.getElementById("current-state").value = "";
 				document.getElementById("current-country").value = "";
