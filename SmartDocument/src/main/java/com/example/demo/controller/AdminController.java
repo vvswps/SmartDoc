@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -42,11 +44,9 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-	
+
 	@Autowired
 	private UserService userService;
-	
-	
 
 	@Autowired
 	private UserRepository userRepo;
@@ -341,46 +341,6 @@ public class AdminController {
 
 		return "user/admin/deptView";
 	}
-	
-	
-	
-	
-//	@PostMapping(value = "/getpermissions")
-//	public String getpermissions(@RequestParam("department") String dept, Model model, HttpSession session) {
-//		//System.out.println("\n\n\nIn getFacultyByDept()\n\n\n");
-//		List<UserDtls> teachers = userRepo.findByBranchAndRole(dept, "ROLE_TEACHER");
-//		model.addAttribute("deptName", dept);
-//		session.setAttribute("deptName", dept);
-//		model.addAttribute("teachers", teachers);
-//
-//		
-//
-//		System.out.println("\n\n oyye counts!!!!!!!!!!!!!!!!!!!!!!!");
-//		
-//
-//		return "user/admin/permissions";
-//	}
-	 @GetMapping("/permissions")
-	    public String permissions(@RequestParam(value = "department", required = false) String dept, Model model) {
-	        if (dept != null) {
-	            List<UserDtls> teachers = userRepo.findByBranchAndRole(dept, "ROLE_TEACHER");
-	            model.addAttribute("teachers", teachers);
-	        }
-	        return "user/admin/permissions";
-	    }
-
-	 @PostMapping("/getpermissions")
-	    public String getPermissions(@RequestParam("department") String dept, Model model, HttpSession session) {
-	        List<UserDtls> teachers = userRepo.findByBranchAndRole(dept, "ROLE_TEACHER");
-	        model.addAttribute("deptName", dept);
-	        session.setAttribute("deptName", dept);
-	        model.addAttribute("teachers", teachers);
-	        System.out.println( "\n\n\n"+dept+  "\n\n\n");	        
-	        return "user/admin/roles";
-	    }
-	
-	
-	
 
 	@GetMapping("/downloadDeptCSV")
 	public void downloadDeptCSV(HttpServletResponse response, HttpSession session)
@@ -436,25 +396,45 @@ public class AdminController {
 		}
 	}
 
+	@GetMapping("/permissions")
+	public String permissions(Model model, HttpSession session) {
+		String dept = (String) session.getAttribute("deptName");
+		model.addAttribute("deptName", dept);
+		return "user/admin/permissions";
+	}
+
+	@PostMapping("/permissions")
+	public String getPermissions(@RequestParam("department") String dept, Model model, HttpSession session) {
+		List<UserDtls> teachers = userRepo.findByBranch(dept);
+		model.addAttribute("deptName", dept);
+		session.setAttribute("deptName", dept);
+		model.addAttribute("teachers", teachers);
+		return "user/admin/permissions";
+	}
+
+	@PostMapping("/updateRole")
+	public String updateRole(@RequestParam("teacherId") int teacherId, @RequestParam("role") String role) {
+		// Retrieve the teacher by teacherId from the database
+		// Check if the role is either ROLE_TEACHER or ROLE_HOD so that the admin cannot
+		// change the role of the admin or any other non existing role for that matter :
+		// tu padhri isko :o
+		Set<String> allowedRoles = new HashSet<>(Arrays.asList("ROLE_TEACHER", "ROLE_HOD"));
+
+		Optional<UserDtls> optionalTeacher = userRepo.findById(teacherId);
+		if (optionalTeacher.isPresent() && allowedRoles.contains(role)) {
+			UserDtls teacher = optionalTeacher.get();
+			// Update the role for the teacher
+			teacher.setRole(role);
+			// Save the updated teacher to the database
+			userRepo.save(teacher);
+		}
+		return "redirect:/admin/permissions";
+	}
+
 	@GetMapping("/")
 	public String home() {
 		return "user/admin/admin";
 	}
-	
-//	@GetMapping("/permissions")
-//	public String permissions() {
-//		return "user/admin/permissions";
-//	}
-
-
-//	@PostMapping("/permissions")
-//	public String permissions(@RequestParam("department") String dept, Model model, HttpSession session) {
-//		//System.out.println("\\n\\n\\n in");
-//		List<UserDtls> teachers = userRepo.findByRole("ROLE_TEACHER");
-//
-//		model.addAttribute("teachers", teachers);
-//		return "user/admin/permissions";
-//	}
 
 	@GetMapping("/adminDashboard")
 	public String adminDashboard() {
@@ -490,131 +470,16 @@ public class AdminController {
 	public String loadChangePassword() {
 		return "user/change_password";
 	}
-	
-//	@GetMapping("/roles")
-//	public String roles() {
-//		return "user/admin/roles";
-//	}
-////	
-	
-	
-//	@GetMapping("/roles")
-//	public String roles(Model model) {
-//	    List<UserDtls> teachers = userRepo.findAll(); // Retrieve all users from the UserRepository
-//	    model.addAttribute("teachers", teachers);
-//	   
-//	    return "user/admin/roles";
-//	}
 
-//	 @PostMapping("/saveRoles")
-//	    public String saveRoles(@ModelAttribute("teachers") List<UserDtls> teachers) {
-//	        for (UserDtls teacher : teachers) {
-//	            // Retrieve the user from the database based on user ID
-//	            UserDtls existingUser = userRepo.findById(teacher.getId()).orElse(null);
-//	            if (existingUser != null) {
-//	                // Update the role for the user
-//	                existingUser.setRole(teacher.getRole());
-//	                // Save the updated user to the database
-//	                userRepo.save(existingUser);
-//	            }
-//	        }
-//	        return "redirect:/admin/roles";
-//	    }
-//	@PostMapping("/saveRoles")
-//	public String saveRoles(@ModelAttribute("teachers") List<UserDtls> teachers) {
-//	    for (UserDtls teacher : teachers) {
-//	        // Retrieve the user from the database based on user ID
-//	        UserDtls existingUser = userRepo.findById(teacher.getId()).orElse(null);
-//	        if (existingUser != null) {
-//	            // Update the role for the user
-//	            existingUser.setRole(teacher.getRole());
-//	            // Save the updated user to the database
-//	            userRepo.save(existingUser);
-//	        }
-//	    }
-//	    return "redirect:/admin/roles";
-//	}
-//	@PostMapping("/saveRoles")
-//	public String saveRoles(@ModelAttribute("teachers") ArrayList<UserDtls> teachers) {
-//	    for (UserDtls teacher : teachers) {
-//	        // Retrieve the user from the database based on user ID
-//	        UserDtls existingUser = userRepo.findById(teacher.getId()).orElse(null);
-//	        if (existingUser != null) {
-//	            // Update the role for the user
-//	            existingUser.setRole(teacher.getRole());
-//	            // Save the updated user to the database
-//	            userRepo.save(existingUser);
-//	        }
-//	    }
-//	    return "redirect:/admin/roles";
-//	}
-	@GetMapping("/roles")
-	public String roles(Model model) {
-	    List<UserDtls> teachers = userRepo.findAll(); // Retrieve all users from the UserRepository
-	    ArrayList<UserDtls> teachersList = new ArrayList<>(teachers); // Create a new ArrayList object and populate it with the elements of the List object
-	    model.addAttribute("teachers", teachersList);
-
-	    // Call the saveRoles() controller method to save the updated roles to the database
-	    saveRoles(teachersList);
-
-	    return "user/admin/roles";
-	}
-
-	@PostMapping("/saveRoles")
-	public String saveRoles(@ModelAttribute("teachers") ArrayList<UserDtls> teachers) {
-	    for (UserDtls teacher : teachers) {
-	        // Retrieve the user from the database based on user ID
-	        UserDtls existingUser = userRepo.findById(teacher.getId()).orElse(null);
-	        if (existingUser != null) {
-	            // Update the role for the user
-	            Set<String> roles = existingUser.getRoles();
-	            roles.add(teacher.getRole());
-
-	            // Save the updated user to the database
-	            userRepo.save(existingUser);
-	        }
-	    }
-	    return "redirect:/admin/roles";
-	}
-	
-//	@GetMapping("/roles")
-//	public String roles(Model model) {
-//	    List<UserDtls> teachers = userRepo.findAll(); // Retrieve all users from the UserRepository
-//	    model.addAttribute("teachers", teachers);
-//	    return "user/admin/roles";
-//	}
-//
-//	@PostMapping("/saveRoles")
-//	public String saveRoles(@RequestParam("teachers") List<UserDtls> teachers) {
-//	    for (UserDtls teacher : teachers) {
-//	        // Retrieve the user from the database based on user ID
-//	        Optional<UserDtls> existingUserOptional = userRepo.findById(teacher.getId());
-//	        if (existingUserOptional.isPresent()) {
-//	            UserDtls existingUser = existingUserOptional.get();
-//
-//	            // Update the role for the user
-//	            existingUser.setRole(teacher.getRole());
-//
-//	            // Save the updated user to the database
-//	            userRepo.save(existingUser);
-//	        }
-//	    }
-//	    return "redirect:/roles"; // Redirect to the roles page
-//	}
-//	
-	
 	@ControllerAdvice
 	public class GlobalExceptionHandler {
 
-	    @ExceptionHandler(Exception.class)
-	    public ResponseEntity<String> handleException(Exception ex) {
-	        ex.printStackTrace();
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
-	    }
+		@ExceptionHandler(Exception.class)
+		public ResponseEntity<String> handleException(Exception ex) {
+			ex.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
+		}
 	}
-
-
-	
 
 	@PostMapping("/updatePassword")
 	public String changePassword(Principal p, @RequestParam String oldPass,
