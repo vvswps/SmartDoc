@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.model.DatabaseFile;
 import com.example.demo.model.PersonalDtls;
@@ -38,7 +39,7 @@ public class TeacherController {
 	private PersonalService personalService;
 
 	@Autowired
-	private BCryptPasswordEncoder passwordEncode;
+	private BCryptPasswordEncoder passwordEncoder;
 
 	@Autowired
 	private personalRepository personalRepository;
@@ -323,10 +324,10 @@ public class TeacherController {
 		String email = p.getName();
 		UserDtls loginUser = userRepo.findByEmail(email);
 
-		boolean f = passwordEncode.matches(oldPass, loginUser.getPassword());
+		boolean f = passwordEncoder.matches(oldPass, loginUser.getPassword());
 
 		if (f) {
-			loginUser.setPassword(passwordEncode.encode(newPass));
+			loginUser.setPassword(passwordEncoder.encode(newPass));
 			UserDtls updatePasswordUser = userRepo.save(loginUser);
 			if (updatePasswordUser != null) {
 				System.out.println("password changed successfully");
@@ -342,4 +343,31 @@ public class TeacherController {
 		return "redirect:/teacher/settings";
 
 	}
+
+	@PostMapping("/deleteUser")
+	public String deleteUser(Principal principal, @RequestParam String password, RedirectAttributes redirectAttributes,
+			HttpSession session) {
+		String email = principal.getName();
+		UserDtls user = userRepo.findByEmail(email);
+
+		// Check if user is admin
+		if ("ROLE_ADMIN".equals(user.getRole())) {
+			return "redirect:/logout";
+		}
+
+		if (passwordEncoder.matches(password, user.getPassword())) {
+			// Delete the user
+			userRepo.delete(user);
+
+			// // Invalidate the session
+			// session.invalidate();
+
+			redirectAttributes.addFlashAttribute("message", "User deleted successfully");
+			return "redirect:/logout";
+		} else {
+			redirectAttributes.addFlashAttribute("error", "Incorrect password");
+			return "redirect:/teacher/settings";
+		}
+	}
+
 }

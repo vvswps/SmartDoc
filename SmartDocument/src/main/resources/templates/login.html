@@ -273,7 +273,7 @@
           <a href="loadForgotPassword">Forgot Password?</a>
         </div>
         <input type="submit" class="btn" value="Login">
-        <!-- <button class="btn"><a href="/dashboard">Login</a></button> -->
+        <span th:if="${message}" class="message" th:text="${message}"></span>
       </form>
     </div>
   </div>

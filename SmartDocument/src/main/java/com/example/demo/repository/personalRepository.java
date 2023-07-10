@@ -13,4 +13,7 @@ public interface personalRepository extends JpaRepository<PersonalDtls, Integer>
 
     PersonalDtls findByUser(UserDtls user);
 
+    // delete method
+    void deleteByUser(UserDtls user);
+
 }

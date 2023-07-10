@@ -23,6 +23,9 @@ public interface UserRepository extends JpaRepository<UserDtls, Integer> {
 	public List<UserDtls> findByBranch(String branch);
 
 	public List<UserDtls> findByRole(String role);
+
+	// delete method
+	void deleteByEmail(String email);
 }
 
 /*

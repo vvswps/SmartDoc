@@ -30,6 +30,10 @@ import com.example.demo.repository.personalRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.QuoteMode;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -329,8 +333,7 @@ public class AdminController {
 	}
 
 	@GetMapping("/downloadDeptCSV")
-	public void downloadDeptCSV(HttpServletResponse response, HttpSession session)
-			throws IOException {
+	public void downloadDeptCSV(HttpServletResponse response, HttpSession session) throws IOException {
 		String deptName = (String) session.getAttribute("deptName");
 		List<UserDtls> teachers = userRepo.findByBranchAndRole(deptName, "ROLE_TEACHER");
 		Map<String, Map<FileType, Integer>> teacherFileCounts = new HashMap<>();
@@ -350,35 +353,28 @@ public class AdminController {
 		response.setContentType("text/csv");
 		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + deptName + ".csv\"");
 
-		try (PrintWriter writer = response.getWriter()) {
-			generateDeptCSV(writer, teachers, teacherFileCounts);
+		try (CSVPrinter csvPrinter = new CSVPrinter(response.getWriter(),
+				CSVFormat.DEFAULT.withHeader("Teacher Name", "Email", "Research Papers", "Awards", "Achievements",
+						"Books or Chapters", "FDP", "STTP", "QIP", "Workshop")
+						.withQuoteMode(QuoteMode.ALL))) {
+			generateDeptCSV(csvPrinter, teachers, teacherFileCounts);
 		}
 	}
 
-	private void generateDeptCSV(PrintWriter writer, List<UserDtls> teachers,
-			Map<String, Map<FileType, Integer>> teacherFileCounts) {
-		writer.println(
-				"Teacher Name, Email, Research Papers, Awards, Achievements, Books or Chapters, FDP, STTP, QIP, Workshop");
+	private void generateDeptCSV(CSVPrinter csvPrinter, List<UserDtls> teachers,
+			Map<String, Map<FileType, Integer>> teacherFileCounts) throws IOException {
 		for (UserDtls teacher : teachers) {
-			writer.print(teacher.getName());
-			writer.print(",");
-			writer.print(teacher.getEmail());
-			writer.print(",");
-			writer.print(teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.RESEARCH_PAPER, 0));
-			writer.print(",");
-			writer.print(teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.AWARD, 0));
-			writer.print(",");
-			writer.print(teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.ACHIEVEMENT, 0));
-			writer.print(",");
-			writer.print(teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.BOOK_OR_CHAPTER, 0));
-			writer.print(",");
-			writer.print(teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.FDP, 0));
-			writer.print(",");
-			writer.print(teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.STTP, 0));
-			writer.print(",");
-			writer.print(teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.QIP, 0));
-			writer.print(",");
-			writer.println(teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.WORKSHOP, 0));
+			csvPrinter.printRecord(
+					teacher.getName(),
+					teacher.getEmail(),
+					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.RESEARCH_PAPER, 0),
+					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.AWARD, 0),
+					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.ACHIEVEMENT, 0),
+					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.BOOK_OR_CHAPTER, 0),
+					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.FDP, 0),
+					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.STTP, 0),
+					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.QIP, 0),
+					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.WORKSHOP, 0));
 		}
 	}
 

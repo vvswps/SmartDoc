@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research & Publications</title>
     <style>
-        .research-modal,
-        .research-modal1 {
+        .modal {
             margin: 0 auto;
             width: 500px;
             padding: 20px;
@@ -29,18 +28,16 @@
 
         }
 
-        .research-modal.show,
-        .research-modal1.show {
+        .modal.show,
+        .img-modal.show {
             display: block;
         }
 
-        .research-modal.show .details,
-        .research-modal1.show .details {
+        .modal.show .details {
             opacity: 0.5;
         }
 
-        .research-modal svg,
-        .research-modal1 svg {
+        .modal svg {
             position: relative;
             max-width: 1rem;
             left: 95%;
@@ -50,31 +47,25 @@
             fill: #242d49;
         }
 
-        .research-modal svg:hover,
-        .research-modal1 svg:hover {
+        .modal svg:hover {
             transform: rotate(90deg);
             fill: #ff919d;
         }
 
-        .research-modal h2,
-        .research-modal1 h2 {
+        .modal h2 {
             margin-bottom: 20px;
             text-align: center;
         }
 
-        .research-modal label,
-        .research-modal1 label {
+        .modal label {
             display: block;
             margin-bottom: 10px;
             color: #333;
         }
 
-        .research-modal input[type="text"],
-        .research-modal input[type="date"],
-        .research-modal input[type="file"],
-        .research-modal1 input[type="text"],
-        .research-modal1 input[type="date"],
-        .research-modal1 input[type="file"] {
+        .modal input[type="text"],
+        .modal input[type="date"],
+        .modal input[type="file"] {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -83,8 +74,7 @@
             box-sizing: border-box;
         }
 
-        .research-modal input[type="submit"],
-        .research-modal1 input[type="submit"] {
+        .modal input[type="submit"] {
             background-color: #ff919d;
             color: #fff;
             border: none;
@@ -95,27 +85,13 @@
             transition: all .3s ease-in-out;
         }
 
-        .research-modal input[type="submit"]:hover,
-        .research-modal1 input[type="submit"]:hover {
+        .modal input[type="submit"]:hover {
             background-color: #ff7585;
         }
 
-        .research-modal input[type="file"],
-        .research-modal1 input[type="file"] {
+        .modal input[type="file"] {
             padding-top: 7px;
         }
-
-
-
-
-
-
-
-
-
-
-
-
 
         .title-area {
             display: flex;
@@ -186,7 +162,7 @@
             cursor: pointer;
         }
 
-        .modal {
+        .img-modal {
             display: none;
             position: fixed;
             z-index: 1;
@@ -230,22 +206,22 @@
             <h1>Research & Publications</h1>
             <div class="profile">
                 <div class="name">[[${user.name}]]</div>
-                <img src="/profilePicture" alt="" onclick="openModal(this)">
+                <img src="/profilePicture" alt="" onclick="showModal('img-modal')">
             </div>
         </div>
     </header>
-    <div id="myModal" class="modal">
+    <div id="img-modal" class="img-modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" onclick="closeModal('img-modal')">&times;</span>
             <img src="/profilePicture" alt="">
         </div>
     </div>
 
-    <form class="research-modal" action="/uploadDoc" method="post" enctype="multipart/form-data">
+    <form class="modal" id="research-modal" action="/uploadDoc" method="post" enctype="multipart/form-data">
         <h2>Upload New Research</h2>
         <!-- x svg to close the modal -->
-        <svg onclick="closeResearchModal()" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
-            viewBox="0 0 512 512" id="close-modal">
+        <svg onclick="closeModal('research-modal')" xmlns="http://www.w3.org/2000/svg"
+            enable-background="new 0 0 512 512" viewBox="0 0 512 512" id="close-modal">
             <path
                 d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
             </path>
@@ -282,11 +258,11 @@
     </form>
 
 
-    <form class="research-modal1" action="/uploadDoc" method="post" enctype="multipart/form-data">
+    <form class="modal" id="publication-modal" action="/uploadDoc" method="post" enctype="multipart/form-data">
         <h2>Upload New Publication</h2>
         <!-- x svg to close the modal -->
-        <svg onclick="closePublicationsModal()" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
-            viewBox="0 0 512 512" id="close-modal">
+        <svg onclick="closeModal('publication-modal')" xmlns="http://www.w3.org/2000/svg"
+            enable-background="new 0 0 512 512" viewBox="0 0 512 512" id="close-modal">
             <path
                 d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
             </path>
@@ -346,7 +322,7 @@
             </tr>
 
         </table>
-        <button onclick="showResearchModal()" class="upload-button">Upload</button>
+        <button onclick="showModal('research-modal')" class="upload-button">Upload</button>
     </div>
 
 
@@ -374,39 +350,18 @@
                 <td colspan="7">No documents found</td>
             </tr>
         </table>
-        <button class="upload-button" onclick="showPublicationsModal()">Upload</button>
+        <button class="upload-button" onclick="showModal('publication-modal')">Upload</button>
     </div>
 
 
     <script>
-        function showResearchModal() {
-            document.querySelector('.research-modal').classList.add('show');
+        function showModal(id) {
+            console.log(`Showing modal ${id}`);
+            document.querySelector(`#${id}`).classList.add('show');
         }
-        function closeResearchModal() {
-            document.querySelector('.research-modal').classList.remove('show');
+        function closeModal(id) {
+            document.querySelector(`#${id}`).classList.remove('show');
         }
-
-
-
-        function showPublicationsModal() {
-            document.querySelector('.research-modal1').classList.add('show');
-        }
-        function closePublicationsModal() {
-            document.querySelector('.research-modal1').classList.remove('show');
-        }
-
-        var modal = document.getElementById("myModal");
-        var img = document.querySelector(".title-area .profile img");
-        var modalImg = document.querySelector("#myModal img");
-        img.onclick = function () {
-            modal.style.display = "flex";
-            modalImg.src = this.src;
-        }
-        var span = document.getElementsByClassName("close")[0];
-        span.onclick = function () {
-            modal.style.display = "none";
-        }
-
     </script>
 </body>
 
