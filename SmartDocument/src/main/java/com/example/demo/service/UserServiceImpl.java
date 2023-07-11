@@ -1,7 +1,5 @@
 package com.example.demo.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,7 +27,7 @@ public class UserServiceImpl implements UserService {
 		user.setRole(role);
 		UserDtls newUser = userRepo.save(user);
 		PersonalDtls personalDtls = new PersonalDtls();
-		System.out.println("User ID: " + newUser.getId());
+		// System.out.println("User ID: " + newUser.getId());
 		// personalDtls.setId(19);
 
 		personalDtls.setUser(user); // set the user to the personal details object
@@ -39,33 +37,10 @@ public class UserServiceImpl implements UserService {
 
 		return newUser;
 	}
-	
 
-	
-	
-
-	
-	
-	
 	@Override
 	public boolean checkEmail(String email) {
 
 		return userRepo.existsByEmail(email);
 	}
-	
-//	 @Override
-//	    public List<UserDtls> getAllUsers() {
-//	        return userRepo.findAll();
-//	    }
-//
-//	 @Override
-//	    public UserDtls getUserById(int id) {
-//	        return userRepo.findById(id).orElse(null);
-//	    }
-//
-//	 @Override
-//	    public UserDtls saveUser(UserDtls user) {
-//	        return userRepo.save(user);
-//	    }
-
 }

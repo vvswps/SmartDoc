@@ -17,10 +17,8 @@ public class SecurityConfig {
 	@Autowired
 	public AuthenticationSuccessHandler customSuccessHandler;
 
-	@Bean
-	public UserDetailsService getUserDetailsService() {
-		return new UserDetailsServiceImpl();
-	}
+	@Autowired
+	private UserDetailsService userDetailsService;
 
 	@Bean
 	public BCryptPasswordEncoder getPasswordEncoder() {
@@ -30,7 +28,7 @@ public class SecurityConfig {
 	@Bean
 	public DaoAuthenticationProvider getDaoAuthProvider() {
 		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-		daoAuthenticationProvider.setUserDetailsService(getUserDetailsService());
+		daoAuthenticationProvider.setUserDetailsService(userDetailsService);
 		daoAuthenticationProvider.setPasswordEncoder(getPasswordEncoder());
 
 		return daoAuthenticationProvider;
@@ -53,6 +51,10 @@ public class SecurityConfig {
 				.successHandler(customSuccessHandler).and().csrf().disable();
 		http.authenticationProvider(getDaoAuthProvider());
 		http.headers().frameOptions().sameOrigin();
+		http.rememberMe().tokenValiditySeconds(60 * 60 * 7).key("11T01:54:59.903+05:30DEBUG36336")
+				.rememberMeParameter("remember-me")
+				.rememberMeCookieName("rememberlogin").and().logout().logoutUrl("/logout")
+				.logoutSuccessUrl("/signin?logout").invalidateHttpSession(true).deleteCookies("JSESSIONID");
 
 		return http.build();
 

@@ -49,11 +49,11 @@ public class DatabaseFile {
 	private String fileType;
 
 	@Lob
-	@Column (columnDefinition = "LONGBLOB")
+	@Column(columnDefinition = "LONGBLOB")
 	private byte[] data;
 
 	@Lob
-	@Column (columnDefinition = "LONGBLOB")
+	@Column(columnDefinition = "LONGBLOB")
 	private byte[] profilePicture;
 
 	@ManyToOne(fetch = FetchType.LAZY)

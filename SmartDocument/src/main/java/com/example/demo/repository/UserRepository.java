@@ -47,7 +47,8 @@ public interface UserRepository extends JpaRepository<UserDtls, Integer> {
 
 	public List<UserDtls> findByRole(String role);
 
-	//public List<UserDtls> findByRoleAndDepartment(String string, String dept);
+	// delete method
+	void deleteByEmail(String email);
 }
 /*
  * > but this is an interface and i never implement any of the methods defined

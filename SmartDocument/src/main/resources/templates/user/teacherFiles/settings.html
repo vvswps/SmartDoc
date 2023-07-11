@@ -142,6 +142,98 @@
 			text-decoration: none;
 			cursor: pointer;
 		}
+
+		.delete-confirm-modal {
+			margin: 0 auto;
+			width: 500px;
+			padding: 20px;
+			background-color: #fff;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			transition: all .5s ease-out;
+			display: none;
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			z-index: 1000;
+			box-shadow: 0px 19px 60px rgb(0 0 0 / .4);
+
+			max-height: calc(100vh - 210px);
+			overflow-y: auto;
+
+		}
+
+		.delete-confirm-modal.show {
+			display: block;
+		}
+
+		.delete-confirm-modal.show body {
+			opacity: 0.5;
+		}
+
+		.delete-confirm-modal .close {
+			position: relative;
+			right: -.7rem;
+			top: -1rem;
+			cursor: pointer;
+			transition: all .3s ease-out;
+			color: #242d49;
+		}
+
+		.delete-confirm-modal .close:hover {
+			transform: rotate(90deg);
+			color: #ff919d;
+		}
+
+		.delete-confirm-modal h2 {
+			margin-bottom: 20px;
+			text-align: center;
+		}
+
+		.delete-confirm-modal h2 span {
+			color: red;
+		}
+
+		.delete-confirm-modal label {
+			display: block;
+			margin-bottom: 10px;
+			color: #333;
+		}
+
+
+		.delete-confirm-modal input[type="password"] {
+			width: 100%;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			margin-bottom: 20px;
+			box-sizing: border-box;
+		}
+
+
+		.delete-confirm-modal input[type="submit"],
+		.delete-user {
+			background-color: red;
+			color: #fff;
+			border: none;
+			border-radius: 5px;
+			padding: 10px 20px;
+			font-size: 16px;
+			cursor: pointer;
+			transition: all .3s ease-in-out;
+		}
+
+		.delete-confirm-modal input[type="submit"]:hover,
+		.delete-user {
+			background-color: #ff7585;
+		}
+
+		.error-message {
+			color: red;
+			font-size: 1.2rem;
+			margin-left: 1rem;
+		}
 	</style>
 </head>
 
@@ -182,6 +274,30 @@
 		</div>
 
 		<div class="card">
+			<button class="delete-user" onclick="toggleDeleteConfirmModal()">Delete Account</button>
+			<span th:if="${error}" class="error-message">
+				Wrong password, please try again.
+			</span>
+
+		</div>
+
+		<!-- deletion confirm modal -->
+		<div class="delete-confirm-modal">
+			<div class="delete-confirm-modal-content">
+				<span class="close" onclick="toggleDeleteConfirmModal()">&times;</span>
+				<h2>Are you sure you want to <span>DELETE</span> your account?</h2>
+				<form action="deleteUser" method="post">
+					<div class="input-group">
+						<label for="password">Enter your password to confirm</label>
+						<input type="password" id="password" name="password" required>
+					</div>
+					<button type="submit">Delete Account</button>
+				</form>
+			</div>
+
+		</div>
+
+		<div class="card">
 			<h2>Update Profile Picture</h2>
 			<form action="/uploadProfilePicture" method="post" enctype="multipart/form-data">
 				<div class="input-group">
@@ -205,6 +321,9 @@
 		var span = document.getElementsByClassName("close")[0];
 		span.onclick = function () {
 			modal.style.display = "none";
+		}
+		function toggleDeleteConfirmModal() {
+			document.querySelector(".delete-confirm-modal").classList.toggle("show");
 		}
 	</script>
 </body>
