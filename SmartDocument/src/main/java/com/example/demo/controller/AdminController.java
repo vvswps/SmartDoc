@@ -132,6 +132,7 @@ public class AdminController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		if (!awardsFiles.isEmpty()) {
 			model.addAttribute("awardsFiles", awardsFiles);
 		}

@@ -38,7 +38,7 @@
       background-color: #fff;
       border-radius: 10px;
       box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
+      z-index: 100;
       overflow: hidden;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -104,7 +104,7 @@
       font-size: 0.9rem;
       font-weight: 400;
       pointer-events: none;
-      z-index: 1000;
+      z-index: 10;
       transition: 0.5s;
     }
 
@@ -137,7 +137,6 @@
       padding: 0 0.4rem;
       color: transparent;
       pointer-events: none;
-      z-index: 500;
     }
 
     .input-container span:before,
@@ -334,15 +333,97 @@
     .input:valid+.tooltip {
       opacity: 1;
     }
+
+    input[name="email"] {
+      max-width: 65%;
+    }
+
+    .message {
+      color: red;
+      font-size: 1.2rem;
+    }
+
+    .popup-message {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #d0f4de;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .popup-message h2 {
+      margin-top: 1rem;
+    }
+
+    .success-icon {
+      width: 70px;
+      height: 70px;
+    }
+
+    .success-icon__circle {
+      stroke: #2ecc71;
+      /* Green color for the circle */
+      stroke-width: 2;
+      animation: animate-circle 0.5s ease-in-out forwards;
+    }
+
+    .success-icon__check {
+      stroke: #2ecc71;
+      /* Green color for the checkmark */
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: animate-check 0.5s 0.5s ease-in-out forwards;
+    }
+
+    /* Animation keyframes */
+    @keyframes animate-circle {
+      0% {
+        stroke-dasharray: 0;
+      }
+
+      100% {
+        stroke-dasharray: 150;
+      }
+    }
+
+    @keyframes animate-check {
+      0% {
+        stroke-dashoffset: 1000;
+      }
+
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    #email-suffix {
+      display: inline;
+      position: absolute;
+      top: .5rem;
+      margin-left: .5rem;
+      color: rgb(8, 14, 12);
+    }
   </style>
 </head>
 
 <body>
-
-  <th:block th:if="${session.msg}">
-    <p class="text-center fs-4 text-success">[[${session.msg}]]</p>
-  </th:block>
-
+  <div class="popup-message">
+    <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+      <circle class="success-icon__circle" cx="26" cy="26" r="25" fill="none" />
+      <path class="success-icon__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+    </svg>
+    <h2 th:text="${successMsg}" id="registrationSuccessMessage"></h2>Let's goto Login...
+  </div>
   <div class="container">
     <span class="big-circle"></span>
     <!-- circle on the left side and dots on the right -->
@@ -355,9 +436,9 @@
       </div>
 
       <div class="reg-form">
-
         <form action="createUser" method="post">
           <h3 class="title">Please fill the fields below</h3>
+          <h2 class="message" th:text="${regMsg}"></h2>
           <div class="input-container">
             <input type="text" name="name" class="input" required />
             <label for="">Name</label>
@@ -365,7 +446,8 @@
           </div>
           <div class="input-container">
             <!-- <input type="email" name="email" class="input" required/> -->
-            <input type="email" name="email" class="input" pattern="[a-zA-Z0-9._%+-]+@niet\.co\.in$" required />
+            <input type="text" name="email" class="input" pattern="[a-zA-Z0-9]+" required />
+            <div id="email-suffix">@niet.co.in</div>
             <!-- <div class="tooltip">Only emails with @niet.co.in suffix are allowed</div> -->
             <label for="">Email</label>
             <span>Email</span>
@@ -431,17 +513,17 @@
       input.addEventListener("blur", blurFunc);
     });
 
-    // const select_label = document.querySelector("select.input + label")
-    // document.querySelector("select").addEventListener("click", function () {
-    //   select_label.classList.add("show");
-    // });
+    window.addEventListener('DOMContentLoaded', function () {
+      const popupMessage = document.querySelector('.popup-message');
+      let successMsg = popupMessage.querySelector('#registrationSuccessMessage').textContent;
 
-    /* window.onload = function() {
-    if(performance.navigation.type === 1) {
-      // The page was reloaded, so clear the session variable
-      sessionStorage.removeItem("msg");
-    }
-  } */
+      if (successMsg !== '') {
+        popupMessage.style.display = 'flex';
+        setTimeout(function () {
+          window.location.href = '/signin';
+        }, 1000);
+      }
+    });
   </script>
 </body>
 

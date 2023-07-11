@@ -21,8 +21,6 @@ import com.example.demo.model.UserDtls;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 
-import jakarta.servlet.http.HttpSession;
-
 @Controller
 public class HomeController {
 
@@ -86,6 +84,11 @@ public class HomeController {
 		return "dashboard";
 	}
 
+	@GetMapping("/createUser")
+	public String getCreateUser() {
+		return "registration";
+	}
+
 	/*
 	 * This method handles the POST request for creating a new user.
 	 * It takes the UserDtls object, HttpSession, and role as parameters.
@@ -100,23 +103,30 @@ public class HomeController {
 	 * session attribute.
 	 */
 	@PostMapping("/createUser")
-	public String createuser(@ModelAttribute UserDtls user, HttpSession session, @RequestParam String role) {
-		if (!(role.equals("ROLE_USER") || role.equals("ROLE_TEACHER"))) {
-			session.setAttribute("msg", "Something went wrong!!");
-		}
-		boolean isEmailRegistered = userService.checkEmail(user.getEmail());
-		if (isEmailRegistered) {
-			session.setAttribute("msg", "Email is already registered.");
-		} else {
-			UserDtls createdUser = userService.createUser(user, role);
-			if (createdUser != null) {
-				session.setAttribute("msg", "Registered successfully");
-				return "redirect:/signin";
+	public String createUser(@ModelAttribute UserDtls user, @RequestParam String role, Model model) {
+		String regMsg = "";
+		user.setEmail(user.getEmail() + "@niet.co.in");
+
+		if (role.equals("ROLE_USER") || role.equals("ROLE_TEACHER")) {
+			boolean isEmailRegistered = userService.checkEmail(user.getEmail());
+
+			if (isEmailRegistered) {
+				regMsg = "Email is already registered.";
 			} else {
-				session.setAttribute("msg", "Something went wrong!!");
+				UserDtls createdUser = userService.createUser(user, role);
+
+				if (createdUser != null) {
+					model.addAttribute("successMsg", "Registered successfully!");
+				} else {
+					regMsg = "Something went wrong!!";
+				}
 			}
+		} else {
+			regMsg = "Something went wrong!!";
 		}
-		return "redirect:/registration";
+
+		model.addAttribute("regMsg", regMsg);
+		return "registration";
 	}
 
 	/*
