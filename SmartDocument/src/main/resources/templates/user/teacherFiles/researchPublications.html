@@ -227,10 +227,10 @@
             </path>
         </svg>
         <label for="title">Title of Paper:</label>
-        <input type="text" id="title" name="title"><br><br>
+        <input type="text" id="title" name="title" required><br><br>
 
         <label for="date">Date of Publishing:</label>
-        <input type="date" id="date" name="date"><br><br>
+        <input type="date" id="date" name="date" required><br><br>
 
         <label for="publicationType">Type of Publishing:</label>
         <input type="radio" name="publicationType" value="Conference">
@@ -241,16 +241,16 @@
         <input type="text" id=" publicationName" name=" publicationName"><br><br>
 
         <label for="ISSN">ISSN Number:</label>
-        <input type="text" id="ISSN" name="ISSN"><br><br>
+        <input type="text" id="ISSN" name="ISSN" required><br><br>
 
         <label for="DOI"> Digital Object Identifier (DOI):</label>
-        <input type="text" id="DOI" name="DOI"><br><br>
+        <input type="text" id="DOI" name="DOI" required><br><br>
 
         <label for="volume"> Volume:</label>
-        <input type="text" id="volume" name="volume"><br><br>
+        <input type="text" id="volume" name="volume" required><br><br>
 
         <label for="document">Supporting Document:</label>
-        <input type="file" id="file" name="file"><br><br>
+        <input type="file" id="file" name="file" required><br><br>
 
         <input type="hidden" name="type" value="research">
         <input type="submit" value="Submit">
@@ -269,7 +269,7 @@
         </svg>
 
         <label for="book">Type of Publication</label>
-        <input type="radio" name="publicationType" value="book">
+        <input type="radio" name="publicationType" value="book" required>
         Book<br>
         <input type="radio" name="publicationType" value="bookChapter">
         Book Chapter<br><br>
@@ -277,16 +277,16 @@
         <input type="text" id="title" name="title"><br><br>
 
         <label for="date">Date of Publishing:</label>
-        <input type="date" id="date" name="date"><br><br>
+        <input type="date" id="date" name="date" required><br><br>
 
         <label for="publicationName">Name of Publisher:</label>
-        <input type="text" id="pubName" name="publicationName"><br><br>
+        <input type="text" id="pubName" name="publicationName" required><br><br>
 
         <label for="ISBN"> ISBN Number:</label>
-        <input type="text" id="value" name="ISBN"><br><br>
+        <input type="text" id="value" name="ISBN" required><br><br>
 
         <label for="document">Supporting Document:</label>
-        <input type="file" id="file" name="file"><br><br>
+        <input type="file" id="file" name="file" required><br><br>
 
         <input type="hidden" name="type" value="book">
         <input type="submit" value="Submit">

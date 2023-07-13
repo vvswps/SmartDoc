@@ -391,6 +391,8 @@ public class AdminController {
 					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.WORKSHOP, 0));
 		}
 	}
+	
+
 
 	@GetMapping("/permissions")
 	public String permissions(Model model, HttpSession session) {
@@ -398,6 +400,8 @@ public class AdminController {
 		model.addAttribute("deptName", dept);
 		return "user/admin/permissions";
 	}
+	
+
 
 	@PostMapping("/permissions")
 	public String getPermissions(@RequestParam("department") String dept, Model model, HttpSession session) {
@@ -426,6 +430,8 @@ public class AdminController {
 		}
 		return "redirect:/admin/permissions";
 	}
+
+
 
 	@GetMapping("/")
 	public String home() {

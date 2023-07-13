@@ -46,7 +46,7 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 		http.authorizeHttpRequests().requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/student/**")
-				.hasRole("student").requestMatchers("/teacher/**").hasRole("TEACHER")
+				.hasRole("student").requestMatchers("/teacher/**").hasRole("TEACHER").requestMatchers("/hod/**").hasRole("HOD")
 				.requestMatchers("/**").permitAll().and().formLogin().loginPage("/signin").loginProcessingUrl("/login")
 				.successHandler(customSuccessHandler).and().csrf().disable();
 		http.authenticationProvider(getDaoAuthProvider());

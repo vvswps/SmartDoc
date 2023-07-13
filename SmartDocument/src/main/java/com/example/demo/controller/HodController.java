@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -15,35 +17,47 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.model.DatabaseFile;
+import com.example.demo.model.DatabaseFile.FileType;
 import com.example.demo.model.PersonalDtls;
 import com.example.demo.model.UserDtls;
-import com.example.demo.model.DatabaseFile.FileType;
 import com.example.demo.repository.DatabaseFileRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.personalRepository;
 import com.example.demo.service.PersonalService;
+import com.example.demo.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/teacher")
-public class TeacherController {
-
+@RequestMapping("/hod")
+public class HodController {
 	@Autowired
-	private UserRepository userRepo;
-
-	@Autowired
-	private DatabaseFileRepository fileRepo;
-
+	private UserService userService;
+	
 	@Autowired
 	private PersonalService personalService;
 
+	@Autowired
+	private UserRepository userRepo;
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
 	@Autowired
 	private personalRepository personalRepository;
 
+	@Autowired
+	private DatabaseFileRepository fileRepo;
+
+//	@ModelAttribute
+//	private void userDetails(Model model, Principal p) {
+//		if (p != null) {
+//			String email = p.getName();
+//			UserDtls user = userRepo.findByEmail(email);
+//
+//			model.addAttribute("user", user);
+//		}
+//
+//	}
 	@ModelAttribute
 	private void userDetails(Model model, Principal p) {
 		if (p != null) {
@@ -140,7 +154,126 @@ public class TeacherController {
 		}
 
 	}
+	
+	
+	
+	
+	@PostMapping("/getFacultyByEmail")
+	public String getFacultyByEmail(@RequestParam String email, Model model,RedirectAttributes redirectAttributes, HttpSession session, Principal principal) {
+	    System.out.println("In getFacultyByEmail()");
 
+	    UserDtls hodUser = userRepo.findByEmail(principal.getName());
+	    UserDtls facultyUser = userRepo.findByEmail(email);
+	    if (facultyUser == null) {
+	        // The faculty user does not exist
+	        redirectAttributes.addFlashAttribute("error", "Invalid email");
+	        return "redirect:/hod/facultyView";
+	    }
+
+	    // Check if the HOD and faculty belong to the same department
+	    if (hodUser.getBranch().equals(facultyUser.getBranch())) {
+	        session.setAttribute("email", email);
+
+	        PersonalDtls puser = personalRepository.findById(facultyUser.getId());
+	        model.addAttribute("puser", puser);
+
+	        List<DatabaseFile> awardsFiles = new ArrayList<>();
+	        List<DatabaseFile> achievementsFiles = new ArrayList<>();
+	        List<DatabaseFile> researchFiles = new ArrayList<>();
+	        List<DatabaseFile> bookFiles = new ArrayList<>();
+	        List<DatabaseFile> fdpFiles = new ArrayList<>();
+	        List<DatabaseFile> sttpFiles = new ArrayList<>();
+	        List<DatabaseFile> qipFiles = new ArrayList<>();
+	        List<DatabaseFile> workshopFiles = new ArrayList<>();
+
+	        List<DatabaseFile> files = fileRepo.findByUser(facultyUser);
+
+	        try {
+	            for (DatabaseFile file : files) {
+	                FileType fileType = file.getType();
+	                System.out.println(file + "Type:\t" + fileType);
+	                switch (fileType) {
+	                    case AWARD:
+	                        awardsFiles.add(file);
+	                        break;
+	                    case ACHIEVEMENT:
+	                        achievementsFiles.add(file);
+	                        break;
+	                    case RESEARCH_PAPER:
+	                        researchFiles.add(file);
+	                        break;
+	                    case BOOK_OR_CHAPTER:
+	                        bookFiles.add(file);
+	                        break;
+	                    case FDP:
+	                        fdpFiles.add(file);
+	                        break;
+	                    case STTP:
+	                        sttpFiles.add(file);
+	                        break;
+	                    case QIP:
+	                        qipFiles.add(file);
+	                        break;
+	                    case WORKSHOP:
+	                        workshopFiles.add(file);
+	                        break;
+	                    default:
+	                        System.out.println("Unknown file type");
+	                }
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        if (!awardsFiles.isEmpty()) {
+	            model.addAttribute("awardsFiles", awardsFiles);
+	        }
+	        if (!achievementsFiles.isEmpty()) {
+	            model.addAttribute("achievementsFiles", achievementsFiles);
+	        }
+
+	        if (!researchFiles.isEmpty()) {
+	            model.addAttribute("researchFiles", researchFiles);
+	        }
+
+	        if (!bookFiles.isEmpty()) {
+	            model.addAttribute("bookFiles", bookFiles);
+	        }
+
+	        if (!fdpFiles.isEmpty()) {
+	            model.addAttribute("fdpFiles", fdpFiles);
+	        }
+
+	        if (!sttpFiles.isEmpty()) {
+	            model.addAttribute("sttpFiles", sttpFiles);
+	        }
+
+	        if (!qipFiles.isEmpty()) {
+	            model.addAttribute("qipFiles", qipFiles);
+	        }
+
+	        if (!workshopFiles.isEmpty()) {
+	            model.addAttribute("workshopFiles", workshopFiles);
+	        }
+
+	        return "user/admin/emailView";
+	    } else {
+	    	redirectAttributes.addFlashAttribute("error", "apna department dekh na");
+			return "redirect:/hod/settings";
+	    }
+	}
+	
+	
+	
+	///upload
+	@GetMapping("/files")
+	public String listFiles(Model model, Principal principal) {
+		
+		UserDtls user = userRepo.findByEmail(principal.getName());
+		List<DatabaseFile> files = user.getFiles();
+		model.addAttribute("files", files);
+		return "files";
+	}
+	
 	@PostMapping("/updateTeacher")
 	public String updateUser(Principal p,
 			@RequestParam(required = true) String name,
@@ -207,53 +340,80 @@ public class TeacherController {
 
 			// save the updated personal details object
 			personalRepository.save(existingPersonalDtls);
-			return "redirect:/teacher/personalInfo";
+			return "redirect:/hod/personalInfo";
 
 		} catch (Exception e) {
 			System.err.println("Error in updating user details\n\n\n\n");
 			e.printStackTrace();
 		}
-		return "redirect:/teacher/update-user-details";
+		return "redirect:/hod/update-user-details";
 	}
 
-	@GetMapping("/files")
-	public String listFiles(Model model, Principal principal) {
-		/*
-		 * to use the above mapping in a web page, use the following code
-		 * <table>
-		 * <thead>
-		 * <tr>
-		 * <th>Name</th>
-		 * <th>Type</th>
-		 * <th>Actions</th>
-		 * </tr>
-		 * </thead>
-		 * <tbody>
-		 * <tr th:each="file : ${files}">
-		 * <td th:text="${file.fileName}"></td>
-		 * <td th:text="${file.fileType}"></td>
-		 * <td>
-		 * <a th:href="@{/download/{id}(id=${file.id})}"
-		 * class="btn btn-primary">Download</a>
-		 * <span th:if="${file.user.id == currentUser.id}">
-		 * <a href="#" class="btn btn-primary" data-toggle="modal"
-		 * data-target="#uploadModal">Upload New Version</a>
-		 * </span>
-		 * </td>
-		 * </tr>
-		 * </tbody>
-		 * </table>
-		 * 
-		 */
-		UserDtls user = userRepo.findByEmail(principal.getName());
-		List<DatabaseFile> files = user.getFiles();
-		model.addAttribute("files", files);
-		return "files";
+	
+	
+	
+	
+	
+	@PostMapping(value = "/getFacultyByDept")
+	public String getFacultyByDept(@RequestParam("department") String dept, Model model,RedirectAttributes redirectAttributes, HttpSession session, Principal principal) {
+	    System.out.println("\n\n\nIn getFacultyByDept()\n\n\n");
+
+	    UserDtls hodUser = userRepo.findByEmail(principal.getName());
+
+	    // Check if the HOD's department matches the requested department
+	    if (hodUser.getBranch().equals(dept)) {
+	        List<UserDtls> teachers = userRepo.findByBranchAndRole(dept, "ROLE_TEACHER");
+	        model.addAttribute("deptName", dept);
+	        session.setAttribute("deptName", dept);
+	        model.addAttribute("teachers", teachers);
+
+	        Map<String, Map<FileType, Integer>> teacherFileCounts = new HashMap<>();
+
+	        for (UserDtls teacher : teachers) {
+	            Map<FileType, Integer> fileCounts = new HashMap<>();
+	            for (FileType fileType : FileType.values()) {
+	                if (fileType == FileType.PROFILE_PICTURE)
+	                    continue;
+
+	                fileCounts.put(fileType, 0);
+	            }
+	            for (DatabaseFile file : teacher.getFiles()) {
+	                FileType fileType = file.getType();
+
+	                if (fileType == FileType.PROFILE_PICTURE)
+	                    continue;
+	                fileCounts.put(fileType, fileCounts.get(fileType) + 1);
+	            }
+	            teacherFileCounts.put(teacher.getName(), fileCounts);
+	        }
+
+	        System.out.println("\n\nTeacher file counts!!!!!!!!!!!!!!!!!!!!!!!");
+	        System.out.println(teacherFileCounts);
+
+	        model.addAttribute("teacherFileCounts", teacherFileCounts);
+
+	        return "user/admin/deptView";
+	    } else {
+	    	redirectAttributes.addFlashAttribute("error", "apna department dekh na");
+			return "redirect:/hod/facultyView";
+//	        // HOD's department does not match the requested department, handle the error or redirection here
+//	        return "errorPage"; // Replace with the appropriate error handling or redirection logic
+	    }
 	}
 
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
 	@GetMapping("/")
 	public String home() {
-		return "user/teacherFiles/teacher";
+		return "user/hod/hod";
 	}
 
 	@GetMapping("/teacher-dashboard")
@@ -276,11 +436,10 @@ public class TeacherController {
 		return "user/teacherFiles/awardsAchievements";
 	}
 
-	@GetMapping("/interactions")
-	public String interactions() {
-		return "user/teacherFiles/interactions";
+	@GetMapping("/update-user-details")
+	public String updateDetails() {
+		return "user/teacherFiles/detailUpdateForm";
 	}
-
 	@GetMapping("/fdp")
 	public String fdp() {
 		return "user/teacherFiles/fdp";
@@ -290,33 +449,15 @@ public class TeacherController {
 	public String settings() {
 		return "user/teacherFiles/settings";
 	}
-
-	@GetMapping("/changePass")
-	public String loadChangePassword() {
-		return "user/teacherFiles/settings";
+	@GetMapping("/facultyView")
+	public String facultyView() {
+		return "user/admin/faculty";
 	}
-
-	@GetMapping("/update-user-details")
-	public String updateDetails() {
-		return "user/teacherFiles/detailUpdateForm";
+	@GetMapping("/mailView")
+	public String mailView() {
+		return "user/admin/emailView";
 	}
-
-	@PostMapping("/personalUser")
-	public String personalUser(@ModelAttribute PersonalDtls puser) {
-		PersonalDtls personalDtls = personalService.personalUser(puser);
-
-		if (personalDtls != null) {
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			return "user/teacherFiles/personalInfo";
-		}
-		return "user/teacherFiles/detailUpdateForm";
-
-	}
-
+	
 	@PostMapping("/updatePassword")
 	public String changePassword(Principal p, @RequestParam String oldPass,
 			@RequestParam String newPass, HttpSession session) {
@@ -341,34 +482,9 @@ public class TeacherController {
 
 		}
 
-		return "redirect:/teacher/settings";
+		return "redirect:/hod/settings";
 
 	}
 
-	@PostMapping("/deleteUser")
-	public String deleteUser(Principal principal, @RequestParam String password, RedirectAttributes redirectAttributes,
-			HttpSession session) {
-		String email = principal.getName();
-		UserDtls user = userRepo.findByEmail(email);
-
-		// Check if user is admin
-		if ("ROLE_ADMIN".equals(user.getRole())) {
-			return "redirect:/logout";
-		}
-
-		if (passwordEncoder.matches(password, user.getPassword())) {
-			// Delete the user
-			userRepo.delete(user);
-
-			// // Invalidate the session
-			// session.invalidate();
-
-			redirectAttributes.addFlashAttribute("message", "User deleted successfully");
-			return "redirect:/logout";
-		} else {
-			redirectAttributes.addFlashAttribute("error", "Incorrect password");
-			return "redirect:/teacher/settings";
-		}
-	}
 
 }
