@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conference Workshop Seminar</title>
+    <link rel="stylesheet" href="/css/viewAndUploadPages.css">
+</head>
+
+<body>
+    <header>
+        <div class="title-area">
+            <h1>Conference / Workshop / Seminar</h1>
+            <div class="profile">
+                <div class="name">[[${user.name}]]</div>
+                <img src="/profilePicture" alt="" onclick="showModal('img-modal')">
+            </div>
+        </div>
+    </header>
+    <div id="img-modal" class="img-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('img-modal')">&times;</span>
+            <img src="/profilePicture" alt="">
+        </div>
+    </div>
+
+
+    <form class="modal" id="conference-workshop-seminar-modal" action="/uploadDoc" method="post"
+        enctype="multipart/form-data">
+        <h2>New Conference / Workshop / Seminar</h2>
+        <!-- x svg to close the modal -->
+        <svg onclick="closeModal('conference-workshop-seminar-modal')" xmlns="http://www.w3.org/2000/svg"
+            enable-background="new 0 0 512 512" viewBox="0 0 512 512" id="close-modal">
+            <path
+                d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
+            </path>
+        </svg>
+        <label for="title">Title of event</label>
+        <input type="text" id="title" name="title"><br>
+
+        <label for="eventRole">Organiser or Attendee:</label>
+        <input type="radio" name="eventRole" value="Organiser">
+        Organiser<br>
+        <input type="radio" name="eventRole" value="Attendee">
+        Attendee<br><br>
+
+        <label for="nature">Nature of Workshop:</label>
+        <input type="radio" name="nature" value="Online">
+        Online<br>
+        <input type="radio" name="nature" value="Offline">
+        Offline<br><br>
+
+        <label for="durationFrom">Event started from:</label>
+        <input type="date" id="durationFrom" name="durationFrom">
+
+        <label for="durationTo">Event ended on:</label>
+        <input type="date" id="durationTo" name="durationTo">
+
+        <label for="noOfDays">Number of Days Attended:</label>
+        <input type="number" id="noOfDays" name="noOfDays" readonly> <br><br>
+
+        <label for="organizedBy">Organization Name:</label>
+        <input type="text" id="organizedBy" name="organizedBy"><br>
+
+
+        <label for="type">Type of event</label>
+        <input type="radio" name="type" value="workshop">
+        Workshop<br>
+        <input type="radio" name="type" value="conference">
+        Conference<br>
+        <input type="radio" name="type" value="seminar">
+        Seminar<br><br>
+
+        <label for="document">Supporting Document:</label>
+        <input type="file" id="file" name="file"><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+
+    <div class="details">
+        <h2>Conference / Workshop / Seminar</h2>
+        <table class="conference-workshop-seminar-view">
+            <tr>
+                <th>Sr. No.</th>
+                <th>Title</th>
+                <th>Organiser/Attendee</th>
+                <th>Online/Offline</th>
+                <th>Duration (days)</th>
+                <th>Organization Name</th>
+                <th>Type</th>
+                <th>Download</th>
+            </tr>
+            </tr>
+            <tr th:if="${not #lists.isEmpty(workshopFiles)}" th:each="file, iteration : ${workshopFiles}">
+                <td th:text="${iteration.count}"></td>
+                <td th:text="${file.title}"></td>
+                <td th:text="${file.eventRole}"></td>
+                <td th:text="${file.nature}"></td>
+                <td th:text="${file.noOfDays}"></td>
+                <td th:text="${file.organizedBy}"></td>
+                <td th:text="${file.eventType}"></td>
+                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(workshopFiles)}">
+                <td colspan="8">No documents found</td>
+            </tr>
+        </table>
+        <button class="upload-button" onclick="showModal('conference-workshop-seminar-modal')">Upload</button>
+    </div>
+    <script>
+        function showModal(id) {
+            console.log(`Showing modal ${id}`);
+            document.querySelector(`#${id}`).classList.add('show');
+        }
+        function closeModal(id) {
+            document.querySelector(`#${id}`).classList.remove('show');
+        }
+
+        const inputFrom = document.querySelector(".durationFrom");
+        const inputTo = document.querySelector(".durationTo");
+        const numDaysAttendInput = document.querySelector(".noOfDays");
+
+        inputFrom.addEventListener("input", calculateNumDaysAttend);
+        inputTo.addEventListener("input", calculateNumDaysAttend);
+
+        function calculateNumDaysAttend() {
+            const fdpFrom = new Date(inputFrom.value);
+            const fdpTo = new Date(inputTo.value);
+            const numDaysAttend = Math.ceil((fdpTo - fdpFrom) / (1000 * 60 * 60 * 24));
+            numDaysAttendInput.value = numDaysAttend;
+        }
+
+    </script>
+</body>
+
+</html>

@@ -43,6 +43,8 @@
             font-family: "Inter", sans-serif;
         }
 
+
+
         .AppGlass {
             display: grid;
             height: 97%;
@@ -50,7 +52,7 @@
             background: var(--glass);
             border-radius: 2rem;
             gap: 16px;
-            grid-template-columns: 11rem auto;
+            grid-template-columns: 13rem auto;
             overflow: hidden;
         }
 
@@ -89,7 +91,7 @@
             align-items: center;
             justify-content: center;
             height: 4%;
-            margin-left: .5rem;
+            margin-left: 0.5rem;
         }
 
         .logo>span>span {
@@ -101,20 +103,22 @@
             height: 3rem;
         }
 
-
         /* menu */
         .menu {
-            margin-top: 4rem;
+            margin-top: 3rem;
             display: flex;
             flex-direction: column;
             gap: 2rem;
+            overflow-y: auto;
+            overflow-x: hidden;
+            max-height: 70vh;
         }
 
         .menuItem {
             display: flex;
             align-items: center;
             gap: 1rem;
-            height: 2.5rem;
+            min-height: 2.5rem;
             margin-left: 2rem;
             position: relative;
             transition: all 300ms ease;
@@ -127,14 +131,13 @@
             color: var(--black);
         }
 
-        .menuItem:hover {
-            cursor: pointer;
+        .menuItem svg {
+            min-width: 1.5rem;
+            min-height: 1.5rem;
         }
 
-        .menu .menuItem:last-child {
-            position: absolute;
-            bottom: 2.3rem;
-            width: 100%;
+        .menuItem:hover {
+            cursor: pointer;
         }
 
         .active {
@@ -150,6 +153,9 @@
             margin-right: calc(1rem - 8px);
         }
 
+        .logout {
+            margin-top: 1rem;
+        }
 
         /* Tablets */
         @media screen and (max-width: 1200px) {
@@ -228,19 +234,19 @@
                                 </path>
                             </svg><a href="adminDashboard" target="content">Dashboard</a>
                         </div>
-                        
-                        
-                        
+
+
+
                         <div class="menuItem"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="currentColor">
                                 <path
                                     d="M15,14H9a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2Zm0-4H11a1,1,0,0,0,0,2h4a1,1,0,0,0,0-2Zm2-6H15.82A3,3,0,0,0,13,2H11A3,3,0,0,0,8.18,4H7A3,3,0,0,0,4,7V19a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V7A3,3,0,0,0,17,4ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm8,14a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V7A1,1,0,0,1,7,6H8V7A1,1,0,0,0,9,8h6a1,1,0,0,0,1-1V6h1a1,1,0,0,1,1,1Z">
                                 </path>
                             </svg><a href="permissions" target="content">Permissions</a></div>
-                        
-                        
-                        
-                        
+
+
+
+
                         <div class="menuItem"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="currentColor">
                                 <path
@@ -266,13 +272,6 @@
                                         d="M12.59,13l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l4-4a1,1,0,0,0,.21-.33,1,1,0,0,0,0-.76,1,1,0,0,0-.21-.33l-4-4a1,1,0,1,0-1.42,1.42L12.59,11H3a1,1,0,0,0,0,2ZM12,2A10,10,0,0,0,3,7.55a1,1,0,0,0,1.8.9A8,8,0,1,1,12,20a7.93,7.93,0,0,1-7.16-4.45,1,1,0,0,0-1.8.9A10,10,0,1,0,12,2Z">
                                     </path>
                                 </svg></a></div>
-                                
-                                
-                            
-                            
-                            
-                            
-                                
                     </div>
                 </div>
 

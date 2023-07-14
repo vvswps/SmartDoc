@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest Lecture and Industrial Visits</title>
+    <link rel="stylesheet" href="/css/viewAndUploadPages.css">
+</head>
+
+<body>
+    <header>
+        <div class="title-area">
+            <h1>Guest Lecture and Industrial Visits</h1>
+            <div class="profile">
+                <div class="name">[[${user.name}]]</div>
+                <img src="/profilePicture" alt="" onclick="showModal('img-modal')">
+            </div>
+        </div>
+    </header>
+    <div id="img-modal" class="img-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('img-modal')">&times;</span>
+            <img src="/profilePicture" alt="">
+        </div>
+    </div>
+
+
+    <form class="modal" id="guest-lecture-modal" action="/uploadDoc" method="post" enctype="multipart/form-data">
+        <h2>New Guest Lecture</h2>
+        <!-- x svg to close the modal -->
+        <svg onclick="closeModal('guest-lecture-modal')" xmlns="http://www.w3.org/2000/svg"
+            enable-background="new 0 0 512 512" viewBox="0 0 512 512" id="close-modal">
+            <path
+                d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
+            </path>
+        </svg>
+        <label for="lectureTopic">Topic of lecture:</label>
+        <input type="text" id="lectureTopic" name="lectureTopic">
+
+        <label for="nature">Nature of Workshop:</label>
+        <input type="radio" name="nature" value="Online">
+        Online<br>
+        <input type="radio" name="nature" value="Offline">
+        Offline<br><br>
+
+        <label for="placeOrEvent">Place/Event where the lecture was delivered:</label>
+        <input type="text" id="placeOrEvent" name="placeOrEvent">
+
+        <label for="durationFrom">Event started from:</label>
+        <input type="date" id="durationFrom" name="durationFrom">
+
+        <label for="document">Supporting Document:</label>
+        <input type="file" id="file" name="file"><br>
+
+        <input type="hidden" name="type" value="guestLecture">
+        <input type="submit" value="Submit">
+    </form>
+
+    <form class="modal" id="industrial-visits-modal" action="/uploadDoc" method="post" enctype="multipart/form-data">
+        <h2>New Industrial Visit</h2>
+        <!-- x svg to close the modal -->
+        <svg onclick="closeModal('industrial-visits-modal')" xmlns="http://www.w3.org/2000/svg"
+            enable-background="new 0 0 512 512" viewBox="0 0 512 512" id="close-modal">
+            <path
+                d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
+            </path>
+        </svg>
+
+        <label for="placeOrEvent">Name of industry visited & Place</label>
+        <input type="text" id="placeOrEvent" name="placeOrEvent"><br>
+
+        <label for="lectureTopic">Topic of lecture:</label>
+        <input type="text" id="lectureTopic" name="lectureTopic">
+
+        <label for="noOfStudentsVisited">No. of students visited:</label>
+        <input type="text" id="noOfStudentsVisited" name="noOfStudentsVisited" pattern="[0-9]+"><br>
+
+        <label for="date">On Date:</label>
+        <input type="date" id="date" name="date">
+
+        <label for="document">Supporting Document:</label>
+        <input type="file" id="file" name="file"><br>
+
+        <input type="hidden" name="type" value="industrialVisit">
+        <input type="submit" value="Submit">
+    </form>
+
+
+    <div class="details">
+        <h2>Guest Lecture</h2>
+        <table class="guest-lecture-view">
+            <tr>
+                <th>Sr. No.</th>
+                <th>Topic of lecture</th>
+                <th>Online/Offline</th>
+                <th>Place/Event where the lecture was delivered</th>
+                <th>Date</th>
+                <th>Download</th>
+            </tr>
+            </tr>
+            <tr th:if="${not #lists.isEmpty(guestLectureFiles)}" th:each="file, iteration : ${guestLectureFiles}">
+                <td th:text="${iteration.count}"></td>
+                <td th:text="${file.lectureTopic}"></td>
+                <td th:text="${file.nature}"></td>
+                <td th:text="${file.placeOrEvent}"></td>
+                <td th:text="${file.date}"></td>
+                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(guestLectureFiles)}">
+                <td colspan="8">No documents found</td>
+            </tr>
+        </table>
+        <button class="upload-button" onclick="showModal('guest-lecture-modal')">Upload</button>
+    </div>
+
+    <div class="details">
+        <h2>Industrial Visits</h2>
+        <table class="industrial-visits-view">
+            <tr>
+                <th>Sr. No.</th>
+                <th>Name of industry visited & Place</th>
+                <th>No. of students visited</th>
+                <th>Date of visit</th>
+                <th>Download</th>
+            </tr>
+            </tr>
+            <tr th:if="${not #lists.isEmpty(industrialVisitsFiles)}"
+                th:each="file, iteration : ${industrialVisitsFiles}">
+                <td th:text="${iteration.count}"></td>
+                <td th:text="${file.placeOrEvent}"></td>
+                <td th:text="${file.noOfStudentsVisited}"></td>
+                <td th:text="${file.date}"></td>
+                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(industrialVisitsFiles)}">
+                <td colspan="8">No documents found</td>
+            </tr>
+        </table>
+        <button class="upload-button" onclick="showModal('industrial-visits-modal')">Upload</button>
+    </div>
+    <script>
+        function showModal(id) {
+            console.log(`Showing modal ${id}`);
+            document.querySelector(`#${id}`).classList.add('show');
+        }
+        function closeModal(id) {
+            document.querySelector(`#${id}`).classList.remove('show');
+        }
+    </script>
+</body>
+
+</html>

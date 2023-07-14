@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Awards & Achievements</title>
+  <link rel="stylesheet" href="/css/viewAndUploadPages.css">
+</head>
+
+<body>
+  <header>
+    <div class="title-area">
+      <h1>Awards & Patents</h1>
+      <div class="profile">
+        <div class="name">[[${user.name}]]</div>
+        <img src="/profilePicture" alt="" onclick="showModal('img-modal')">
+      </div>
+    </div>
+  </header>
+  <div id="img-modal" class="img-modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('img-modal')">&times;</span>
+      <img src="/profilePicture" alt="">
+    </div>
+  </div>
+
+  <form class="modal" id="awards-modal" action="/uploadDoc" method="post" enctype="multipart/form-data">
+    <h2>Upload New Awards</h2>
+    <!-- x svg to close the modal -->
+    <svg onclick="closeModal('awards-modal')" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
+      viewBox="0 0 512 512" id="close-modal">
+      <path
+        d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
+      </path>
+    </svg>
+    <label for="title">Title of Award:</label>
+    <input type="text" id="title" name="title" required><br><br>
+
+    <label for="date">Date of Award:</label>
+
+    <input type="date" id="date" name="date" required><br><br>
+
+    <label for="awardingInstitution">Issuing Authority:</label>
+    <input type="text" id="awardingInstitution" name="awardingInstitution" required><br><br>
+
+
+    <label for="file">Supporting Document:</label>
+    <input type="file" id="file" name="file" required><br><br>
+
+    <input type="hidden" name="type" value="award">
+    <input type="submit" value="Submit">
+  </form>
+
+  <form class="modal" id="patent-modal" action="/uploadDoc" method="post" enctype="multipart/form-data">
+    <h2>Upload New Patent</h2>
+    <!-- x svg to close the modal -->
+    <svg onclick="closeModal('patent-modal')" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
+      viewBox="0 0 512 512" id="close-modal">
+      <path
+        d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
+      </path>
+    </svg>
+    <label for="title">Title of Patent:</label>
+    <input type="text" id="title" name="title" required><br><br>
+
+    <label for="patentNumber">Patent Number:</label>
+    <input type="text" id="patentNumber" name="patentNumber" required><br><br>
+
+    <label for="date">Date of Achievement:</label>
+    <input type="date" id="date" name="date" required><br><br>
+
+    <label for="patentStatus">Patent Status:</label>
+    <input type="text" id="patentStatus" name="patentStatus" required><br><br>
+
+    <label for="file">Supporting Document:</label>
+    <input type="file" id="file" name="file" required><br><br>
+
+    <input type="hidden" name="type" value="achievement">
+    <input type="submit" value="Submit">
+  </form>
+
+  <div class="details">
+    <h2>Awards</h2>
+    <table class="awards-view">
+      <tr>
+        <th>Sr. no.</th>
+        <th>Award/Achievement Name</th>
+        <th>Date Awarded</th>
+        <th>Issuing Authority</th>
+        <th>Download</th>
+      </tr>
+      <tr th:if="${not #lists.isEmpty(awardsFiles)}" th:each="file, iteration : ${awardsFiles}">
+        <td th:text="${iteration.count}"></td>
+        <td th:text="${file.title}"></td>
+        <td th:text="${file.date}"></td>
+        <td th:text="${file.awardingInstitution}"></td>
+        <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(awardsFiles)}">
+        <td colspan="7">No documents found</td>
+      </tr>
+    </table>
+    <button onclick="showModal('awards-modal')" class="upload-button">Upload</button>
+  </div>
+  <div class="details">
+    <h2>Patents</h2>
+    <table class="patent-view">
+      <tr>
+        <th>Sr. no.</th>
+        <th>Title</th>
+        <th>Patent Number</th>
+        <th>Date of Patent</th>
+        <th>Status</th>
+        <th>Download</th>
+      </tr>
+
+      <tr th:if="${not #lists.isEmpty(achievementsFiles)}" th:each="file, iteration : ${achievementsFiles}">
+        <td th:text="${iteration.count}"></td>
+        <td th:text="${file.title}"></td>
+        <td th:text="${file.patentNumber}"></td>
+        <td th:text="${file.date}"></td>
+        <td th:text="${file.patentStatus}"></td>
+        <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(achievementsFiles)}">
+        <td colspan="7">No documents found</td>
+      </tr>
+    </table>
+    <button onclick="showModal('patent-modal')" class="upload-button">Upload</button>
+  </div>
+  </table>
+
+  </div>
+
+  <script>
+    function showModal(id) {
+      console.log(`Showing modal ${id}`);
+      document.querySelector(`#${id}`).classList.add('show');
+    }
+    function closeModal(id) {
+      document.querySelector(`#${id}`).classList.remove('show');
+    }
+  </script>
+</body>
+
+</html>

@@ -286,6 +286,16 @@ public class TeacherController {
 		return "user/teacherFiles/fdp";
 	}
 
+	@GetMapping("/conferenceWorkshopSeminar")
+	public String conferenceWorkshopSeminar() {
+		return "user/teacherFiles/conferenceWorkshopSeminar";
+	}
+
+	@GetMapping("/guestLectAndIndustrialVisits")
+	public String guestLectAndIndustrialVisits() {
+		return "user/teacherFiles/guestLectAndIndustrialVisits";
+	}
+
 	@GetMapping("/settings")
 	public String settings() {
 		return "user/teacherFiles/settings";

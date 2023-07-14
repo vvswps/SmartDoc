@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awards & Achievements</title>
+    <link rel="stylesheet" href="/css/viewAndUploadPages.css">
+</head>
+
+<body>
+    <header>
+        <div class="title-area">
+            <h1>FDP & STTP & QIP</h1>
+            <div class="profile">
+                <div class="name">[[${user.name}]]</div>
+                <img src="/profilePicture" alt="" onclick="showModal('img-modal')">
+            </div>
+        </div>
+    </header>
+    <div id="img-modal" class="img-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('img-modal')">&times;</span>
+            <img src="/profilePicture" alt="">
+        </div>
+    </div>
+
+    <form class="modal" id="fdp-modal" action="/uploadDoc" method="post" enctype="multipart/form-data">
+        <h2>Upload New FDP</h2>
+        <!-- x svg to close the modal -->
+        <svg onclick="closeModal('fdp-modal')" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
+            viewBox="0 0 512 512" id="close-modal">
+            <path
+                d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
+            </path>
+        </svg>
+        <label for="title">Title of FDP:</label>
+        <input type="text" id="title" name="title"><br><br>
+
+        <label for="nature">Nature of FDP:</label>
+        <input type="radio" name="nature" value="online">
+        Online<br>
+        <input type="radio" name="nature" value="offline">
+        Offline<br><br>
+
+        <label for="durationFrom">Duration of FDP From:</label>
+        <input type="date" class="durationFrom" name="durationFrom">
+
+        <label for="durationTo">Duration of FDP To:</label>
+        <input type="date" class="durationTo" name="durationTo">
+
+        <label for="noOfDays">Number of Days Attend:</label>
+        <input type="number" class="noOfDays" name="noOfDays" readonly> <br><br>
+
+        <label for="organizedBy">Organization Conducted FDP:</label>
+        <input type="text" id="organizedBy" name="organizedBy"><br><br>
+
+
+        <label for="document">Supporting Document:</label>
+        <input type="file" id="file" name="file"><br><br>
+
+        <input type="hidden" name="type" value="fdp">
+        <input type="submit" value="Submit">
+    </form>
+
+
+    <form class="modal" id="sttp-modal" action="/uploadDoc" method="post" enctype="multipart/form-data">
+        <h2>Upload New STTP</h2>
+        <!-- x svg to close the modal -->
+        <svg onclick="closeModal('sttp-modal')" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
+            viewBox="0 0 512 512" id="close-modal">
+            <path
+                d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
+            </path>
+        </svg>
+        <label for="title">Title of STTP:</label>
+        <input type="text" id="title" name="title"><br><br>
+
+        <label for="nature">Nature of STTP:</label>
+        <input type="radio" name="nature" value="online">
+        Online<br>
+        <input type="radio" name="nature" value="offline">
+        Offline<br><br>
+
+        <label for="durationFrom">Duration of STTP From:</label>
+        <input type="date" class="durationFrom" name="durationFrom">
+
+        <label for="durationTo">Duration of STTP To:</label>
+        <input type="date" class="durationTo" name="durationTo">
+
+        <label for="noOfDays">Number of Days Attend:</label>
+        <input type="number" class="noOfDays" name="noOfDays" readonly> <br><br>
+
+        <label for="organizedBy">Organization Conducted STTP:</label>
+        <input type="text" id="organizedBy" name="organizedBy"><br><br>
+
+
+        <label for="document">Supporting Document:</label>
+        <input type="file" id="file" name="file"><br><br>
+
+        <input type="hidden" name="type" value="sttp">
+        <input type="submit" value="Submit">
+    </form>
+
+
+
+    <form class="modal" id="qip-modal" action="/uploadDoc" method="post" enctype="multipart/form-data">
+        <h2>Upload New QIP</h2>
+        <!-- x svg to close the modal -->
+        <svg onclick="closeModal('qip-modal')" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"
+            viewBox="0 0 512 512" id="close-modal">
+            <path
+                d="M512 64.5L447.5 0 256 191.5 64.5 0 0 64.5 191.5 256 0 447.5 64.5 512 256 320.5 447.5 512 512 447.5 320.5 256z">
+            </path>
+        </svg>
+        <label for="title">Title of QIP:</label>
+        <input type="text" id="title" name="title"><br><br>
+
+        <label for="nature">Nature of QIP:</label>
+        <input type="radio" name="nature" value="Online">
+        Online<br>
+        <input type="radio" name="nature" value="Offline">
+        Offline<br><br>
+
+        <label for="durationFrom">Duration of QIP From:</label>
+        <input type="date" class="durationFrom" name="durationFrom">
+
+        <label for="durationTo">Duration of QIP To:</label>
+        <input type="date" class="durationTo" name="durationTo">
+
+        <label for="noOfDays">Number of Days Attend:</label>
+        <input type="number" class="noOfDays" name="noOfDays" readonly> <br><br>
+
+        <label for="organizedBy">Organization Conducted QIP:</label>
+        <input type="text" id="organizedBy" name="organizedBy"><br><br>
+
+
+        <label for="document">Supporting Document:</label>
+        <input type="file" id="file" name="file"><br><br>
+
+        <input type="hidden" name="type" value="qip">
+        <input type="submit" value="Submit">
+    </form>
+
+    <div class="details">
+        <h2>FDP</h2>
+        <table class="fdp-sttp-qip-view">
+            <tr>
+                <th>Title</th>
+                <th>Nature</th>
+                <th>Number of Days</th>
+                <th>Organization Conducted</th>
+                <th>Download</th>
+            </tr>
+            <tr th:if="${not #lists.isEmpty(fdpFiles)}" th:each="file, iteration : ${fdpFiles}">
+                <!--<td th:text="${iteration.count}"></td>-->
+                <td th:text="${file.title}"></td>
+                <td th:text="${file.nature}"></td>
+                <td th:text="${file.noOfDays}"></td>
+                <td th:text="${file.organizedBy}"></td>
+                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(fdpFiles)}">
+                <td colspan="7">No documents found</td>
+            </tr>
+        </table>
+        <button class="upload-button" onclick="showModal('fdp-modal')">Upload</button>
+    </div>
+    <div class="details">
+        <h2>STTP</h2>
+        <table class="fdp-sttp-qip-view">
+            <tr>
+                <th>Title</th>
+                <th>Nature</th>
+                <th>Number of Days</th>
+                <th>Organization Conducted</th>
+                <th>Download</th>
+            </tr>
+            <tr th:if="${not #lists.isEmpty(sttpFiles)}" th:each="file, iteration : ${sttpFiles}">
+                <!--<td th:text="${iteration.count}"></td>-->
+                <td th:text="${file.title}"></td>
+                <td th:text="${file.nature}"></td>
+                <td th:text="${file.noOfDays}"></td>
+                <td th:text="${file.organizedBy}"></td>
+                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(sttpFiles)}">
+                <td colspan="7">No documents found</td>
+            </tr>
+        </table>
+        <button class="upload-button" onclick="showModal('sttp-modal')">Upload</button>
+    </div>
+    <div class="details">
+        <h2>QIP</h2>
+        <table class="fdp-sttp-qip-view">
+            <tr>
+                <th>Title</th>
+                <th>Nature</th>
+                <th>Number of Days</th>
+                <th>Organization Conducted</th>
+                <th>Download</th>
+            </tr>
+            <tr th:if="${not #lists.isEmpty(qipFiles)}" th:each="file, iteration : ${qipFiles}">
+                <!--<td th:text="${iteration.count}"></td>-->
+                <td th:text="${file.title}"></td>
+                <td th:text="${file.nature}"></td>
+                <td th:text="${file.noOfDays}"></td>
+                <td th:text="${file.organizedBy}"></td>
+                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(qipFiles)}">
+                <td colspan="7">No documents found</td>
+            </tr>
+        </table>
+        <button class="upload-button" onclick="showModal('qip-modal')">Upload</button>
+    </div>
+
+
+    <script>
+        function showModal(id) {
+            console.log(`Showing modal ${id}`);
+            document.querySelector(`#${id}`).classList.add('show');
+        }
+        function closeModal(id) {
+            document.querySelector(`#${id}`).classList.remove('show');
+        }
+
+        const inputFromList = document.querySelectorAll(".durationFrom");
+        const inputToList = document.querySelectorAll(".durationTo");
+        const numDaysAttendInputs = document.querySelectorAll(".noOfDays");
+
+        // Loop through each pair of input elements
+        for (let i = 0; i < inputFromList.length; i++) {
+            const inputFrom = inputFromList[i];
+            const inputTo = inputToList[i];
+            const numDaysAttendInput = numDaysAttendInputs[i];
+
+            // Add event listeners to each pair of input elements
+            inputFrom.addEventListener("input", calculateNumDaysAttend);
+            inputTo.addEventListener("input", calculateNumDaysAttend);
+        }
+
+        // Calculate the number of days attend based on the duration of FDP from and to
+        function calculateNumDaysAttend() {
+            const inputFrom = this.parentElement.querySelector(".durationFrom");
+            const inputTo = this.parentElement.querySelector(".durationTo");
+            const numDaysAttendInput = this.parentElement.querySelector(".noOfDays");
+
+            const fdpFrom = new Date(inputFrom.value);
+            const fdpTo = new Date(inputTo.value);
+            const numDaysAttend = Math.ceil((fdpTo - fdpFrom) / (1000 * 60 * 60 * 24));
+            numDaysAttendInput.value = numDaysAttend;
+        }
+
+    </script>
+</body>
+
+</html>

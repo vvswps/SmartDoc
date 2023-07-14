@@ -37,11 +37,15 @@ public class DatabaseFile {
 	private String DOI;
 	private String Volume;
 	private String ISBN;
-	private String nature;
+	private String nature; // online / offline
+	private String eventRole;
+	private String eventType;
 	private String durationFrom;
 	private String durationTo;
 	private int noOfDays;
 	private String organizedBy;
+	private String patentStatus;
+	private String patentNumber;
 
 	private String fileName;
 
@@ -59,6 +63,22 @@ public class DatabaseFile {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private UserDtls user;
+
+	public String getPatentStatus() {
+		return patentStatus;
+	}
+
+	public void setPatentStatus(String patentStatus) {
+		this.patentStatus = patentStatus;
+	}
+
+	public String getPatentNumber() {
+		return patentNumber;
+	}
+
+	public void setPatentNumber(String patentNumber) {
+		this.patentNumber = patentNumber;
+	}
 
 	public byte[] getProfilePicture() {
 		return profilePicture;
@@ -236,5 +256,21 @@ public class DatabaseFile {
 
 	public void setData(byte[] data) {
 		this.data = data;
+	}
+
+	public String getEventRole() {
+		return eventRole;
+	}
+
+	public void setEventRole(String eventRole) {
+		this.eventRole = eventRole;
+	}
+
+	public String getEventType() {
+		return eventType;
+	}
+
+	public void setEventType(String eventType) {
+		this.eventType = eventType;
 	}
 }
