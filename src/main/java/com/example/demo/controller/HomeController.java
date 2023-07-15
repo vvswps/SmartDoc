@@ -75,15 +75,6 @@ public class HomeController {
 		return "registration";
 	}
 
-	/*
-	 * This method handles the GET request for the dashboard page.
-	 * It returns the "dashboard" view to display the dashboard page.
-	 */
-	@GetMapping("/dashboard")
-	public String dashboard() {
-		return "dashboard";
-	}
-
 	@GetMapping("/createUser")
 	public String getCreateUser() {
 		return "registration";
