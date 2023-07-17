@@ -12,18 +12,27 @@ public class DatabaseFile {
 		RESEARCH_PAPER,
 		BOOK_OR_CHAPTER,
 		AWARD,
-		ACHIEVEMENT,
+		PATENT,
 		FDP,
 		STTP,
 		QIP,
-		WORKSHOP,
+		CONFERENCE_WORKSHOP_SEMINAR,
+		GUESTLECTURE,
+		INDUSTRIALVISIT,
 		PROFILE_PICTURE
 	}
 
 	@Id
 	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
+	@GenericGenerator(name = "uuid", strategy = "uuid2") // this is for generating random uuid
 	private String id;
+
+	// why use uuid2 instead of uuid?
+	// The uuid2 strategy also generates a UUID, but it uses a different
+	// representation. Instead of the standard string representation, it uses a
+	// shorter 36-character sequence consisting of alphanumeric characters without
+	// hyphens (e.g., 550e8400e29b41d4a716446655440000). Hibernate generates this
+	// type of UUID without relying on the database's built-in UUID support.
 
 	private String title;
 	private String date;
@@ -46,6 +55,9 @@ public class DatabaseFile {
 	private String organizedBy;
 	private String patentStatus;
 	private String patentNumber;
+	private String lectureTopic;
+	private String placeOrEvent;
+	private String noOfStudentsVisited;
 
 	private String fileName;
 
@@ -273,4 +285,37 @@ public class DatabaseFile {
 	public void setEventType(String eventType) {
 		this.eventType = eventType;
 	}
+
+	public String getLectureTopic() {
+		return lectureTopic;
+	}
+
+	public void setLectureTopic(String lectureTopic) {
+		this.lectureTopic = lectureTopic;
+	}
+
+	public String getPlaceOrEvent() {
+		return placeOrEvent;
+	}
+
+	public void setPlaceOrEvent(String placeOrEvent) {
+		this.placeOrEvent = placeOrEvent;
+	}
+
+	public String getNoOfStudentsVisited() {
+		return noOfStudentsVisited;
+	}
+
+	public void setNoOfStudentsVisited(String noOfStudentsVisited) {
+		this.noOfStudentsVisited = noOfStudentsVisited;
+	}
+
+	public UserDtls getUser() {
+		return user;
+	}
+
+	public void setUser(UserDtls user) {
+		this.user = user;
+	}
+
 }

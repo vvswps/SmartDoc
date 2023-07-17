@@ -84,26 +84,28 @@ public class AdminController {
 		model.addAttribute("puser", puser);
 
 		List<DatabaseFile> awardsFiles = new ArrayList<>();
-		List<DatabaseFile> achievementsFiles = new ArrayList<>();
+		List<DatabaseFile> patentFiles = new ArrayList<>();
 		List<DatabaseFile> researchFiles = new ArrayList<>();
 		List<DatabaseFile> bookFiles = new ArrayList<>();
 		List<DatabaseFile> fdpFiles = new ArrayList<>();
 		List<DatabaseFile> sttpFiles = new ArrayList<>();
 		List<DatabaseFile> qipFiles = new ArrayList<>();
-		List<DatabaseFile> workshopFiles = new ArrayList<>();
+		List<DatabaseFile> conference_workshop_seminar_Files = new ArrayList<>();
+		List<DatabaseFile> industrialVisitsFiles = new ArrayList<>();
+		List<DatabaseFile> guestLectureFiles = new ArrayList<>();
 
 		List<DatabaseFile> files = fileRepo.findByUser(user);
-
 		try {
 			for (DatabaseFile file : files) {
 				FileType fileType = file.getType();
-				System.out.println(file + "Type:\t" + fileType);
+				// System.out.println(file + "Type:\t" + fileType);
 				switch (fileType) {
 					case AWARD:
+						// System.out.println("File Type is Award");
 						awardsFiles.add(file);
 						break;
-					case ACHIEVEMENT:
-						achievementsFiles.add(file);
+					case PATENT:
+						patentFiles.add(file);
 						break;
 					case RESEARCH_PAPER:
 						researchFiles.add(file);
@@ -120,9 +122,16 @@ public class AdminController {
 					case QIP:
 						qipFiles.add(file);
 						break;
-					case WORKSHOP:
-						workshopFiles.add(file);
+					case CONFERENCE_WORKSHOP_SEMINAR:
+						conference_workshop_seminar_Files.add(file);
 						break;
+					case INDUSTRIALVISIT:
+						industrialVisitsFiles.add(file);
+						break;
+					case GUESTLECTURE:
+						guestLectureFiles.add(file);
+						break;
+
 					default:
 						System.out.println("Unknown file type");
 				}
@@ -130,12 +139,13 @@ public class AdminController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		if (!awardsFiles.isEmpty()) {
+			// System.out.println("Awards Files are not empty");
 			model.addAttribute("awardsFiles", awardsFiles);
+
 		}
-		if (!achievementsFiles.isEmpty()) {
-			model.addAttribute("achievementsFiles", achievementsFiles);
+		if (!patentFiles.isEmpty()) {
+			model.addAttribute("patentFiles", patentFiles);
 		}
 
 		if (!researchFiles.isEmpty()) {
@@ -158,8 +168,18 @@ public class AdminController {
 			model.addAttribute("qipFiles", qipFiles);
 		}
 
-		if (!workshopFiles.isEmpty()) {
-			model.addAttribute("workshopFiles", workshopFiles);
+		if (!conference_workshop_seminar_Files.isEmpty()) {
+			System.out.println("\n\n\nConference Workshop Seminar Files are not empty\n\n\n");
+			model.addAttribute("conference_workshop_seminar_Files", conference_workshop_seminar_Files);
+		}
+
+		if (!industrialVisitsFiles.isEmpty()) {
+			model.addAttribute("industrialVisitsFiles", industrialVisitsFiles);
+		}
+
+		if (!guestLectureFiles.isEmpty()) {
+
+			model.addAttribute("guestLectureFiles", guestLectureFiles);
 		}
 
 		return "user/admin/emailView";
@@ -175,25 +195,28 @@ public class AdminController {
 		PersonalDtls puser = personalRepository.findById(user.getId());
 
 		List<DatabaseFile> awardsFiles = new ArrayList<>();
-		List<DatabaseFile> achievementsFiles = new ArrayList<>();
+		List<DatabaseFile> patentFiles = new ArrayList<>();
 		List<DatabaseFile> researchFiles = new ArrayList<>();
 		List<DatabaseFile> bookFiles = new ArrayList<>();
 		List<DatabaseFile> fdpFiles = new ArrayList<>();
 		List<DatabaseFile> sttpFiles = new ArrayList<>();
 		List<DatabaseFile> qipFiles = new ArrayList<>();
-		List<DatabaseFile> workshopFiles = new ArrayList<>();
+		List<DatabaseFile> conference_workshop_seminar_Files = new ArrayList<>();
+		List<DatabaseFile> industrialVisitsFiles = new ArrayList<>();
+		List<DatabaseFile> guestLectureFiles = new ArrayList<>();
 
 		List<DatabaseFile> files = fileRepo.findByUser(user);
-
 		try {
 			for (DatabaseFile file : files) {
 				FileType fileType = file.getType();
+				// System.out.println(file + "Type:\t" + fileType);
 				switch (fileType) {
 					case AWARD:
+						// System.out.println("File Type is Award");
 						awardsFiles.add(file);
 						break;
-					case ACHIEVEMENT:
-						achievementsFiles.add(file);
+					case PATENT:
+						patentFiles.add(file);
 						break;
 					case RESEARCH_PAPER:
 						researchFiles.add(file);
@@ -210,9 +233,16 @@ public class AdminController {
 					case QIP:
 						qipFiles.add(file);
 						break;
-					case WORKSHOP:
-						workshopFiles.add(file);
+					case CONFERENCE_WORKSHOP_SEMINAR:
+						conference_workshop_seminar_Files.add(file);
 						break;
+					case INDUSTRIALVISIT:
+						industrialVisitsFiles.add(file);
+						break;
+					case GUESTLECTURE:
+						guestLectureFiles.add(file);
+						break;
+
 					default:
 						System.out.println("Unknown file type");
 				}
@@ -220,8 +250,8 @@ public class AdminController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		generateCSV(puser, awardsFiles, achievementsFiles, researchFiles, bookFiles, fdpFiles, sttpFiles, qipFiles,
-				workshopFiles, response);
+		generateCSV(puser, awardsFiles, patentFiles, researchFiles, bookFiles, fdpFiles, sttpFiles, qipFiles,
+				conference_workshop_seminar_Files, response);
 	}
 
 	private void generateCSV(PersonalDtls puser, List<DatabaseFile> awardsFiles, List<DatabaseFile> achievementsFiles,
@@ -382,12 +412,12 @@ public class AdminController {
 					teacher.getEmail(),
 					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.RESEARCH_PAPER, 0),
 					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.AWARD, 0),
-					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.ACHIEVEMENT, 0),
+					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.PATENT, 0),
 					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.BOOK_OR_CHAPTER, 0),
 					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.FDP, 0),
 					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.STTP, 0),
 					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.QIP, 0),
-					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.WORKSHOP, 0));
+					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.CONFERENCE_WORKSHOP_SEMINAR, 0));
 		}
 	}
 

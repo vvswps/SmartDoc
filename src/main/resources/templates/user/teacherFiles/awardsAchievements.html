@@ -77,7 +77,7 @@
     <label for="file">Supporting Document:</label>
     <input type="file" id="file" name="file" required><br><br>
 
-    <input type="hidden" name="type" value="achievement">
+    <input type="hidden" name="type" value="patent">
     <input type="submit" value="Submit">
   </form>
 
@@ -116,7 +116,7 @@
         <th>Download</th>
       </tr>
 
-      <tr th:if="${not #lists.isEmpty(achievementsFiles)}" th:each="file, iteration : ${achievementsFiles}">
+      <tr th:if="${not #lists.isEmpty(patentFiles)}" th:each="file, iteration : ${patentFiles}">
         <td th:text="${iteration.count}"></td>
         <td th:text="${file.title}"></td>
         <td th:text="${file.patentNumber}"></td>
@@ -124,7 +124,7 @@
         <td th:text="${file.patentStatus}"></td>
         <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
       </tr>
-      <tr th:if="${#lists.isEmpty(achievementsFiles)}">
+      <tr th:if="${#lists.isEmpty(patentFiles)}">
         <td colspan="7">No documents found</td>
       </tr>
     </table>

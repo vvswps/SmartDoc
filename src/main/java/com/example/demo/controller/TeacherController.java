@@ -57,13 +57,15 @@ public class TeacherController {
 			model.addAttribute("puser", puser);
 
 			List<DatabaseFile> awardsFiles = new ArrayList<>();
-			List<DatabaseFile> achievementsFiles = new ArrayList<>();
+			List<DatabaseFile> patentFiles = new ArrayList<>();
 			List<DatabaseFile> researchFiles = new ArrayList<>();
 			List<DatabaseFile> bookFiles = new ArrayList<>();
 			List<DatabaseFile> fdpFiles = new ArrayList<>();
 			List<DatabaseFile> sttpFiles = new ArrayList<>();
 			List<DatabaseFile> qipFiles = new ArrayList<>();
-			List<DatabaseFile> workshopFiles = new ArrayList<>();
+			List<DatabaseFile> conference_workshop_seminar_Files = new ArrayList<>();
+			List<DatabaseFile> industrialVisitsFiles = new ArrayList<>();
+			List<DatabaseFile> guestLectureFiles = new ArrayList<>();
 
 			List<DatabaseFile> files = fileRepo.findByUser(user);
 			try {
@@ -75,8 +77,8 @@ public class TeacherController {
 							// System.out.println("File Type is Award");
 							awardsFiles.add(file);
 							break;
-						case ACHIEVEMENT:
-							achievementsFiles.add(file);
+						case PATENT:
+							patentFiles.add(file);
 							break;
 						case RESEARCH_PAPER:
 							researchFiles.add(file);
@@ -93,9 +95,16 @@ public class TeacherController {
 						case QIP:
 							qipFiles.add(file);
 							break;
-						case WORKSHOP:
-							workshopFiles.add(file);
+						case CONFERENCE_WORKSHOP_SEMINAR:
+							conference_workshop_seminar_Files.add(file);
 							break;
+						case INDUSTRIALVISIT:
+							industrialVisitsFiles.add(file);
+							break;
+						case GUESTLECTURE:
+							guestLectureFiles.add(file);
+							break;
+
 						default:
 							System.out.println("Unknown file type");
 					}
@@ -108,8 +117,8 @@ public class TeacherController {
 				model.addAttribute("awardsFiles", awardsFiles);
 
 			}
-			if (!achievementsFiles.isEmpty()) {
-				model.addAttribute("achievementsFiles", achievementsFiles);
+			if (!patentFiles.isEmpty()) {
+				model.addAttribute("patentFiles", patentFiles);
 			}
 
 			if (!researchFiles.isEmpty()) {
@@ -132,8 +141,18 @@ public class TeacherController {
 				model.addAttribute("qipFiles", qipFiles);
 			}
 
-			if (!workshopFiles.isEmpty()) {
-				model.addAttribute("workshopFiles", workshopFiles);
+			if (!conference_workshop_seminar_Files.isEmpty()) {
+				System.out.println("\n\n\nConference Workshop Seminar Files are not empty\n\n\n");
+				model.addAttribute("conference_workshop_seminar_Files", conference_workshop_seminar_Files);
+			}
+
+			if (!industrialVisitsFiles.isEmpty()) {
+				model.addAttribute("industrialVisitsFiles", industrialVisitsFiles);
+			}
+
+			if (!guestLectureFiles.isEmpty()) {
+
+				model.addAttribute("guestLectureFiles", guestLectureFiles);
 			}
 		} else {
 			model.addAttribute("user", null);

@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,7 +33,7 @@ public class FileUploadController {
     private DatabaseFileRepository DatabaseFileRepository;
 
     @Autowired
-    private UserRepository UserRepositary;
+    private UserRepository UserRepository;
 
     @PostMapping("/uploadProfilePicture")
     public ResponseEntity<?> uploadProfilePicture(@RequestParam MultipartFile file, Principal principal,
@@ -46,7 +47,7 @@ public class FileUploadController {
 
         try {
             // Get the user details based on the authenticated principal
-            UserDtls user = UserRepositary.findByEmail(principal.getName());
+            UserDtls user = UserRepository.findByEmail(principal.getName());
 
             // Find the profile picture of the user, if it exists
             List<DatabaseFile> profileList = DatabaseFileRepository.findByUserAndType(user, FileType.PROFILE_PICTURE);
@@ -101,6 +102,13 @@ public class FileUploadController {
             @RequestParam(required = false) String durationTo,
             @RequestParam(required = false) Integer noOfDays,
             @RequestParam(required = false) String organizedBy,
+            @RequestParam(required = false) String eventRole,
+            @RequestParam(required = false) String eventType,
+            @RequestParam(required = false) String patentStatus,
+            @RequestParam(required = false) String patentNumber,
+            @RequestParam(required = false) String lectureTopic,
+            @RequestParam(required = false) String placeOrEvent,
+            @RequestParam(required = false) String noOfStudentsVisited,
             Principal principal) {
         if (principal == null) {
             return new ResponseEntity<>("User not authenticated", HttpStatus.UNAUTHORIZED);
@@ -112,7 +120,7 @@ public class FileUploadController {
             document.setFileType(file.getContentType());
             document.setData(file.getBytes());
 
-            UserDtls user = UserRepositary.findByEmail(principal.getName());
+            UserDtls user = UserRepository.findByEmail(principal.getName());
             document.setUserId(user);
 
             document.setTitle(title);
@@ -120,9 +128,12 @@ public class FileUploadController {
             // if file type is research, book, award, achievement then setDate othwerwise
             // setDurationFrom and setDurationTo
             if (fileType.toLowerCase().equals("research") || fileType.toLowerCase().equals("book")
-                    || fileType.toLowerCase().equals("award") || fileType.toLowerCase().equals("achievement")) {
+                    || fileType.toLowerCase().equals("award") || fileType.toLowerCase().equals("achievement")
+                    || fileType.toLowerCase().equals("patent") || fileType.toLowerCase().equals("guestlecture")
+                    || fileType.toLowerCase().equals("industrialvisit")) {
                 document.setDate(date);
             } else {
+                System.out.println("\n\n\n File Type: " + fileType + "\n\n\n");
                 document.setNature(nature);
                 document.setDurationFrom(durationFrom);
                 document.setDurationTo(durationTo);
@@ -158,9 +169,11 @@ public class FileUploadController {
 
                     return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("teacher/awards")).build();
 
-                case "achievement":
-                    document.setType(DatabaseFile.FileType.ACHIEVEMENT);
-                    document.setAwardingInstitution(awardingInstitution);
+                case "patent":
+                    document.setType(DatabaseFile.FileType.PATENT);
+                    document.setPatentStatus(patentStatus);
+                    document.setPatentNumber(patentNumber);
+
                     DatabaseFileRepository.save(document);
 
                     return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("teacher/awards")).build();
@@ -183,20 +196,41 @@ public class FileUploadController {
 
                     return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("teacher/fdp")).build();
 
-                case "workshop":
-                    document.setType(DatabaseFile.FileType.WORKSHOP);
+                case "conference_workshop_seminar":
+                    document.setEventType(eventType);
+                    document.setType(DatabaseFile.FileType.CONFERENCE_WORKSHOP_SEMINAR);
                     DatabaseFileRepository.save(document);
 
-                    return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("teacher/fdp")).build();
+                    return ResponseEntity.status(HttpStatus.FOUND)
+                            .location(URI.create("teacher/conferenceWorkshopSeminar")).build();
 
+                case "guestlecture":
+                    document.setType(DatabaseFile.FileType.GUESTLECTURE);
+                    document.setLectureTopic(lectureTopic);
+                    document.setPlaceOrEvent(placeOrEvent);
+                    document.setNature(nature);
+                    DatabaseFileRepository.save(document);
+
+                    return ResponseEntity.status(HttpStatus.FOUND)
+                            .location(URI.create("teacher/guestLectAndIndustrialVisits")).build();
+
+                case "industrialvisit":
+                    document.setType(DatabaseFile.FileType.INDUSTRIALVISIT);
+                    document.setPlaceOrEvent(placeOrEvent);
+                    document.setNoOfStudentsVisited(noOfStudentsVisited);
+                    DatabaseFileRepository.save(document);
+
+                    return ResponseEntity.status(HttpStatus.FOUND)
+                            .location(URI.create("teacher/guestLectAndIndustrialVisits"))
+                            .build();
                 default:
                     // Handle invalid file types
                     return ResponseEntity.badRequest().build();
             }
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body("<h1>Something went wrong</h1>");
         }
     }
 

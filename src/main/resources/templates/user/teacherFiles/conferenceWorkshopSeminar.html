@@ -64,17 +64,18 @@
         <input type="text" id="organizedBy" name="organizedBy"><br>
 
 
-        <label for="type">Type of event</label>
-        <input type="radio" name="type" value="workshop">
+        <label for="eventType">Type of event</label>
+        <input type="radio" name="eventType" value="workshop">
         Workshop<br>
-        <input type="radio" name="type" value="conference">
+        <input type="radio" name="eventType" value="conference">
         Conference<br>
-        <input type="radio" name="type" value="seminar">
+        <input type="radio" name="eventType" value="seminar">
         Seminar<br><br>
 
         <label for="document">Supporting Document:</label>
         <input type="file" id="file" name="file"><br>
 
+        <input type="hidden" name="type" value="conference_workshop_seminar">
         <input type="submit" value="Submit">
     </form>
 
@@ -93,7 +94,8 @@
                 <th>Download</th>
             </tr>
             </tr>
-            <tr th:if="${not #lists.isEmpty(workshopFiles)}" th:each="file, iteration : ${workshopFiles}">
+            <tr th:if="${not #lists.isEmpty(conference_workshop_seminar_Files)}"
+                th:each="file, iteration : ${conference_workshop_seminar_Files}">
                 <td th:text="${iteration.count}"></td>
                 <td th:text="${file.title}"></td>
                 <td th:text="${file.eventRole}"></td>
@@ -103,7 +105,7 @@
                 <td th:text="${file.eventType}"></td>
                 <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
             </tr>
-            <tr th:if="${#lists.isEmpty(workshopFiles)}">
+            <tr th:if="${#lists.isEmpty(conference_workshop_seminar_Files)}">
                 <td colspan="8">No documents found</td>
             </tr>
         </table>
@@ -118,17 +120,17 @@
             document.querySelector(`#${id}`).classList.remove('show');
         }
 
-        const inputFrom = document.querySelector(".durationFrom");
-        const inputTo = document.querySelector(".durationTo");
-        const numDaysAttendInput = document.querySelector(".noOfDays");
+        const inputFrom = document.querySelector("#durationFrom");
+        const inputTo = document.querySelector("#durationTo");
+        const numDaysAttendInput = document.querySelector("#noOfDays");
 
         inputFrom.addEventListener("input", calculateNumDaysAttend);
         inputTo.addEventListener("input", calculateNumDaysAttend);
 
         function calculateNumDaysAttend() {
-            const fdpFrom = new Date(inputFrom.value);
-            const fdpTo = new Date(inputTo.value);
-            const numDaysAttend = Math.ceil((fdpTo - fdpFrom) / (1000 * 60 * 60 * 24));
+            const from = new Date(inputFrom.value);
+            const to = new Date(inputTo.value);
+            const numDaysAttend = Math.ceil((to - fdpFrom) / (1000 * 60 * 60 * 24));
             numDaysAttendInput.value = numDaysAttend;
         }
 
