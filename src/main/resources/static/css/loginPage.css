@@ -201,25 +201,17 @@ a:hover {
   }
 
   .img img {
-    width: 400px;
+    width: 0px;
   }
 }
 
-@media screen and (max-width: 900px) {
+@media (max-width: 800px) {
   .container {
     grid-template-columns: 1fr;
   }
 
   .img {
     display: none;
-  }
-
-  .wave {
-    display: none;
-  }
-
-  .login-content {
-    justify-content: center;
   }
 }
 

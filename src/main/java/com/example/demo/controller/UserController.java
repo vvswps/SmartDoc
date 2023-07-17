@@ -46,15 +46,6 @@ public class UserController {
 	}
 
 	/*
-	 * This method handles the GET request for the home page of the user.
-	 * It returns the "user/home" view to display the user's home page.
-	 */
-	@GetMapping("/")
-	public String home() {
-		return "user/home";
-	}
-
-	/*
 	 * This method handles the GET request for loading the change password page.
 	 * It returns the "user/change_password" view to display the change password
 	 * page.

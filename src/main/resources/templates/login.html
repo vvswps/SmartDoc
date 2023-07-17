@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="ISO-8859-1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Login</title>
   <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a81368914c.js"></script>
@@ -53,23 +54,14 @@
   <script type="text/javascript">
     const inputs = document.querySelectorAll(".input");
 
-
-    function addcl() {
+    function toggleFocus() {
       let parent = this.parentNode.parentNode;
-      parent.classList.add("focus");
+      parent.classList.toggle("focus", this.value !== "");
     }
-
-    function remcl() {
-      let parent = this.parentNode.parentNode;
-      if (this.value == "") {
-        parent.classList.remove("focus");
-      }
-    }
-
 
     inputs.forEach(input => {
-      input.addEventListener("focus", addcl);
-      input.addEventListener("blur", remcl);
+      input.addEventListener("focus", toggleFocus);
+      input.addEventListener("blur", toggleFocus);
     });
   </script>
 
