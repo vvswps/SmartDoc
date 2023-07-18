@@ -1,14 +1,23 @@
 package com.example.demo.controller;
 
+import java.io.File;
+import java.net.URI;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,12 +26,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.model.DatabaseFile;
 import com.example.demo.model.PersonalDtls;
 import com.example.demo.model.UserDtls;
-import com.example.demo.model.DatabaseFile.FileType;
 import com.example.demo.repository.DatabaseFileRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.personalRepository;
+import com.example.demo.service.FileUtils;
 import com.example.demo.service.PersonalService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -33,9 +43,6 @@ public class TeacherController {
 	private UserRepository userRepo;
 
 	@Autowired
-	private DatabaseFileRepository fileRepo;
-
-	@Autowired
 	private PersonalService personalService;
 
 	@Autowired
@@ -44,120 +51,23 @@ public class TeacherController {
 	@Autowired
 	private personalRepository personalRepository;
 
+	@Autowired
+	private FileUtils fileUtils;
+
+	@Autowired
+	private DatabaseFileRepository fileRepo;
+
 	@ModelAttribute
 	private void userDetails(Model model, Principal p) {
 		if (p != null) {
 			String email = p.getName();
 			UserDtls user = userRepo.findByEmail(email);
-
-			PersonalDtls puser = personalRepository.findById(user.getId());
-			// PersonalDtls puser = personalRepository.findByUser(user);
-
 			model.addAttribute("user", user);
-			model.addAttribute("puser", puser);
 
-			List<DatabaseFile> awardsFiles = new ArrayList<>();
-			List<DatabaseFile> patentFiles = new ArrayList<>();
-			List<DatabaseFile> researchFiles = new ArrayList<>();
-			List<DatabaseFile> bookFiles = new ArrayList<>();
-			List<DatabaseFile> fdpFiles = new ArrayList<>();
-			List<DatabaseFile> sttpFiles = new ArrayList<>();
-			List<DatabaseFile> qipFiles = new ArrayList<>();
-			List<DatabaseFile> conference_workshop_seminar_Files = new ArrayList<>();
-			List<DatabaseFile> industrialVisitsFiles = new ArrayList<>();
-			List<DatabaseFile> guestLectureFiles = new ArrayList<>();
-
-			List<DatabaseFile> files = fileRepo.findByUser(user);
-			try {
-				for (DatabaseFile file : files) {
-					FileType fileType = file.getType();
-					// System.out.println(file + "Type:\t" + fileType);
-					switch (fileType) {
-						case AWARD:
-							// System.out.println("File Type is Award");
-							awardsFiles.add(file);
-							break;
-						case PATENT:
-							patentFiles.add(file);
-							break;
-						case RESEARCH_PAPER:
-							researchFiles.add(file);
-							break;
-						case BOOK_OR_CHAPTER:
-							bookFiles.add(file);
-							break;
-						case FDP:
-							fdpFiles.add(file);
-							break;
-						case STTP:
-							sttpFiles.add(file);
-							break;
-						case QIP:
-							qipFiles.add(file);
-							break;
-						case CONFERENCE_WORKSHOP_SEMINAR:
-							conference_workshop_seminar_Files.add(file);
-							break;
-						case INDUSTRIALVISIT:
-							industrialVisitsFiles.add(file);
-							break;
-						case GUESTLECTURE:
-							guestLectureFiles.add(file);
-							break;
-
-						default:
-							System.out.println("Unknown file type");
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			if (!awardsFiles.isEmpty()) {
-				// System.out.println("Awards Files are not empty");
-				model.addAttribute("awardsFiles", awardsFiles);
-
-			}
-			if (!patentFiles.isEmpty()) {
-				model.addAttribute("patentFiles", patentFiles);
-			}
-
-			if (!researchFiles.isEmpty()) {
-				model.addAttribute("researchFiles", researchFiles);
-			}
-
-			if (!bookFiles.isEmpty()) {
-				model.addAttribute("bookFiles", bookFiles);
-			}
-
-			if (!fdpFiles.isEmpty()) {
-				model.addAttribute("fdpFiles", fdpFiles);
-			}
-
-			if (!sttpFiles.isEmpty()) {
-				model.addAttribute("sttpFiles", sttpFiles);
-			}
-
-			if (!qipFiles.isEmpty()) {
-				model.addAttribute("qipFiles", qipFiles);
-			}
-
-			if (!conference_workshop_seminar_Files.isEmpty()) {
-				System.out.println("\n\n\nConference Workshop Seminar Files are not empty\n\n\n");
-				model.addAttribute("conference_workshop_seminar_Files", conference_workshop_seminar_Files);
-			}
-
-			if (!industrialVisitsFiles.isEmpty()) {
-				model.addAttribute("industrialVisitsFiles", industrialVisitsFiles);
-			}
-
-			if (!guestLectureFiles.isEmpty()) {
-
-				model.addAttribute("guestLectureFiles", guestLectureFiles);
-			}
+			fileUtils.populateFileListsAndAddToModel(user, model);
 		} else {
 			model.addAttribute("user", null);
 		}
-
 	}
 
 	@PostMapping("/updateTeacher")
@@ -233,6 +143,34 @@ public class TeacherController {
 			e.printStackTrace();
 		}
 		return "redirect:/teacher/update-user-details";
+	}
+
+	@GetMapping("/deleteFile/{id}")
+	public ResponseEntity<?> deleteFile(@PathVariable String id, HttpServletRequest request, Model model) {
+		Optional<DatabaseFile> optionalFile = fileRepo.findById(id);
+		if (!optionalFile.isPresent()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		DatabaseFile file = optionalFile.get();
+
+		if (!file.getUser().equals(model.getAttribute("user"))) {
+			System.out.println("\n\n\n\nUser not Verified\n\n\n");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		System.out.println("\n\n\n\nUser Verified Deleting File\n\n\n");
+
+		try {
+			fileRepo.deleteById(id);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+		}
+
+		// Redirect back to the referring page after the delete
+		String referer = request.getHeader("Referer");
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(URI.create(referer));
+		return new ResponseEntity<>(headers, HttpStatus.OK);
 	}
 
 	@GetMapping("/files")

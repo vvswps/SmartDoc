@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,4 +14,6 @@ public interface DatabaseFileRepository extends JpaRepository<DatabaseFile, Stri
     List<DatabaseFile> findByUserAndType(UserDtls user, DatabaseFile.FileType type);
 
     List<DatabaseFile> findByType(DatabaseFile.FileType type);
+
+    Optional<DatabaseFile> findById(String id);
 }

@@ -26,6 +26,14 @@
         </div>
     </div>
 
+    <div class="modal" id="delete-modal">
+        <h2>Are you sure you want to delete this file?</h2>
+        <b>This action is irrecoverable</b>
+
+        <button onclick="closeModal('delete-modal')">No Go back!</button>
+        <button th:href="@{'/teacher/deleteFile/' + ${file.id}}">Yes DELETE</button>
+    </div>
+
     <form class="modal" id="research-modal" action="/uploadDoc" method="post" enctype="multipart/form-data">
         <h2>Upload New Research</h2>
         <!-- x svg to close the modal -->
@@ -78,9 +86,9 @@
         </svg>
 
         <label for="book">Type of Publication</label>
-        <input type="radio" name="publicationType" value="book">
+        <input type="radio" name="publicationType" value="Book">
         Book<br>
-        <input type="radio" name="publicationType" value="bookChapter">
+        <input type="radio" name="publicationType" value="Chapter">
         Book Chapter<br><br>
         <label for="title">Title:</label>
         <input type="text" id="title" name="title"><br><br>
@@ -134,7 +142,6 @@
         <button onclick="showModal('research-modal')" class="upload-button">Upload</button>
     </div>
 
-
     <div class="details">
         <h2>Publications</h2>
         <table class="publications-view">
@@ -153,7 +160,8 @@
                 <td th:text="${file.publicationName}"></td>
                 <td th:text="${file.publicationType}"></td>
                 <td th:text="${file.ISBN}"></td>
-                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a><button class="delete-button"
+                        onclick="showModal('delete-modal')">Delete</button></td>
             </tr>
             <tr th:if="${#lists.isEmpty(bookFiles)}">
                 <td colspan="7">No documents found</td>

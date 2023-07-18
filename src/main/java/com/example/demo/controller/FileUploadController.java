@@ -12,7 +12,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -125,7 +124,7 @@ public class FileUploadController {
 
             document.setTitle(title);
 
-            // if file type is research, book, award, achievement then setDate othwerwise
+            // if file type is research, book, award, achievement then setDate otherwise
             // setDurationFrom and setDurationTo
             if (fileType.toLowerCase().equals("research") || fileType.toLowerCase().equals("book")
                     || fileType.toLowerCase().equals("award") || fileType.toLowerCase().equals("achievement")
@@ -157,6 +156,7 @@ public class FileUploadController {
                 case "book":
                     document.setType(DatabaseFile.FileType.BOOK_OR_CHAPTER);
                     document.setPublicationName(publicationName);
+                    document.setPublicationType(publicationType);
                     document.setISBN(ISBN);
                     DatabaseFileRepository.save(document);
 
@@ -233,30 +233,4 @@ public class FileUploadController {
             return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body("<h1>Something went wrong</h1>");
         }
     }
-
-    // use this method to upload a file to the file system
-
-    // @PostMapping("/uploadafile")
-    // public ResponseEntity<String> uploadaFile(@RequestParam("file") MultipartFile
-    // file) {
-
-    // try {
-    // if (file.isEmpty()) {
-    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Must
-    // upload a file");
-    // }
-
-    // boolean uploaded_sucessfully = fileUploadHelper.uploadFile(file);
-
-    // if (uploaded_sucessfully) {
-    // return ResponseEntity.ok("Successfully uploaded");
-    // }
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // }
-    // return
-    // ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went
-    // wrong");
-    // }
-
 }

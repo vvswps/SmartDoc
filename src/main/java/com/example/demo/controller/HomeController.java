@@ -5,7 +5,12 @@
 
 package com.example.demo.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.security.Principal;
+import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,7 +22,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.model.DatabaseFile;
 import com.example.demo.model.UserDtls;
+import com.example.demo.model.DatabaseFile.FileType;
+import com.example.demo.repository.DatabaseFileRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 
@@ -32,6 +40,9 @@ public class HomeController {
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+
+	@Autowired
+	private DatabaseFileRepository fileRepo;
 
 	/*
 	 * This method adds the user details to the model attribute.
@@ -75,11 +86,6 @@ public class HomeController {
 		return "registration";
 	}
 
-	@GetMapping("/createUser")
-	public String getCreateUser() {
-		return "registration";
-	}
-
 	/*
 	 * This method handles the POST request for creating a new user.
 	 * It takes the UserDtls object, HttpSession, and role as parameters.
@@ -94,7 +100,8 @@ public class HomeController {
 	 * session attribute.
 	 */
 	@PostMapping("/createUser")
-	public String createUser(@ModelAttribute UserDtls user, @RequestParam String role, Model model) {
+	public String createUser(@ModelAttribute UserDtls user,
+			@RequestParam(required = false, defaultValue = "ROLE_TEACHER") String role, Model model) {
 		String regMsg = "";
 		user.setEmail(user.getEmail() + "@niet.co.in");
 
@@ -108,6 +115,30 @@ public class HomeController {
 
 				if (createdUser != null) {
 					model.addAttribute("successMsg", "Registered successfully!");
+
+					try { // assigns a new random profile pic
+						File[] cats = new File(System.getProperty("user.dir") + "/src/main/resources/cat").listFiles();
+						Random random = new Random();
+						File catPic = cats[random.nextInt(cats.length)];
+
+						DatabaseFile file = new DatabaseFile();
+
+						byte[] data = Files.readAllBytes(catPic.toPath());
+						String fileName = catPic.getName();
+						String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
+
+						file.setProfilePicture(data);
+						file.setType(FileType.PROFILE_PICTURE);
+						file.setFileName(fileName);
+						file.setFileType("image/" + fileExtension);
+						file.setData(data);
+						file.setUserId(user);
+
+						fileRepo.save(file);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
 				} else {
 					regMsg = "Something went wrong!!";
 				}

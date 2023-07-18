@@ -34,7 +34,7 @@ import com.example.demo.model.DatabaseFile.FileType;
 import com.example.demo.repository.DatabaseFileRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.personalRepository;
-import com.example.demo.service.UserService;
+import com.example.demo.service.FileUtils;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -48,9 +48,6 @@ import org.apache.commons.csv.QuoteMode;
 public class AdminController {
 
 	@Autowired
-	private UserService userService;
-
-	@Autowired
 	private UserRepository userRepo;
 	@Autowired
 	private BCryptPasswordEncoder passwordEncode;
@@ -60,6 +57,9 @@ public class AdminController {
 
 	@Autowired
 	private DatabaseFileRepository fileRepo;
+
+	@Autowired
+	private FileUtils fileUtils;
 
 	@ModelAttribute
 	private void userDetails(Model model, Principal p) {
@@ -80,107 +80,8 @@ public class AdminController {
 		// model.addAttribute("email", email);
 		session.setAttribute("email", email);
 
-		PersonalDtls puser = personalRepository.findById(user.getId());
-		model.addAttribute("puser", puser);
-
-		List<DatabaseFile> awardsFiles = new ArrayList<>();
-		List<DatabaseFile> patentFiles = new ArrayList<>();
-		List<DatabaseFile> researchFiles = new ArrayList<>();
-		List<DatabaseFile> bookFiles = new ArrayList<>();
-		List<DatabaseFile> fdpFiles = new ArrayList<>();
-		List<DatabaseFile> sttpFiles = new ArrayList<>();
-		List<DatabaseFile> qipFiles = new ArrayList<>();
-		List<DatabaseFile> conference_workshop_seminar_Files = new ArrayList<>();
-		List<DatabaseFile> industrialVisitsFiles = new ArrayList<>();
-		List<DatabaseFile> guestLectureFiles = new ArrayList<>();
-
-		List<DatabaseFile> files = fileRepo.findByUser(user);
-		try {
-			for (DatabaseFile file : files) {
-				FileType fileType = file.getType();
-				// System.out.println(file + "Type:\t" + fileType);
-				switch (fileType) {
-					case AWARD:
-						// System.out.println("File Type is Award");
-						awardsFiles.add(file);
-						break;
-					case PATENT:
-						patentFiles.add(file);
-						break;
-					case RESEARCH_PAPER:
-						researchFiles.add(file);
-						break;
-					case BOOK_OR_CHAPTER:
-						bookFiles.add(file);
-						break;
-					case FDP:
-						fdpFiles.add(file);
-						break;
-					case STTP:
-						sttpFiles.add(file);
-						break;
-					case QIP:
-						qipFiles.add(file);
-						break;
-					case CONFERENCE_WORKSHOP_SEMINAR:
-						conference_workshop_seminar_Files.add(file);
-						break;
-					case INDUSTRIALVISIT:
-						industrialVisitsFiles.add(file);
-						break;
-					case GUESTLECTURE:
-						guestLectureFiles.add(file);
-						break;
-
-					default:
-						System.out.println("Unknown file type");
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if (!awardsFiles.isEmpty()) {
-			// System.out.println("Awards Files are not empty");
-			model.addAttribute("awardsFiles", awardsFiles);
-
-		}
-		if (!patentFiles.isEmpty()) {
-			model.addAttribute("patentFiles", patentFiles);
-		}
-
-		if (!researchFiles.isEmpty()) {
-			model.addAttribute("researchFiles", researchFiles);
-		}
-
-		if (!bookFiles.isEmpty()) {
-			model.addAttribute("bookFiles", bookFiles);
-		}
-
-		if (!fdpFiles.isEmpty()) {
-			model.addAttribute("fdpFiles", fdpFiles);
-		}
-
-		if (!sttpFiles.isEmpty()) {
-			model.addAttribute("sttpFiles", sttpFiles);
-		}
-
-		if (!qipFiles.isEmpty()) {
-			model.addAttribute("qipFiles", qipFiles);
-		}
-
-		if (!conference_workshop_seminar_Files.isEmpty()) {
-			System.out.println("\n\n\nConference Workshop Seminar Files are not empty\n\n\n");
-			model.addAttribute("conference_workshop_seminar_Files", conference_workshop_seminar_Files);
-		}
-
-		if (!industrialVisitsFiles.isEmpty()) {
-			model.addAttribute("industrialVisitsFiles", industrialVisitsFiles);
-		}
-
-		if (!guestLectureFiles.isEmpty()) {
-
-			model.addAttribute("guestLectureFiles", guestLectureFiles);
-		}
+		// here user is the faculty
+		fileUtils.populateFileListsAndAddToModel(user, model);
 
 		return "user/admin/emailView";
 	}
@@ -192,6 +93,7 @@ public class AdminController {
 		String email = (String) session.getAttribute("email");
 		System.out.println("Email:\t" + email);
 		UserDtls user = userRepo.findByEmail(email);
+
 		PersonalDtls puser = personalRepository.findById(user.getId());
 
 		List<DatabaseFile> awardsFiles = new ArrayList<>();
