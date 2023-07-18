@@ -42,6 +42,7 @@ public class FileUtils {
         try {
             for (DatabaseFile file : files) {
                 FileType fileType = file.getType();
+                System.out.println(fileType);
                 switch (fileType) {
                     case AWARD:
                         awardsFiles.add(file);
@@ -65,6 +66,7 @@ public class FileUtils {
                         qipFiles.add(file);
                         break;
                     case CONFERENCE_WORKSHOP_SEMINAR:
+                        System.out.println("\n\n\nAdding CWS\n\n\n");
                         conferenceWorkshopSeminarFiles.add(file);
                         break;
                     case INDUSTRIALVISIT:
@@ -103,16 +105,16 @@ public class FileUtils {
             model.addAttribute("qipFiles", qipFiles);
         }
         if (!conferenceWorkshopSeminarFiles.isEmpty()) {
-            System.out.println("\n\n\nNo CWS\n\n\n");
+            System.out.println("\n\n\nCWS\n\n\n");
 
             model.addAttribute("conferenceWorkshopSeminarFiles", conferenceWorkshopSeminarFiles);
         }
         if (!industrialVisitsFiles.isEmpty()) {
-            System.out.println("\n\n\nNo Industry\n\n\n");
+            System.out.println("\n\n\nIndustry\n\n\n");
             model.addAttribute("industrialVisitsFiles", industrialVisitsFiles);
         }
         if (!guestLectureFiles.isEmpty()) {
-            System.out.println("\n\n\nNo Lecture\n\n\n");
+            System.out.println("\n\n\nLecture\n\n\n");
 
             model.addAttribute("guestLectureFiles", guestLectureFiles);
         }

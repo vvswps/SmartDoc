@@ -199,6 +199,7 @@ public class FileUploadController {
                 case "conference_workshop_seminar":
                     document.setEventType(eventType);
                     document.setType(DatabaseFile.FileType.CONFERENCE_WORKSHOP_SEMINAR);
+                    document.setEventRole(eventRole);
                     DatabaseFileRepository.save(document);
 
                     return ResponseEntity.status(HttpStatus.FOUND)
