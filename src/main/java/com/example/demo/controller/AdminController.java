@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -41,7 +42,6 @@ import jakarta.servlet.http.HttpSession;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
-import org.apache.commons.csv.QuoteMode;
 
 @Controller
 @RequestMapping("/admin")
@@ -281,45 +281,281 @@ public class AdminController {
 	public void downloadDeptCSV(HttpServletResponse response, HttpSession session) throws IOException {
 		String deptName = (String) session.getAttribute("deptName");
 		List<UserDtls> teachers = userRepo.findByBranchAndRole(deptName, "ROLE_TEACHER");
-		Map<String, Map<FileType, Integer>> teacherFileCounts = new HashMap<>();
-
-		for (UserDtls teacher : teachers) {
-			Map<FileType, Integer> fileCounts = new HashMap<>();
-			for (FileType fileType : FileType.values()) {
-				fileCounts.put(fileType, 0);
-			}
-			for (DatabaseFile file : teacher.getFiles()) {
-				FileType fileType = file.getType();
-				fileCounts.put(fileType, fileCounts.get(fileType) + 1);
-			}
-			teacherFileCounts.put(teacher.getName(), fileCounts);
-		}
 
 		response.setContentType("text/csv");
 		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + deptName + ".csv\"");
 
-		try (CSVPrinter csvPrinter = new CSVPrinter(response.getWriter(),
-				CSVFormat.DEFAULT.withHeader("Teacher Name", "Email", "Research Papers", "Awards", "Achievements",
-						"Books or Chapters", "FDP", "STTP", "QIP", "Workshop")
-						.withQuoteMode(QuoteMode.ALL))) {
-			generateDeptCSV(csvPrinter, teachers, teacherFileCounts);
-		}
-	}
+		try (CSVPrinter printer = new CSVPrinter(response.getWriter(), CSVFormat.DEFAULT)) {
+			printer.printRecord("Department of " + deptName);
+			printer.printRecord("Generated on: " + LocalDate.now().toString());
+			printer.println();
 
-	private void generateDeptCSV(CSVPrinter csvPrinter, List<UserDtls> teachers,
-			Map<String, Map<FileType, Integer>> teacherFileCounts) throws IOException {
-		for (UserDtls teacher : teachers) {
-			csvPrinter.printRecord(
-					teacher.getName(),
-					teacher.getEmail(),
-					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.RESEARCH_PAPER, 0),
-					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.AWARD, 0),
-					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.PATENT, 0),
-					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.BOOK_OR_CHAPTER, 0),
-					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.FDP, 0),
-					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.STTP, 0),
-					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.QIP, 0),
-					teacherFileCounts.get(teacher.getName()).getOrDefault(FileType.CONFERENCE_WORKSHOP_SEMINAR, 0));
+			printer.printRecord("Section: Faculty Awards/Achievements");
+			printer.println();
+			printer.printRecord("Sr. No.", "Name of Faculty", "Email",
+					"Award/Achievement Name", "Date Awarded", "Issuing Authority");
+
+			int count = 0;
+			printer.println();
+			for (UserDtls teacher : teachers) {
+				for (DatabaseFile file : teacher.getFiles()) {
+					if (file.getType() == FileType.AWARD) {
+						printer.print(++count);
+						printer.print(teacher.getName());
+						printer.print(teacher.getEmail());
+						printer.print(file.getTitle());
+						printer.print(file.getDate());
+						printer.print(file.getAwardingInstitution());
+						printer.println();
+					}
+				}
+			}
+
+			printer.println();
+			printer.print("Section: Faculty Research Papers");
+			printer.println();
+
+			printer.printRecord("Sr. No.", "Name of Faculty", "Email",
+					"Title of Paper", "Publication Name", "Type of Publication", "Date of Publishing", "ISSN Number",
+					"DOI",
+					"Volume");
+
+			printer.println();
+
+			count = 0;
+			// "Sr. No.", "Name of Faculty", "Email", "Title of Paper", "Publication Name",
+			// "Type of Publication", "Date of Publishing", "ISSN Number", "DOI", "Volume"
+			for (UserDtls teacher : teachers) {
+				for (DatabaseFile file : teacher.getFiles()) {
+					if (file.getType() == FileType.RESEARCH_PAPER) {
+						printer.print(++count);
+						printer.print(teacher.getName());
+						printer.print(teacher.getEmail());
+						printer.print(file.getTitle());
+						printer.print(file.getPublicationName());
+						printer.print(file.getPublicationType());
+						printer.print(file.getDate());
+						printer.print(file.getISSN());
+						printer.print(file.getDOI());
+						printer.print(file.getVolume());
+						printer.println();
+					}
+				}
+			}
+
+			printer.println();
+
+			printer.print("Section: Faculty Books and Chapters");
+			printer.println();
+			printer.printRecord("Sr. No.", "Name of Faculty", "Email", "Title",
+					"Publication Name", "Book/Chapter", "Date of Publishing", "ISBN Number");
+
+			printer.println();
+
+			count = 0;
+			// "Sr. No.", "Name of Faculty", "Email", "Title", "Publication Name",
+			// "Book/Chapter", "Date of Publishing", "ISBN Number"
+			for (UserDtls teacher : teachers) {
+				for (DatabaseFile file : teacher.getFiles()) {
+					if (file.getType() == FileType.BOOK_OR_CHAPTER) {
+						printer.print(++count);
+						printer.print(teacher.getName());
+						printer.print(teacher.getEmail());
+						printer.print(file.getTitle());
+						printer.print(file.getPublicationName());
+						printer.print(file.getPublicationType());
+						printer.print(file.getDate());
+						printer.print(file.getISBN());
+						printer.println();
+					}
+				}
+			}
+
+			printer.println();
+
+			printer.print("Section: Faculty FDPs");
+			printer.println();
+			printer.printRecord("Sr. No.", "Name of Faculty", "Email", "Title",
+					"Online/Offline", "Number of days", "Organization");
+
+			printer.println();
+
+			count = 0;
+			// "Sr. No.", "Name of Faculty", "Email", "Title", "Online/Offline", "Number of
+			// days", "Organization"
+			for (UserDtls teacher : teachers) {
+				for (DatabaseFile file : teacher.getFiles()) {
+					if (file.getType() == FileType.FDP) {
+						printer.print(++count);
+						printer.print(teacher.getName());
+						printer.print(teacher.getEmail());
+						printer.print(file.getTitle());
+						printer.print(file.getNature());
+						printer.print(file.getNoOfDays());
+						printer.print(file.getOrganizedBy());
+						printer.println();
+					}
+				}
+			}
+
+			printer.println();
+			printer.print("Section: Faculty STTPs");
+			printer.println();
+			printer.printRecord("Sr. No.", "Name of Faculty", "Email", "Title",
+					"Online/Offline", "Number of days", "Organization");
+
+			printer.println();
+
+			count = 0;
+			// "Sr. No.", "Name of Faculty", "Email", "Title", "Online/Offline", "Number of
+			// days", "Organization"
+			for (UserDtls teacher : teachers) {
+				for (DatabaseFile file : teacher.getFiles()) {
+					if (file.getType() == FileType.STTP) {
+						printer.print(++count);
+						printer.print(teacher.getName());
+						printer.print(teacher.getEmail());
+						printer.print(file.getTitle());
+						printer.print(file.getNature());
+						printer.print(file.getNoOfDays());
+						printer.print(file.getOrganizedBy());
+						printer.println();
+					}
+				}
+			}
+
+			printer.println();
+
+			printer.print("Section: Faculty QIPs");
+			printer.println();
+			printer.printRecord("Sr. No.", "Name of Faculty", "Email", "Title",
+					"Online/Offline", "Number of days", "Organization");
+
+			printer.println();
+
+			count = 0;
+			// "Sr. No.", "Name of Faculty", "Email", "Title", "Online/Offline", "Number of
+			// days", "Organization"
+			for (UserDtls teacher : teachers) {
+				for (DatabaseFile file : teacher.getFiles()) {
+					if (file.getType() == FileType.QIP) {
+						printer.print(++count);
+						printer.print(teacher.getName());
+						printer.print(teacher.getEmail());
+						printer.print(file.getTitle());
+						printer.print(file.getNature());
+						printer.print(file.getNoOfDays());
+						printer.print(file.getOrganizedBy());
+						printer.println();
+					}
+				}
+			}
+
+			printer.println();
+
+			printer.print("Section: Faculty Workshops");
+			printer.println();
+			printer.printRecord("Sr. No.", "Name of Faculty", "Email", "Title",
+					"Type", "Organiser/Attendee", "Online/Offline", "Number of days", "Organization");
+			printer.println();
+
+			count = 0;
+			// "Sr. No.", "Name of Faculty", "Email", "Title", "Type", "Organiser/Attendee",
+			// "Online/Offline", "Number of days", "Organization"
+			for (UserDtls teacher : teachers) {
+				for (DatabaseFile file : teacher.getFiles()) {
+					if (file.getType() == FileType.CONFERENCE_WORKSHOP_SEMINAR) {
+						printer.print(++count);
+						printer.print(teacher.getName());
+						printer.print(teacher.getEmail());
+						printer.print(file.getTitle());
+						printer.print(file.getNature());
+						printer.print(file.getOrganizedBy());
+						printer.print(file.getNoOfDays());
+						printer.print(file.getOrganizedBy());
+						printer.println();
+					}
+				}
+			}
+
+			printer.println();
+			printer.print("Section: Faculty Industrial Visits");
+			printer.println();
+			printer.printRecord("Sr. No.", "Name of Faculty", "Email",
+					"Name of industry visited & Place", "No. of students visited", "Date of visit");
+			printer.println();
+
+			count = 0;
+			// "Sr. No.", "Name of Faculty", "Email", "Name of industry visited & Place",
+			// "No. of students visited", "Date of visit"
+			for (UserDtls teacher : teachers) {
+				for (DatabaseFile file : teacher.getFiles()) {
+					if (file.getType() == FileType.INDUSTRIALVISIT) {
+						printer.print(++count);
+						printer.print(teacher.getName());
+						printer.print(teacher.getEmail());
+						printer.print(file.getTitle());
+						printer.print(file.getNoOfStudentsVisited());
+						printer.print(file.getDate());
+						printer.println();
+					}
+				}
+			}
+
+			printer.println();
+			printer.print("Section: Faculty Guest Lectures");
+			printer.println();
+			printer.printRecord("Sr. No.", "Name of Faculty", "Email",
+					"Topic of lecture", "Online/Offline", "Date", "Place/Event where the lecture was delivered");
+			printer.println();
+
+			count = 0;
+			// "Sr. No.", "Name of Faculty", "Email", "Topic of lecture", "Online/Offline",
+			// "Date", "Place/Event where the lecture was delivered"
+			for (UserDtls teacher : teachers) {
+				for (DatabaseFile file : teacher.getFiles()) {
+					if (file.getType() == FileType.GUESTLECTURE) {
+						printer.print(++count);
+						printer.print(teacher.getName());
+						printer.print(teacher.getEmail());
+						printer.print(file.getTitle());
+						printer.print(file.getNature());
+						printer.print(file.getDate());
+						printer.print(file.getOrganizedBy());
+						printer.println();
+					}
+				}
+			}
+
+			printer.println();
+			printer.print("Section: Faculty Patents");
+			printer.println();
+			printer.printRecord("Sr. No.", "Name of Faculty", "Email", "Title",
+					"Patent Number", "Date of Patent", "Status");
+			printer.println();
+
+			count = 0;
+			// "Sr. No.", "Name of Faculty", "Email", "Title", "Patent Number", "Date of
+			// Patent", "Status"
+			for (UserDtls teacher : teachers) {
+				for (DatabaseFile file : teacher.getFiles()) {
+					if (file.getType() == FileType.PATENT) {
+						printer.print(++count);
+						printer.print(teacher.getName());
+						printer.print(teacher.getEmail());
+						printer.print(file.getTitle());
+						printer.print(file.getPatentNumber());
+						printer.print(file.getDate());
+						printer.print(file.getPatentStatus());
+						printer.println();
+					}
+				}
+			}
+
+			printer.flush();
+
+		} catch (IOException ex) {
+			ex.printStackTrace();
 		}
 	}
 
