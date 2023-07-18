@@ -145,6 +145,17 @@
 </head>
 
 <body>
+
+<div class="modal" id="delete-modal" th:if="${not #lists.isEmpty(researchFiles) or not #lists.isEmpty(bookFiles)}">
+        <h2>Are you sure you want to delete this file?</h2>
+        <b>This action is irrecoverable</b>
+        <div>
+            <button onclick="closeModal('delete-modal')">No Go back!</button>
+            <a id="delete" href='/teacher/deleteFile/'>Yes DELETE</a>
+        </div>
+    </div>
+
+
     <header>
         <div class="title-area">
             <h1>Interactions</h1>

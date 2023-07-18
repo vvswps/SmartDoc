@@ -6,10 +6,8 @@
 package com.example.demo.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.security.Principal;
-import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;

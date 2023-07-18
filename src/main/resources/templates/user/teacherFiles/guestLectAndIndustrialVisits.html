@@ -9,6 +9,17 @@
 </head>
 
 <body>
+
+<div class="modal" id="delete-modal" th:if="${not #lists.isEmpty(researchFiles) or not #lists.isEmpty(bookFiles)}">
+        <h2>Are you sure you want to delete this file?</h2>
+        <b>This action is irrecoverable</b>
+        <div>
+            <button onclick="closeModal('delete-modal')">No Go back!</button>
+            <a id="delete" href='/teacher/deleteFile/'>Yes DELETE</a>
+        </div>
+    </div>
+
+
     <header>
         <div class="title-area">
             <h1>Guest Lecture and Industrial Visits</h1>
@@ -102,7 +113,8 @@
                 <td th:text="${file.nature}"></td>
                 <td th:text="${file.placeOrEvent}"></td>
                 <td th:text="${file.date}"></td>
-                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a><button class="delete-button"
+                        onclick="showDeleteModal(this.previousElementSibling.getAttribute('href'))">Delete</button></td>
             </tr>
             <tr th:if="${#lists.isEmpty(guestLectureFiles)}">
                 <td colspan="8">No documents found</td>
@@ -128,7 +140,8 @@
                 <td th:text="${file.placeOrEvent}"></td>
                 <td th:text="${file.noOfStudentsVisited}"></td>
                 <td th:text="${file.date}"></td>
-                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a></td>
+                <td><a th:href="@{'/documents/' + ${file.id}}">Download</a><button class="delete-button"
+                        onclick="showDeleteModal(this.previousElementSibling.getAttribute('href'))">Delete</button></td>
             </tr>
             <tr th:if="${#lists.isEmpty(industrialVisitsFiles)}">
                 <td colspan="8">No documents found</td>
@@ -137,6 +150,17 @@
         <button class="upload-button" onclick="showModal('industrial-visits-modal')">Upload</button>
     </div>
     <script>
+
+function showDeleteModal(id) {
+            const deleteButton = document.querySelector("#delete")
+            console.log(id);
+            id = id.slice(id.lastIndexOf("/") + 1);
+            console.log(id);
+
+            deleteButton.setAttribute("href", "/teacher/deleteFile/" + id);
+            document.querySelector("#delete-modal").classList.add('show');
+        }
+        
         function showModal(id) {
             console.log(`Showing modal ${id}`);
             document.querySelector(`#${id}`).classList.add('show');

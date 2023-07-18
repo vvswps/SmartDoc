@@ -64,7 +64,8 @@
   box-sizing: border-box;
 }
 
-.modal input[type="submit"] {
+.modal input[type="submit"],
+.modal button {
   background-color: #ff919d;
   color: #fff;
   border: none;
@@ -75,7 +76,8 @@
   transition: all 0.3s ease-in-out;
 }
 
-.modal input[type="submit"]:hover {
+.modal input[type="submit"]:hover,
+.modal button:hover {
   background-color: #ff7585;
 }
 
@@ -225,4 +227,36 @@ tr {
 .delete-button:hover {
   box-shadow: 0 0 10px 4px #ff7585;
   background-color: red; /* Replace with your desired shade of red for the hover effect */
+}
+
+#delete-modal.show {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#delete-modal b {
+  margin-bottom: 1rem;
+}
+
+#delete-modal a {
+  margin-left: 2rem;
+  color: red;
+  text-decoration: none;
+  font-weight: bolder;
+  transition: all 0.3s ease-in-out;
+}
+
+#delete-modal a:hover {
+  text-shadow: 2px 2px 4px #ff7585;
+}
+
+#delete-modal button {
+  color: black;
+  background-color: aquamarine;
+}
+
+#delete-modal button:hover {
+  background-color: rgb(73, 241, 185);
 }
