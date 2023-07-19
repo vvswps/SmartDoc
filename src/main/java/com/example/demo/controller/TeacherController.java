@@ -30,6 +30,7 @@ import com.example.demo.service.FileUtils;
 import com.example.demo.service.PersonalService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -206,7 +207,9 @@ public class TeacherController {
 	}
 
 	@GetMapping("/")
-	public String home() {
+	public String home(HttpServletResponse response) {
+		response.setHeader("Hello", "I had to add this header due to ngrok");
+		// headers are used to send additional information to the client
 		return "user/teacherFiles/teacher";
 	}
 

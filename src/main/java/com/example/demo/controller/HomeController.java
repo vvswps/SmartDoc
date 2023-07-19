@@ -7,10 +7,15 @@ package com.example.demo.controller;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,6 +46,8 @@ public class HomeController {
 
 	@Autowired
 	private DatabaseFileRepository fileRepo;
+
+	Random random = new Random();
 
 	/*
 	 * This method adds the user details to the model attribute.
@@ -115,9 +122,22 @@ public class HomeController {
 					model.addAttribute("successMsg", "Registered successfully!");
 
 					try { // assigns a new random profile pic
-						File[] cats = new File(System.getProperty("user.dir") + "/src/main/resources/cat").listFiles();
-						Random random = new Random();
-						File catPic = cats[random.nextInt(cats.length)];
+							// TODO: Fix the path to use relative path for the running app currently it's
+							// hardcoded
+						Resource catsDirResource = new ClassPathResource("cat");
+
+						// Get the actual path of the resource directory
+						Path catsDirPath = catsDirResource.getFile().toPath();
+
+						// List all the files in the directory
+						List<String> files = new ArrayList<>();
+						Files.walk(catsDirPath, 1)
+								.filter(Files::isRegularFile)
+								.forEach(path -> files.add(path.toString()));
+
+						System.out.println("\n\n\nBilli" + files + "\n\n\n");
+
+						File catPic = new File(files.get(random.nextInt(files.size())));
 
 						DatabaseFile file = new DatabaseFile();
 
@@ -128,6 +148,15 @@ public class HomeController {
 						file.setProfilePicture(data);
 						file.setType(FileType.PROFILE_PICTURE);
 						file.setFileName(fileName);
+						switch (fileExtension) {
+							case "svg":
+								fileExtension = "svg+xml";
+								break;
+							case "jpg":
+								fileExtension = "jpeg";
+								break;
+						}
+
 						file.setFileType("image/" + fileExtension);
 						file.setData(data);
 						file.setUserId(user);
