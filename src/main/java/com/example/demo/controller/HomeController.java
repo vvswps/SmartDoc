@@ -32,6 +32,8 @@ import com.example.demo.repository.DatabaseFileRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 @Controller
 public class HomeController {
 
@@ -69,7 +71,8 @@ public class HomeController {
 	 * It returns the "index" view to display the home page.
 	 */
 	@GetMapping("/")
-	public String index() {
+	public String index(HttpServletResponse response) {
+		response.setHeader("Hello", "I had to add this header due to ngrok");
 		return "index";
 	}
 
