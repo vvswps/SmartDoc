@@ -47,6 +47,13 @@ import org.apache.commons.csv.CSVPrinter;
 @RequestMapping("/admin")
 public class AdminController {
 
+	String reset = "\u001B[0m";
+	String red = "\u001B[31m";
+	String green = "\u001B[32m";
+	String yellow = "\u001B[33m";
+	String blue = "\u001B[34m";
+	String cyan = "\u001B[36m";
+
 	@Autowired
 	private UserRepository userRepo;
 	@Autowired
@@ -77,6 +84,9 @@ public class AdminController {
 		System.out.println("In getFacultyByEmail()");
 		UserDtls user = userRepo.findByEmail(email);
 
+		String facultyProfilePicId = fileRepo.findByUserAndType(user, FileType.PROFILE_PICTURE).get(0).getId();
+		System.out.println(cyan + "Faculty Profile Pic:\t" + facultyProfilePicId + reset);
+		model.addAttribute("facultyProfilePicId", facultyProfilePicId);
 		// model.addAttribute("email", email);
 		session.setAttribute("email", email);
 
@@ -91,10 +101,12 @@ public class AdminController {
 		System.out.println("In downloadCSV()");
 
 		String email = (String) session.getAttribute("email");
-		System.out.println("Email:\t" + email);
+		System.out.println(yellow + "Email:\t" + email + reset);
 		UserDtls user = userRepo.findByEmail(email);
 
-		PersonalDtls puser = personalRepository.findById(user.getId());
+		PersonalDtls personalDetails = personalRepository.findByUser(user);
+		System.out.println(red + "\n\nUser:\t" + user + reset);
+		System.out.println(red + "\n\nPersonal User:\t" + personalDetails + reset);
 
 		List<DatabaseFile> awardsFiles = new ArrayList<>();
 		List<DatabaseFile> patentFiles = new ArrayList<>();
@@ -152,11 +164,12 @@ public class AdminController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		generateCSV(puser, awardsFiles, patentFiles, researchFiles, bookFiles, fdpFiles, sttpFiles, qipFiles,
+		generateCSV(personalDetails, awardsFiles, patentFiles, researchFiles, bookFiles, fdpFiles, sttpFiles, qipFiles,
 				conference_workshop_seminar_Files, response);
 	}
 
-	private void generateCSV(PersonalDtls puser, List<DatabaseFile> awardsFiles, List<DatabaseFile> achievementsFiles,
+	private void generateCSV(PersonalDtls personalDetails, List<DatabaseFile> awardsFiles,
+			List<DatabaseFile> achievementsFiles,
 			List<DatabaseFile> researchFiles, List<DatabaseFile> bookFiles, List<DatabaseFile> fdpFiles,
 			List<DatabaseFile> sttpFiles, List<DatabaseFile> qipFiles, List<DatabaseFile> workshopFiles,
 			HttpServletResponse response) throws IOException {
@@ -168,13 +181,20 @@ public class AdminController {
 		writer.println("User details");
 		writer.println(
 				"Name, ERP id, Official Email, Personal Email, Department, Whatsapp Number, Mobile Number, Gender, Date of Birth, Industry Experience, Academic Experience, Date of Joining, Date of Leaving, Google Scholar ID, Scopus ID, SCI ID, Current Address, Current City, Current State, Current Country, Current Pincode, Permanent Address, Permanent City, Permanent State, Permanent Country, Permanent Pincode");
-		writer.println(puser.getName() + "," + puser.getErpId() + "," + puser.getOffEmail() + "," + puser.getPerEmail()
-				+ "," + puser.getDept() + "," + puser.getWhatsNumber() + "," + puser.getMobileNumber() + ","
-				+ puser.getGender() + "," + puser.getDob() + "," + puser.getErpId() + "," + puser.getExpAcd() + ","
-				+ puser.getDoj() + "," + puser.getDol() + "," + puser.getGoogleId() + "," + puser.getScopusId() + ","
-				+ puser.getSciId() + "," + puser.getCurAdd() + "," + puser.getCurrCity() + "," + puser.getCurrState()
-				+ "," + puser.getCurrCunt() + "," + puser.getCurrPin() + "," + puser.getPerAdd() + ","
-				+ puser.getPerCity() + "," + puser.getPerState() + "," + puser.getPerCunt() + "," + puser.getPerPin());
+		writer.println(personalDetails.getName() + "," + personalDetails.getErpId() + ","
+				+ personalDetails.getOffEmail() + "," + personalDetails.getPerEmail()
+				+ "," + personalDetails.getDept() + "," + personalDetails.getWhatsNumber() + ","
+				+ personalDetails.getMobileNumber() + ","
+				+ personalDetails.getGender() + "," + personalDetails.getDob() + "," + personalDetails.getErpId() + ","
+				+ personalDetails.getExpAcd() + ","
+				+ personalDetails.getDoj() + "," + personalDetails.getDol() + "," + personalDetails.getGoogleId() + ","
+				+ personalDetails.getScopusId() + ","
+				+ personalDetails.getSciId() + "," + personalDetails.getCurAdd() + "," + personalDetails.getCurrCity()
+				+ "," + personalDetails.getCurrState()
+				+ "," + personalDetails.getCurrCunt() + "," + personalDetails.getCurrPin() + ","
+				+ personalDetails.getPerAdd() + ","
+				+ personalDetails.getPerCity() + "," + personalDetails.getPerState() + ","
+				+ personalDetails.getPerCunt() + "," + personalDetails.getPerPin());
 
 		writer.println("\n\n");
 		writer.println("Research papers");

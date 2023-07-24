@@ -31,6 +31,11 @@ public class UserServiceImpl implements UserService {
 		// personalDtls.setId(19);
 
 		personalDtls.setUser(user); // set the user to the personal details object
+		personalDtls.setName(user.getName());
+		personalDtls.setOffEmail(user.getEmail());
+		personalDtls.setDept(user.getBranch());
+		personalDtls.setMobileNumber(user.getMobileNumber());
+
 		user.setPersonalDtls(personalDtls);
 
 		personalDtls = personalRepository.save(personalDtls); // save the personal details object to get the ID

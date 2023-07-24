@@ -9,7 +9,7 @@ public interface personalRepository extends JpaRepository<PersonalDtls, Integer>
 
     // PersonalDtls findById(Long id);
     // optional method findbyid
-    <Optional> PersonalDtls findById(int id);
+    PersonalDtls findById(int id);
 
     PersonalDtls findByUser(UserDtls user);
 

@@ -135,6 +135,13 @@
             padding-left: 1.5rem;
             padding-right: 3rem;
         }
+
+        #facultyProfilePic {
+            max-width: 4rem;
+            max-height: 4rem;
+            object-fit: cover;
+            border-radius: 50%;
+        }
     </style>
 </head>
 
@@ -156,6 +163,10 @@
         <div class=" grid-container">
             <div class="grid-item"><span class="field">Name: </span>[[${puser != null ? puser.name : ''}]]</div>
             <div class="grid-item"><span class="field">ERP ID: </span>[[${puser != null ? puser.erpId : ''}]]</div>
+            <div class="grid-item">
+                <img th:src="@{/getProfilePicById/__${facultyProfilePicId}__}" id="facultyProfilePic" width="120" />
+            </div>
+
             <div class="grid-item"><span class="field">DOJ: </span>[[${puser != null ? puser.doj : ''}]]</div>
             <div class="grid-item"><span class="field">DOL: </span>[[${puser != null ? puser.dol : ''}]]</div>
 
