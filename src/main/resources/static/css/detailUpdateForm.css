@@ -1,0 +1,257 @@
+:root {
+  --primary-color: #1abc9c;
+  --secondary-color: #e91e63;
+  --background-color: #f5f5f5;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  /* background-color: var(--background-color); */
+  margin: 0;
+}
+
+form {
+  background-color: #ffffff;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--primary-color);
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+label {
+  font-size: 16px;
+  color: #999999;
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="number"] {
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  width: 100%;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  background-color: #f0f0f0;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus {
+  outline: none;
+  border: 1px solid var(--primary-color);
+}
+
+button[type="submit"] {
+  font-size: 16px;
+  color: #ffffff;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #0d8abc;
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.checkbox-label {
+  font-size: 16px;
+  color: #999999;
+  margin-bottom: 10px;
+}
+
+.error {
+  color: var(--secondary-color);
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  width: 100%;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.select-wrapper::before {
+  content: "";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #999999;
+  pointer-events: none;
+}
+
+.copy-checkbox-container {
+  margin-bottom: 10px;
+}
+
+.copy-checkbox-container label {
+  font-size: 14px;
+}
+
+/* Form container */
+.form-container {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+/* Form fields */
+.form-field {
+  margin-bottom: 20px;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 5px;
+  color: #616161;
+  font-size: 16px;
+}
+
+.form-field input[type="text"],
+.form-field input[type="email"],
+.form-field input[type="number"],
+.form-field select {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+  font-size: 16px;
+  color: #333;
+}
+
+.form-field input[type="text"]:focus,
+.form-field input[type="email"]:focus,
+.form-field input[type="number"]:focus,
+.form-field select:focus {
+  outline: none;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Checkbox */
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.checkbox-field label {
+  margin-left: 5px;
+  color: #616161;
+  font-size: 14px;
+}
+
+.checkbox-field input[type="checkbox"] {
+  margin-right: 5px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #fff;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.checkbox-field input[type="checkbox"]:checked::before {
+  content: "\2713";
+  display: inline-block;
+  font-size: 14px;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+  line-height: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border-radius: 3px;
+}
+
+/* Submit button */
+.btn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+.two-in-a-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.two-in-a-row div {
+  width: 48%;
+}
+
+.copy-phone-checkbox {
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+}

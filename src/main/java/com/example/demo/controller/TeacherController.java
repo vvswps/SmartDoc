@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import java.net.URI;
 import java.security.Principal;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,6 @@ import com.example.demo.repository.DatabaseFileRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.personalRepository;
 import com.example.demo.service.FileUtils;
-import com.example.demo.service.PersonalService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -36,11 +34,15 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/teacher")
 public class TeacherController {
 
-	@Autowired
-	private UserRepository userRepo;
+	String reset = "\u001B[0m";
+	String red = "\u001B[31m";
+	String green = "\u001B[32m";
+	String yellow = "\u001B[33m";
+	String blue = "\u001B[34m";
+	String cyan = "\u001B[36m";
 
 	@Autowired
-	private PersonalService personalService;
+	private UserRepository userRepo;
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -60,83 +62,44 @@ public class TeacherController {
 			String email = p.getName();
 			UserDtls user = userRepo.findByEmail(email);
 			model.addAttribute("user", user);
-
+			PersonalDtls personalDtls = personalRepository.findByUser(user);
+			model.addAttribute("personalDetails", personalDtls);
+			System.out.println(red + "\n\nFrom personalDetails User:\n" + user + reset);
+			System.out.println(red + "\n\nFrom personalDetails PersonalDtls:\n" + personalDtls + reset);
+			System.out.println(red + "\n\nFrom personalDetails Model:\n" + model + reset);
 			fileUtils.populateFileListsAndAddToModel(user, model);
+			System.out.println(red + "\n\nFrom personalDetails Model after files:\n" + model + reset);
+
 		} else {
 			model.addAttribute("user", null);
 		}
 	}
 
-	@PostMapping("/updateTeacher")
-	public String updateUser(Principal p,
-			@RequestParam(required = true) String name,
-			@RequestParam(required = true) String erpId,
-			@RequestParam(required = true) String offEmail,
-			@RequestParam(required = true) String perEmail,
-			@RequestParam(required = true) String dept,
-			@RequestParam(required = true) String whatsNumber,
-			@RequestParam(required = true) String mobileNumber,
-			@RequestParam(required = true) String dob,
-			@RequestParam(required = true) String gender,
-			@RequestParam(required = false) String expInd,
-			@RequestParam(required = false) String expAcd,
-			@RequestParam(required = false) String doj,
-			@RequestParam(required = false) String dol,
-			@RequestParam(required = false) String googleId,
-			@RequestParam(required = false) String scopusId,
-			@RequestParam(required = false) String sciId,
-			@RequestParam(required = true) String curAdd,
-			@RequestParam(required = true) String currCity,
-			@RequestParam(required = true) String currState,
-			@RequestParam(required = true) String currCunt,
-			@RequestParam(required = true) String currPin,
-			@RequestParam(required = true) String perAdd,
-			@RequestParam(required = true) String perCity,
-			@RequestParam(required = true) String perState,
-			@RequestParam(required = true) String perCunt,
-			@RequestParam(required = true) String perPin) {
+	@GetMapping("/personalInfo")
+	public String personalInfo(Model model, Principal p) {
+		// String email = p.getName();
+		// UserDtls user = userRepo.findByEmail(email);
+		// PersonalDtls personalDtls = personalRepository.findByUser(user);
+		// model.addAttribute("personalDetails", personalDtls);
+		System.out.println(cyan + "\n\nModel from pinf" + model + reset);
+		return "user/teacherFiles/personalInfo";
+	}
 
-		String email = p.getName();
-		UserDtls user = userRepo.findByEmail(email);
+	@GetMapping("/update-user-details")
+	public String updateDetails(Model model) {
+		System.out.println(yellow + "\n\nFrom update details" + model + reset);
+		return "user/teacherFiles/detailUpdateForm";
+	}
+
+	@PostMapping("/update-user-details")
+	public String updateUser(@ModelAttribute("personalDetails") PersonalDtls updatedPersonalDtls) {
+		System.out.println(yellow + "\n\nFrom update Teacher existingpd" + updatedPersonalDtls + reset);
 		try {
-			PersonalDtls puser = personalRepository.findByUser(user);
-
-			PersonalDtls existingPersonalDtls = personalRepository.findByUser(puser.getUser());
-
-			// update the fields with the new values
-			existingPersonalDtls.setName(name);
-			existingPersonalDtls.setErpId(erpId);
-			existingPersonalDtls.setOffEmail(offEmail);
-			existingPersonalDtls.setPerEmail(perEmail);
-			existingPersonalDtls.setDept(dept);
-			existingPersonalDtls.setWhatsNumber(whatsNumber);
-			existingPersonalDtls.setMobileNumber(mobileNumber);
-			existingPersonalDtls.setGender(gender);
-			existingPersonalDtls.setDob(dob);
-			existingPersonalDtls.setExpInd(expInd);
-			existingPersonalDtls.setExpAcd(expAcd);
-			existingPersonalDtls.setDoj(doj);
-			existingPersonalDtls.setDol(dol);
-			existingPersonalDtls.setGoogleId(googleId);
-			existingPersonalDtls.setScopusId(scopusId);
-			existingPersonalDtls.setSciId(sciId);
-			existingPersonalDtls.setCurAdd(curAdd);
-			existingPersonalDtls.setCurrCity(currCity);
-			existingPersonalDtls.setCurrState(currState);
-			existingPersonalDtls.setCurrCunt(currCunt);
-			existingPersonalDtls.setCurrPin(currPin);
-			existingPersonalDtls.setPerAdd(perAdd);
-			existingPersonalDtls.setPerCity(perCity);
-			existingPersonalDtls.setPerState(perState);
-			existingPersonalDtls.setPerCunt(perCunt);
-			existingPersonalDtls.setPerPin(perPin);
-
-			// save the updated personal details object
-			personalRepository.save(existingPersonalDtls);
+			personalRepository.save(updatedPersonalDtls);
 			return "redirect:/teacher/personalInfo";
 
 		} catch (Exception e) {
-			System.err.println("Error in updating user details\n\n\n\n");
+			System.err.println("Error in updating user details");
 			e.printStackTrace();
 		}
 		return "redirect:/teacher/update-user-details";
@@ -170,41 +133,6 @@ public class TeacherController {
 		return new ResponseEntity<>(headers, HttpStatus.OK);
 	}
 
-	@GetMapping("/files")
-	public String listFiles(Model model, Principal principal) {
-		/*
-		 * to use the above mapping in a web page, use the following code
-		 * <table>
-		 * <thead>
-		 * <tr>
-		 * <th>Name</th>
-		 * <th>Type</th>
-		 * <th>Actions</th>
-		 * </tr>
-		 * </thead>
-		 * <tbody>
-		 * <tr th:each="file : ${files}">
-		 * <td th:text="${file.fileName}"></td>
-		 * <td th:text="${file.fileType}"></td>
-		 * <td>
-		 * <a th:href="@{/download/{id}(id=${file.id})}"
-		 * class="btn btn-primary">Download</a>
-		 * <span th:if="${file.user.id == currentUser.id}">
-		 * <a href="#" class="btn btn-primary" data-toggle="modal"
-		 * data-target="#uploadModal">Upload New Version</a>
-		 * </span>
-		 * </td>
-		 * </tr>
-		 * </tbody>
-		 * </table>
-		 * 
-		 */
-		UserDtls user = userRepo.findByEmail(principal.getName());
-		List<DatabaseFile> files = user.getFiles();
-		model.addAttribute("files", files);
-		return "files";
-	}
-
 	@GetMapping("/")
 	public String home() {
 		return "user/teacherFiles/teacher";
@@ -213,11 +141,6 @@ public class TeacherController {
 	@GetMapping("/teacher-dashboard")
 	public String dashboard() {
 		return "user/teacherFiles/teacherDashboard";
-	}
-
-	@GetMapping("/personalInfo")
-	public String personalInfo() {
-		return "user/teacherFiles/personalInfo";
 	}
 
 	@GetMapping("/research")
@@ -258,27 +181,6 @@ public class TeacherController {
 	@GetMapping("/changePass")
 	public String loadChangePassword() {
 		return "user/teacherFiles/settings";
-	}
-
-	@GetMapping("/update-user-details")
-	public String updateDetails() {
-		return "user/teacherFiles/detailUpdateForm";
-	}
-
-	@PostMapping("/personalUser")
-	public String personalUser(@ModelAttribute PersonalDtls puser) {
-		PersonalDtls personalDtls = personalService.personalUser(puser);
-
-		if (personalDtls != null) {
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			return "user/teacherFiles/personalInfo";
-		}
-		return "user/teacherFiles/detailUpdateForm";
-
 	}
 
 	@PostMapping("/updatePassword")

@@ -5,273 +5,13 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-	<link rel="stylesheet" href="style.css">
-	<style>
-		:root {
-			--primary-color: #1abc9c;
-			--secondary-color: #e91e63;
-			--background-color: #f5f5f5;
-		}
-
-		body {
-			font-family: "Roboto", sans-serif;
-			background-color: var(--background-color);
-			margin: 0;
-		}
-
-		form {
-			background-color: #ffffff;
-			max-width: 600px;
-			margin: 0 auto;
-			padding: 30px;
-			box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-		}
-
-		h1 {
-			font-size: 28px;
-			font-weight: 500;
-			color: var(--primary-color);
-			margin-bottom: 20px;
-			text-align: center;
-		}
-
-		h2 {
-			font-size: 24px;
-			font-weight: 500;
-			color: var(--primary-color);
-			margin-top: 30px;
-			margin-bottom: 10px;
-		}
-
-		label {
-			font-size: 16px;
-			color: #999999;
-			display: block;
-			margin-bottom: 5px;
-		}
-
-		input[type="text"],
-		input[type="email"],
-		input[type="date"],
-		input[type="number"] {
-			font-size: 16px;
-			padding: 10px;
-			border-radius: 5px;
-			border: none;
-			width: 100%;
-			margin-bottom: 20px;
-			box-sizing: border-box;
-			background-color: #f0f0f0;
-		}
-
-		input[type="text"]:focus,
-		input[type="email"]:focus,
-		input[type="date"]:focus,
-		input[type="number"]:focus {
-			outline: none;
-			border: 1px solid var(--primary-color);
-		}
-
-		button[type="submit"] {
-			font-size: 16px;
-			color: #ffffff;
-			background-color: var(--primary-color);
-			border: none;
-			border-radius: 5px;
-			padding: 10px 20px;
-			margin-top: 20px;
-			cursor: pointer;
-			transition: background-color 0.3s ease;
-		}
-
-		button[type="submit"]:hover {
-			background-color: #0d8abc;
-		}
-
-		input[type="checkbox"] {
-			margin-right: 10px;
-		}
-
-		.checkbox-label {
-			font-size: 16px;
-			color: #999999;
-			margin-bottom: 10px;
-		}
-
-		.error {
-			color: var(--secondary-color);
-			font-size: 14px;
-			margin-top: 5px;
-		}
-
-		.select-wrapper {
-			position: relative;
-		}
-
-		.select-wrapper select {
-			appearance: none;
-			-webkit-appearance: none;
-			-moz-appearance: none;
-			font-size: 16px;
-			padding: 10px;
-			border-radius: 5px;
-			border: none;
-			width: 100%;
-			margin-bottom: 20px;
-			box-sizing: border-box;
-			background-color: #f0f0f0;
-			cursor: pointer;
-		}
-
-		.select-wrapper::before {
-			content: "";
-			position: absolute;
-			right: 10px;
-			top: 50%;
-			transform: translateY(-50%);
-			width: 0;
-			height: 0;
-			border-left: 6px solid transparent;
-			border-right: 6px solid transparent;
-			border-top: 6px solid #999999;
-			pointer-events: none;
-		}
-
-		.copy-checkbox-container {
-			margin-bottom: 10px;
-		}
-
-		.copy-checkbox-container label {
-			font-size: 14px;
-		}
-
-		/* Form container */
-		.form-container {
-			margin: 0 auto;
-			max-width: 800px;
-			padding: 20px;
-			background-color: #fff;
-			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-			border-radius: 10px;
-		}
-
-		/* Form fields */
-		.form-field {
-			margin-bottom: 20px;
-		}
-
-		.form-field label {
-			display: block;
-			margin-bottom: 5px;
-			color: #616161;
-			font-size: 16px;
-		}
-
-		.form-field input[type="text"],
-		.form-field input[type="email"],
-		.form-field input[type="number"],
-		.form-field select {
-			width: 100%;
-			padding: 10px;
-			border: none;
-			border-radius: 5px;
-			background-color: #f5f5f5;
-			font-size: 16px;
-			color: #333;
-		}
-
-		.form-field input[type="text"]:focus,
-		.form-field input[type="email"]:focus,
-		.form-field input[type="number"]:focus,
-		.form-field select:focus {
-			outline: none;
-			box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-		}
-
-		/* Checkbox */
-		.checkbox-field {
-			display: flex;
-			align-items: center;
-			margin-bottom: 10px;
-		}
-
-		.checkbox-field label {
-			margin-left: 5px;
-			color: #616161;
-			font-size: 14px;
-		}
-
-		.checkbox-field input[type="checkbox"] {
-			margin-right: 5px;
-			-webkit-appearance: none;
-			-moz-appearance: none;
-			appearance: none;
-			width: 16px;
-			height: 16px;
-			border: 1px solid #ccc;
-			border-radius: 3px;
-			background-color: #fff;
-			vertical-align: middle;
-			cursor: pointer;
-		}
-
-		.checkbox-field input[type="checkbox"]:checked::before {
-			content: "\2713";
-			display: inline-block;
-			font-size: 14px;
-			width: 16px;
-			height: 16px;
-			text-align: center;
-			line-height: 16px;
-			color: #fff;
-			background-color: #007bff;
-			border-radius: 3px;
-		}
-
-		/* Submit button */
-		.btn-container {
-			display: flex;
-			justify-content: center;
-			margin-top: 20px;
-		}
-
-		.btn {
-			padding: 10px 20px;
-			border: none;
-			border-radius: 5px;
-			background-color: #007bff;
-			color: #fff;
-			font-size: 16px;
-			font-weight: bold;
-			cursor: pointer;
-			transition: background-color 0.3s ease-in-out;
-		}
-
-		.btn:hover {
-			background-color: #0056b3;
-		}
-
-		.two-in-a-row {
-			display: flex;
-			justify-content: space-between;
-		}
-
-		.two-in-a-row div {
-			width: 48%;
-		}
-
-
-		.copy-phone-checkbox {
-			margin-bottom: 0.5rem;
-			margin-top: 1rem;
-		}
-	</style>
+	<title>Detail Update Form</title>
+	<link rel="stylesheet" href="/css/detailUpdateForm.css">
 </head>
 
 <body>
 	<h1>Update Details Form</h1>
-	<form method="post" action="updateTeacher" th:object="${puser}">
+	<form method="post" action="update-user-details" th:object="${personalDetails}">
 
 		<label for="name">Name:</label>
 		<input required th:field="*{name}" type="text" id="name" name="name">
@@ -340,7 +80,7 @@
 				<label for="whatsapp">Whatsapp: </label>
 				<input required th:field="*{whatsNumber}" type="tel" id="whatsapp" name="whatsNumber"
 					pattern="[0-9]{10}">
-				<label> <input required class="copy-phone-checkbox" type="checkbox" onclick="copyPhoneNumber()"> Same as
+				<label> <input id="copy-phone-checkbox" type="checkbox" onclick="copyPhoneNumber()"> Same as
 					phone
 					number
 
@@ -415,7 +155,8 @@
 		</div>
 
 		<h2>Current Address</h2>
-		<label> <input required type="checkbox" onclick="copyPermanentAddress()"> Same as permanent address
+		<label> <input type="checkbox" id="copy-address-checkbox" onclick="copyPermanentAddress()"> Same as
+			permanent address
 		</label> <label for="current-address">Address:</label>
 		<input required th:field="*{curAdd}" type="text" id="current-address" name="curAdd">
 
@@ -444,37 +185,82 @@
 	</form>
 	<script>
 		function copyPhoneNumber() {
-			if (document.getElementById("phone").value != "") {
-				if (document.getElementById("whatsapp").value == "") {
-					document.getElementById("whatsapp").value = document
-						.getElementById("phone").value;
-				} else {
-					document.getElementById("whatsapp").value = "";
-				}
+			var phoneInput = document.getElementById("phone");
+			var whatsappInput = document.getElementById("whatsapp");
+			if (phoneInput.value !== "") {
+				whatsappInput.value = phoneInput.value;
+			} else {
+				whatsappInput.value = "";
+			}
+			if (document.getElementById("copy-phone-checkbox").checked) {
+				phoneInput.oninput = function () {
+					whatsappInput.value = phoneInput.value;
+				};
+				whatsappInput.disabled = true;
+			} else {
+				whatsappInput.disabled = false;
 			}
 		}
 
 		function copyPermanentAddress() {
-			if (document.getElementById("permanent-address").value != "") {
-				document.getElementById("current-address").value = document
-					.getElementById("permanent-address").value;
-				document.getElementById("current-city").value = document
-					.getElementById("permanent-city").value;
-				document.getElementById("current-state").value = document
-					.getElementById("permanent-state").value;
-				document.getElementById("current-country").value = document
-					.getElementById("permanent-country").value;
-				document.getElementById("current-pincode").value = document
-					.getElementById("permanent-pincode").value;
+			var permanentAddressInput = document.getElementById("permanent-address");
+			var currentAddressInput = document.getElementById("current-address");
+			var currentCityInput = document.getElementById("current-city");
+			var currentStateInput = document.getElementById("current-state");
+			var currentCountryInput = document.getElementById("current-country");
+			var currentPincodeInput = document.getElementById("current-pincode");
+
+			function updateCurrentAddressFields() {
+				currentAddressInput.value = permanentAddressInput.value;
+				currentCityInput.value = document.getElementById("permanent-city").value;
+				currentStateInput.value = document.getElementById("permanent-state").value;
+				currentCountryInput.value = document.getElementById("permanent-country").value;
+				currentPincodeInput.value = document.getElementById("permanent-pincode").value;
+			}
+
+			function toggleCurrentAddressFields(disabled) {
+				currentAddressInput.disabled = disabled;
+				currentCityInput.disabled = disabled;
+				currentStateInput.disabled = disabled;
+				currentCountryInput.disabled = disabled;
+				currentPincodeInput.disabled = disabled;
+			}
+
+			if (permanentAddressInput.value !== "") {
+				if (document.getElementById("copy-address-checkbox").checked) {
+					updateCurrentAddressFields();
+					toggleCurrentAddressFields(true);
+				} else {
+					toggleCurrentAddressFields(false);
+				}
 			} else {
-				document.getElementById("current-address").value = "";
-				document.getElementById("current-city").value = "";
-				document.getElementById("current-state").value = "";
-				document.getElementById("current-country").value = "";
-				document.getElementById("current-pincode").value = "";
+				currentAddressInput.value = "";
+				currentCityInput.value = "";
+				currentStateInput.value = "";
+				currentCountryInput.value = "";
+				currentPincodeInput.value = "";
+				toggleCurrentAddressFields(document.getElementById("copy-address-checkbox").checked);
 			}
 		}
+
+		["permanent-address", "permanent-city", "permanent-state", "permanent-country", "permanent-pincode"].forEach(function (fieldId) {
+			document.getElementById(fieldId).oninput = function () {
+				if (document.getElementById("copy-address-checkbox").checked) {
+					copyPermanentAddress();
+				}
+			};
+		});
+
+		document.getElementById("copy-address-checkbox").onchange = function () {
+			if (this.checked) {
+				copyPermanentAddress();
+			} else {
+				toggleCurrentAddressFields(false);
+			}
+		};
 	</script>
+
+
 </body>
 
 </html>

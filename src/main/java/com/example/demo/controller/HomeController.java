@@ -72,7 +72,7 @@ public class HomeController {
 	 */
 	@GetMapping("/")
 	public String index(HttpServletResponse response) {
-		response.setHeader("Hello", "I had to add this header due to ngrok");
+		response.setHeader("User-Agent", "YourCustomUserAgent");
 		return "index";
 	}
 
@@ -137,8 +137,6 @@ public class HomeController {
 						Files.walk(catsDirPath, 1)
 								.filter(Files::isRegularFile)
 								.forEach(path -> files.add(path.toString()));
-
-						System.out.println("\n\n\nBilli" + files + "\n\n\n");
 
 						File catPic = new File(files.get(random.nextInt(files.size())));
 

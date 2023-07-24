@@ -103,17 +103,12 @@ public class FileUtils {
             model.addAttribute("qipFiles", qipFiles);
         }
         if (!conferenceWorkshopSeminarFiles.isEmpty()) {
-            System.out.println("\n\n\nNo CWS\n\n\n");
-
             model.addAttribute("conferenceWorkshopSeminarFiles", conferenceWorkshopSeminarFiles);
         }
         if (!industrialVisitsFiles.isEmpty()) {
-            System.out.println("\n\n\nNo Industry\n\n\n");
             model.addAttribute("industrialVisitsFiles", industrialVisitsFiles);
         }
         if (!guestLectureFiles.isEmpty()) {
-            System.out.println("\n\n\nNo Lecture\n\n\n");
-
             model.addAttribute("guestLectureFiles", guestLectureFiles);
         }
     }

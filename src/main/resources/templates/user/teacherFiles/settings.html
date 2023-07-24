@@ -6,235 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Settings</title>
-	<style>
-		* {
-			box-sizing: border-box;
-			margin: 0;
-			padding: 0;
-		}
-
-		body {
-			font-family: Arial, sans-serif;
-
-		}
-
-		main {
-			padding: 30px;
-		}
-
-		.wrapper {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
-
-		.card {
-			background-color: #fff;
-			padding: 30px;
-			border-radius: 5px;
-			box-shadow: 0px 19px 60px rgb(0 0 0 / 8%);
-			max-width: 50%;
-			margin: 1rem;
-		}
-
-		.input-group {
-			margin-bottom: 20px;
-		}
-
-		label {
-			display: block;
-			margin-bottom: 5px;
-			font-weight: bold;
-		}
-
-		input[type=password] {
-			display: block;
-			width: 100%;
-			padding: 10px;
-			border-radius: 5px;
-			border: none;
-			background-color: #f2f2f2;
-			box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
-		}
-
-		input[type=text] {
-			display: block;
-			width: 100%;
-			padding: 10px;
-			border-radius: 5px;
-			border: none;
-			background-color: #f2f2f2;
-			box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
-		}
-
-		button[type=submit] {
-			display: block;
-			width: 100%;
-			background-color: #ff919d;
-			color: #fff;
-			border: none;
-			border-radius: 5px;
-			padding: 10px;
-			cursor: pointer;
-		}
-
-		.title-area {
-			display: flex;
-			justify-content: space-between;
-		}
-
-		.title-area h1 {
-			margin-top: 2rem;
-			margin-left: 1rem;
-		}
-
-		.title-area .profile {
-			display: flex;
-			align-items: center;
-			gap: 1rem;
-		}
-
-		.title-area .profile img {
-			margin-right: 1rem;
-			width: 5rem;
-			height: 5rem;
-			object-fit: cover;
-			border-radius: 50%;
-			cursor: pointer;
-		}
-
-		h2 {
-			margin-bottom: 1rem;
-		}
-
-		.modal {
-			display: none;
-			position: fixed;
-			z-index: 1;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			overflow: auto;
-			background-color: rgba(0, 0, 0, 0.9);
-		}
-
-		.modal-content {
-			margin: auto;
-			display: block;
-			width: 80%;
-			max-width: 700px;
-		}
-
-		/* Close button */
-		.close {
-			color: #fff;
-			float: right;
-			font-size: 28px;
-			font-weight: bold;
-			padding: 10px;
-			cursor: pointer;
-		}
-
-		.close:hover,
-		.close:focus {
-			color: #bbb;
-			text-decoration: none;
-			cursor: pointer;
-		}
-
-		.delete-confirm-modal {
-			margin: 0 auto;
-			width: 500px;
-			padding: 20px;
-			background-color: #fff;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-			transition: all .5s ease-out;
-			display: none;
-			position: fixed;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			z-index: 1000;
-			box-shadow: 0px 19px 60px rgb(0 0 0 / .4);
-
-			max-height: calc(100vh - 210px);
-			overflow-y: auto;
-
-		}
-
-		.delete-confirm-modal.show {
-			display: block;
-		}
-
-		.delete-confirm-modal.show body {
-			opacity: 0.5;
-		}
-
-		.delete-confirm-modal .close {
-			position: relative;
-			right: -.7rem;
-			top: -1rem;
-			cursor: pointer;
-			transition: all .3s ease-out;
-			color: #242d49;
-		}
-
-		.delete-confirm-modal .close:hover {
-			transform: rotate(90deg);
-			color: #ff919d;
-		}
-
-		.delete-confirm-modal h2 {
-			margin-bottom: 20px;
-			text-align: center;
-		}
-
-		.delete-confirm-modal h2 span {
-			color: red;
-		}
-
-		.delete-confirm-modal label {
-			display: block;
-			margin-bottom: 10px;
-			color: #333;
-		}
-
-
-		.delete-confirm-modal input[type="password"] {
-			width: 100%;
-			padding: 10px;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-			margin-bottom: 20px;
-			box-sizing: border-box;
-		}
-
-
-		.delete-confirm-modal input[type="submit"],
-		.delete-user {
-			background-color: red;
-			color: #fff;
-			border: none;
-			border-radius: 5px;
-			padding: 10px 20px;
-			font-size: 16px;
-			cursor: pointer;
-			transition: all .3s ease-in-out;
-		}
-
-		.delete-confirm-modal input[type="submit"]:hover,
-		.delete-user {
-			background-color: #ff7585;
-		}
-
-		.error-message {
-			color: red;
-			font-size: 1.2rem;
-			margin-left: 1rem;
-		}
-	</style>
+	<link rel="stylesheet" href="/css/settings.css">
 </head>
 
 <body>
@@ -302,7 +74,8 @@
 			<form action="/uploadProfilePicture" method="post" enctype="multipart/form-data">
 				<div class="input-group">
 					<label for="profile-picture">Select a profile picture:</label>
-					<input type="file" id="profile-picture" name="file" accept="image/*" required>
+					<input type="file" id="profile-picture" name="file" accept="image/*" oninput="readURL()" required>
+					<img class="photo-preview" alt="">
 				</div>
 				<button type="submit">Upload Profile Picture</button>
 			</form>
@@ -324,6 +97,17 @@
 		}
 		function toggleDeleteConfirmModal() {
 			document.querySelector(".delete-confirm-modal").classList.toggle("show");
+		}
+
+		function readURL() {
+			let input = document.querySelector("#profile-picture");
+			if (input.files && input.files[0]) {
+				let reader = new FileReader();
+				reader.onload = function (e) {
+					document.querySelector(".photo-preview").src = e.target.result;
+				}
+				reader.readAsDataURL(input.files[0]);
+			}
 		}
 	</script>
 </body>

@@ -13,7 +13,7 @@ public class PersonalServiceImpl implements PersonalService {
 	private personalRepository personalRepo;
 
 	@Override
-	public PersonalDtls personalUser(PersonalDtls puser) {
+	public PersonalDtls savePersonalDtls(PersonalDtls puser) {
 		return personalRepo.save(puser);
 	}
 }

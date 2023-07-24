@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Personal Details</title>
     <style>
         * {
             box-sizing: border-box;
@@ -168,44 +168,56 @@
             <fieldset>
                 <legend>Personal Information</legend>
                 <div class="grid-container">
-                    <div class="grid-item"><span class="field">Name: </span>[[${puser != null ? puser.name : ''}]]</div>
-                    <div class="grid-item"><span class="field">ERP ID: </span>[[${puser != null ? puser.erpId : ''}]]
+                    <div class="grid-item"><span class="field">Name: </span>[[${personalDetails!= null ?
+                        personalDetails.name : ''}]]</div>
+                    <div class="grid-item"><span class="field">ERP ID: </span>[[${personalDetails!= null ?
+                        personalDetails.erpId : ''}]]
                     </div>
-                    <div class="grid-item"><span class="field">Official Email: </span>[[${puser != null ? puser.offEmail
+                    <div class="grid-item"><span class="field">Official Email: </span>[[${personalDetails!= null ?
+                        personalDetails.offEmail
                         : ''}]]</div>
-                    <div class="grid-item"><span class="field">Personal Email: </span>[[${puser != null ? puser.perEmail
+                    <div class="grid-item"><span class="field">Personal Email: </span>[[${personalDetails!= null ?
+                        personalDetails.perEmail
                         : ''}]]</div>
-                    <div class="grid-item"><span class="field">Department: </span>[[${puser != null ? puser.dept : ''}]]
+                    <div class="grid-item"><span class="field">Department: </span>[[${personalDetails!= null ?
+                        personalDetails.dept : ''}]]
                     </div>
-                    <div class="grid-item"><span class="field">Phone: </span>[[${puser != null ? puser.mobileNumber :
+                    <div class="grid-item"><span class="field">Phone: </span>[[${personalDetails!= null ?
+                        personalDetails.mobileNumber :
                         ''}]]</div>
-                    <div class="grid-item"><span class="field">Whatsapp Number: </span>[[${puser != null ?
-                        puser.whatsNumber :
+                    <div class="grid-item"><span class="field">Whatsapp Number: </span>[[${personalDetails!= null ?
+                        personalDetails.whatsNumber :
                         ''}]]</div>
-                    <div class="grid-item"><span class="field">Gender: </span>[[${puser != null ? puser.gender : ''}]]
+                    <div class="grid-item"><span class="field">Gender: </span>[[${personalDetails!= null ?
+                        personalDetails.gender : ''}]]
                     </div>
-                    <div class="grid-item"><span class="field">DOB: </span>[[${puser != null ? puser.dob : ''}]]
+                    <div class="grid-item"><span class="field">DOB: </span>[[${personalDetails!= null ?
+                        personalDetails.dob : ''}]]
                     </div>
                 </div>
             </fieldset>
             <fieldset>
                 <legend>Official Information</legend>
                 <div class="grid-container">
-                    <div class="grid-item"><span class="field">Experience Industry: </span>[[${puser != null ?
-                        puser.expInd : ''}]]</div>
-                    <div class="grid-item"><span class="field">Experience Academic: </span>[[${puser != null ?
-                        puser.expAcd : ''}]]</div>
-                    <div class="grid-item"><span class="field">Date of Joining: </span>[[${puser != null ? puser.doj :
+                    <div class="grid-item"><span class="field">Experience Industry: </span>[[${personalDetails!= null ?
+                        personalDetails.expInd : ''}]]</div>
+                    <div class="grid-item"><span class="field">Experience Academic: </span>[[${personalDetails!= null ?
+                        personalDetails.expAcd : ''}]]</div>
+                    <div class="grid-item"><span class="field">Date of Joining: </span>[[${personalDetails!= null ?
+                        personalDetails.doj :
                         ''}]]</div>
-                    <div class="grid-item"><span class="field">Date of Leaving: </span>[[${puser != null ? puser.dol :
+                    <div class="grid-item"><span class="field">Date of Leaving: </span>[[${personalDetails!= null ?
+                        personalDetails.dol :
                         ''}]]</div>
-                    <div class="grid-item"><span class="field">Google scholar Id: </span>[[${puser != null ?
-                        puser.googleId
+                    <div class="grid-item"><span class="field">Google scholar Id: </span>[[${personalDetails!= null ?
+                        personalDetails.googleId
                         : ''}]]</div>
-                    <div class="grid-item"><span class="field">Scopus Id: </span>[[${puser != null ? puser.scopusId :
+                    <div class="grid-item"><span class="field">Scopus Id: </span>[[${personalDetails!= null ?
+                        personalDetails.scopusId :
                         ''}]]
                     </div>
-                    <div class="grid-item"><span class="field">SCI/Clarivate id: </span>[[${puser != null ? puser.sciId
+                    <div class="grid-item"><span class="field">SCI/Clarivate id: </span>[[${personalDetails!= null ?
+                        personalDetails.sciId
                         :
                         ''}]]</div>
                 </div>
@@ -215,26 +227,36 @@
         <fieldset>
             <legend>Address</legend>
             <div class="grid-container">
-                <div class="grid-item"><span class="field">Current Address: </span>[[${puser != null ? puser.curAdd :
+                <div class="grid-item"><span class="field">Current Address: </span>[[${personalDetails!= null ?
+                    personalDetails.curAdd :
                     ''}]]</div>
-                <div class="grid-item"><span class="field">Current City: </span>[[${puser != null ? puser.currCity :
+                <div class="grid-item"><span class="field">Current City: </span>[[${personalDetails!= null ?
+                    personalDetails.currCity :
                     ''}]]</div>
-                <div class="grid-item"><span class="field">Current Pincode: </span>[[${puser != null ? puser.currPin :
+                <div class="grid-item"><span class="field">Current Pincode: </span>[[${personalDetails!= null ?
+                    personalDetails.currPin :
                     ''}]]</div>
-                <div class="grid-item"><span class="field">Current State: </span>[[${puser != null ? puser.currState :
+                <div class="grid-item"><span class="field">Current State: </span>[[${personalDetails!= null ?
+                    personalDetails.currState :
                     ''}]]</div>
-                <div class="grid-item"><span class="field">Current Country: </span>[[${puser != null ? puser.currCunt :
+                <div class="grid-item"><span class="field">Current Country: </span>[[${personalDetails!= null ?
+                    personalDetails.currCunt :
                     ''}]]</div>
 
-                <div class="grid-item"><span class="field">Permanent Address: </span>[[${puser != null ? puser.perAdd :
+                <div class="grid-item"><span class="field">Permanent Address: </span>[[${personalDetails!= null ?
+                    personalDetails.perAdd :
                     ''}]]</div>
-                <div class="grid-item"><span class="field">Permanent City: </span>[[${puser != null ? puser.perCity :
+                <div class="grid-item"><span class="field">Permanent City: </span>[[${personalDetails!= null ?
+                    personalDetails.perCity :
                     ''}]]</div>
-                <div class="grid-item"><span class="field">Permanent Pincode: </span>[[${puser != null ? puser.perPin :
+                <div class="grid-item"><span class="field">Permanent Pincode: </span>[[${personalDetails!= null ?
+                    personalDetails.perPin :
                     ''}]]</div>
-                <div class="grid-item"><span class="field">Permanent State: </span>[[${puser != null ? puser.perState :
+                <div class="grid-item"><span class="field">Permanent State: </span>[[${personalDetails!= null ?
+                    personalDetails.perState :
                     ''}]]</div>
-                <div class="grid-item"><span class="field">Permanent Country: </span>[[${puser != null ? puser.perCunt :
+                <div class="grid-item"><span class="field">Permanent Country: </span>[[${personalDetails!= null ?
+                    personalDetails.perCunt :
                     ''}]]</div>
             </div>
         </fieldset>
