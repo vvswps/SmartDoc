@@ -56,6 +56,9 @@ public class TeacherController {
 	@Autowired
 	private DatabaseFileRepository fileRepo;
 
+	@Autowired
+	private jakarta.persistence.EntityManager em;
+
 	@ModelAttribute
 	private void userDetails(Model model, Principal p) {
 		if (p != null) {
@@ -111,17 +114,14 @@ public class TeacherController {
 		if (!optionalFile.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-
 		DatabaseFile file = optionalFile.get();
-
 		if (!file.getUser().equals(model.getAttribute("user"))) {
-			System.out.println("\n\n\n\nUser not Verified\n\n\n");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
-		System.out.println("\n\n\n\nUser Verified Deleting File\n\n\n");
-
+		em.detach(file.getUser());
 		try {
-			fileRepo.deleteById(id);
+			fileRepo.delete(file);
+			fileRepo.flush();
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 		}

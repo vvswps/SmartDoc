@@ -260,3 +260,48 @@ tr {
 #delete-modal button:hover {
   background-color: rgb(73, 241, 185);
 }
+
+.details .delete-button {
+  margin-top: 1rem;
+}
+
+/* media queries */
+
+@media screen and (max-width: 768px) {
+  .modal {
+    width: 90%;
+  }
+
+  .details {
+    margin-inline: auto;
+    padding-left: 1.5rem;
+    overflow-x: scroll;
+    max-width: 80vw;
+    max-height: 50vh;
+  }
+  .details tr {
+    text-align: center;
+  }
+
+  .details .upload-button {
+    margin-left: 0;
+  }
+
+  header {
+    margin-top: 3rem;
+    margin-left: 1rem;
+  }
+
+  /* for the pfp hate this copy paste everywhere */
+  .img-modal .modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    margin-right: 1rem;
+    margin-top: 50%;
+  }
+
+  .img-modal .modal-content img {
+    max-width: 90vw;
+  }
+}

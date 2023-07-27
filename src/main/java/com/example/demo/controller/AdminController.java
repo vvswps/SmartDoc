@@ -83,9 +83,13 @@ public class AdminController {
 	public String getFacultyByEmail(@RequestParam String email, Model model, HttpSession session) {
 		System.out.println("In getFacultyByEmail()");
 		UserDtls user = userRepo.findByEmail(email);
-
-		String facultyProfilePicId = fileRepo.findByUserAndType(user, FileType.PROFILE_PICTURE).get(0).getId();
-		System.out.println(cyan + "Faculty Profile Pic:\t" + facultyProfilePicId + reset);
+		String facultyProfilePicId = "";
+		try {
+			facultyProfilePicId = fileRepo.findByUserAndType(user, FileType.PROFILE_PICTURE).get(0).getId();
+			System.out.println(cyan + "Faculty Profile Pic:\t" + facultyProfilePicId + reset);
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println(red + "No profile pic found" + reset);
+		}
 		model.addAttribute("facultyProfilePicId", facultyProfilePicId);
 		// model.addAttribute("email", email);
 		session.setAttribute("email", email);

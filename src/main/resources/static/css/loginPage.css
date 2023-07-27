@@ -205,13 +205,20 @@ a:hover {
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 768px) {
   .container {
     grid-template-columns: 1fr;
   }
 
   .img {
     display: none;
+  }
+
+  .wave {
+    transform: rotate(326deg) translateY(86%) translateX(-78%);
+    bottom: auto;
+    height: auto;
+    left: auto;
   }
 }
 

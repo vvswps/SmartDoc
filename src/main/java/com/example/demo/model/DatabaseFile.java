@@ -72,7 +72,7 @@ public class DatabaseFile {
 	@Column(columnDefinition = "LONGBLOB")
 	private byte[] profilePicture;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private UserDtls user;
 

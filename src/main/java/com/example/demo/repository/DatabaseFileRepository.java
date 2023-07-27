@@ -16,4 +16,5 @@ public interface DatabaseFileRepository extends JpaRepository<DatabaseFile, Stri
     List<DatabaseFile> findByType(DatabaseFile.FileType type);
 
     Optional<DatabaseFile> findById(String id);
+
 }

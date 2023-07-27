@@ -1,0 +1,236 @@
+body {
+  margin: 0;
+}
+
+:root {
+  --yellow: linear-gradient(180deg, #f8d49a -146.42%, #fad79d -46.42%);
+  --orange: #fca61f;
+  --black: #242d49;
+  --gray: #788097;
+  --purple: linear-gradient(180deg, #bb67ff 0%, #c484f3 100%);
+  --pink: #ff919d;
+  --glass: rgba(255, 255, 255, 0.54);
+  --boxShadow: 0px 19px 60px rgb(0 0 0 / 8%);
+  --smboxShadow: -79px 51px 60px rgba(0, 0, 0, 0.08);
+  --activeItem: #f799a354;
+  --closeTransition: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.App {
+  color: var(--black);
+  background: linear-gradient(
+    106.37deg,
+    #ffe1bc 29.63%,
+    #ffcfd1 51.55%,
+    #f3c6f1 90.85%
+  );
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inter", sans-serif;
+}
+
+.AppGlass {
+  display: grid;
+  height: 97%;
+  width: 97%;
+  background: var(--glass);
+  border-radius: 2rem;
+  gap: 16px;
+  grid-template-columns: 13rem auto;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 1200px) {
+  .AppGlass {
+    grid-template-columns: 10% 50%;
+    overflow-y: scroll;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .AppGlass {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-top: 4rem;
+  transition: all 300ms ease;
+}
+
+/* logo */
+.bars {
+  display: none;
+}
+
+.logo {
+  display: flex;
+  height: 5rem;
+  font-weight: bold;
+  font-size: 22px;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  height: 4%;
+  margin-left: 0.5rem;
+}
+
+.logo > span > span {
+  color: var(--pink);
+}
+
+.logo > svg {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* menu */
+.menu {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 70vh;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 2.5rem;
+  margin-left: 2rem;
+  position: relative;
+  transition: all 300ms ease;
+  border-radius: 0.7rem;
+  font-size: 14px;
+}
+
+.menuItem a {
+  text-decoration: none;
+  color: var(--black);
+}
+
+.menuItem svg {
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+}
+
+.menuItem:hover {
+  cursor: pointer;
+}
+
+.active {
+  background: var(--activeItem);
+  margin-left: 0;
+}
+
+.active::before {
+  content: "";
+  width: 8px;
+  height: 100%;
+  background: var(--pink);
+  margin-right: calc(1rem - 8px);
+}
+
+.logout {
+  margin-top: 1rem;
+}
+
+/* Tablets */
+@media screen and (max-width: 1200px) {
+  .menuItem > span {
+    display: none;
+  }
+
+  .logo {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    position: fixed;
+    z-index: 9;
+    background: #ffe0e0;
+    width: 55%;
+    padding-right: 1rem;
+    height: 100%;
+    transition: var(--closeTransition);
+  }
+
+  .menuItem > span {
+    display: block;
+  }
+
+  .logo {
+    display: flex;
+  }
+
+  .menu .menuItem:last-child {
+    position: relative;
+  }
+
+  /* three vertical lines for hamburger menu */
+  .bars div {
+    width: 1.5rem;
+    height: 0.2rem;
+    background: var(--black);
+    margin: 2px;
+    border-radius: 5px;
+    transition: var(--closeTransition);
+  }
+
+  .bars {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 2rem;
+    left: 3%;
+    background: #ffe0e0;
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 9;
+    min-width: 2rem;
+    align-items: center;
+    justify-content: center;
+    transition: var(--closeTransition);
+  }
+
+  /* when sidebar open turn the bars to a cross sign */
+
+  .bars.open div:nth-child(1) {
+    transform: rotate(45deg) translate(10px);
+  }
+
+  .bars.open div:nth-child(2) {
+    opacity: 0;
+  }
+
+  .bars.open div:nth-child(3) {
+    transform: rotate(-45deg) translate(10px);
+  }
+
+  .open {
+    left: 60%;
+  }
+
+  .sidebar-open {
+    transform: translateX(0);
+  }
+}
+
+/* normal styles for iframe */
+.content iframe {
+  margin-top: 1rem;
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+}
