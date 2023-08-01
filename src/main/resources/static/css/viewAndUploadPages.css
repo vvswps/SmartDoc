@@ -110,6 +110,8 @@
   box-shadow: 0px 19px 60px rgb(0 0 0 / 8%);
   display: flex;
   flex-direction: column;
+  max-height: 50vh;
+  overflow-y: scroll;
 }
 
 tr {
@@ -162,6 +164,8 @@ tr {
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  position: sticky;
+  bottom: 0;
 }
 
 .details .upload-button:hover {
@@ -214,9 +218,9 @@ tr {
 }
 
 .delete-button {
-  background-color: #ff0000; /* Replace with your desired shade of red */
-  color: white;
-  border: none;
+  border: solid red 2px;
+  background: transparent;
+  color: black;
   border-radius: 4px;
   padding: 0.5rem 0.7rem;
   margin-left: 0.5rem;
@@ -226,7 +230,8 @@ tr {
 
 .delete-button:hover {
   box-shadow: 0 0 10px 4px #ff7585;
-  background-color: red; /* Replace with your desired shade of red for the hover effect */
+  background-color: #ff0000;
+  color: #fff;
 }
 
 #delete-modal.show {
@@ -275,9 +280,12 @@ tr {
   .details {
     margin-inline: auto;
     padding-left: 1.5rem;
-    overflow-x: scroll;
     max-width: 80vw;
+  }
+
+  .details table {
     max-height: 50vh;
+    overflow-x: scroll;
   }
   .details tr {
     text-align: center;

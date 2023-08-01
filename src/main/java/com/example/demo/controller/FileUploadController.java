@@ -77,6 +77,7 @@ public class FileUploadController {
 
         // Redirect back to the referring page after the upload
         String referer = request.getHeader("Referer");
+        System.out.println("\u001B[32m" + "\nRedirecting to: " + referer + "\n" + "\u001B[0m");
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(referer));
         return new ResponseEntity<>(headers, HttpStatus.FOUND);

@@ -5,7 +5,6 @@ import java.security.Principal;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -128,9 +127,7 @@ public class TeacherController {
 
 		// Redirect back to the referring page after the delete
 		String referer = request.getHeader("Referer");
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(URI.create(referer));
-		return new ResponseEntity<>(headers, HttpStatus.OK);
+		return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(referer)).build();
 	}
 
 	@GetMapping("/")

@@ -6,6 +6,7 @@
 package com.example.demo.controller;
 
 import java.io.File;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.Principal;
@@ -16,6 +17,9 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,8 +35,6 @@ import com.example.demo.model.DatabaseFile.FileType;
 import com.example.demo.repository.DatabaseFileRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
-
-import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class HomeController {
@@ -71,8 +73,15 @@ public class HomeController {
 	 * It returns the "index" view to display the home page.
 	 */
 	@GetMapping("/")
-	public String index(HttpServletResponse response) {
-		response.setHeader("User-Agent", "YourCustomUserAgent");
+	public ResponseEntity<?> index() {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("ngrok-skip-browser-warning", "skip warning");
+		headers.setLocation(URI.create("index"));
+		return new ResponseEntity<>(headers, HttpStatus.FOUND);
+	}
+
+	@GetMapping("/index")
+	public String index(Model model) {
 		return "index";
 	}
 
