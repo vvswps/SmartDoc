@@ -128,7 +128,7 @@ public class HomeController {
 			if (isEmailRegistered) {
 				regMsg = "Email is already registered.";
 			} else {
-				UserDtls createdUser = userService.createUser(user, role);
+				UserDtls createdUser = userService.createUser(user, role, model);
 
 				if (createdUser != null) {
 					model.addAttribute("successMsg", "Registered successfully!");

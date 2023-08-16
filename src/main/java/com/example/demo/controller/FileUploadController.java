@@ -7,6 +7,8 @@ package com.example.demo.controller;
 import java.io.IOException;
 import java.net.URI;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,13 +127,16 @@ public class FileUploadController {
 
             document.setTitle(title);
 
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date parsedDate = dateFormat.parse(date);
+
             // if file type is research, book, award, achievement then setDate otherwise
             // setDurationFrom and setDurationTo
             if (fileType.toLowerCase().equals("research") || fileType.toLowerCase().equals("book")
                     || fileType.toLowerCase().equals("award") || fileType.toLowerCase().equals("achievement")
                     || fileType.toLowerCase().equals("patent") || fileType.toLowerCase().equals("guestlecture")
                     || fileType.toLowerCase().equals("industrialvisit")) {
-                document.setDate(date);
+                document.setDate(parsedDate);
             } else {
                 System.out.println("\n\n\n File Type: " + fileType + "\n\n\n");
                 document.setNature(nature);

@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.util.Date;
+
 import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.*;
@@ -35,7 +37,7 @@ public class DatabaseFile {
 	// type of UUID without relying on the database's built-in UUID support.
 
 	private String title;
-	private String date;
+	private Date date;
 	// this is the enum type i.e file category like research paper, book or chapter
 	private FileType type;
 	private String publicationName;
@@ -108,11 +110,11 @@ public class DatabaseFile {
 		this.title = title;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 

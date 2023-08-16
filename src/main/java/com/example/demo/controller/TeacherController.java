@@ -87,7 +87,7 @@ public class TeacherController {
 		return "user/teacherFiles/personalInfo";
 	}
 
-	@GetMapping("/update-user-details")
+	@GetMapping("/detailUpdateForm")
 	public String updateDetails(Model model) {
 		System.out.println(yellow + "\n\nFrom update details" + model + reset);
 		return "user/teacherFiles/detailUpdateForm";
