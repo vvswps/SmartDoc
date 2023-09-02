@@ -1,0 +1,46 @@
+:root {
+  --yellow: linear-gradient(180deg, #f8d49a -146.42%, #fad79d -46.42%);
+  --orange: #fca61f;
+  --black: #242d49;
+  --gray: #788097;
+  --purple: linear-gradient(180deg, #bb67ff 0%, #c484f3 100%);
+  --pink: #ff919d;
+  --glass: rgba(255, 255, 255, 0.54);
+  --boxShadow: 0px 19px 60px rgb(0 0 0 / 8%);
+  --smboxShadow: -79px 51px 60px rgba(0, 0, 0, 0.08);
+  --activeItem: #b0daff;
+  --closeTransition: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+#root .App {
+  /* padding: 0.5rem 3.5rem; */
+  color: var(--black);
+  background: linear-gradient(
+    106.37deg,
+    #61f4de 29.63%,
+    #b0daff 51.55%,
+    #6e78ff 90.85%
+  );
+}
+
+.App .AppGlass {
+  background: var(--glass);
+}
+
+.AppGlass .logo > span > span {
+  color: var(--pink);
+}
+
+.menuItem a {
+  text-decoration: none;
+  color: var(--black);
+}
+
+.sidebar .active {
+  background: #98f5ff;
+  margin-left: 0;
+}
+
+.sidebar .active::before {
+  background: #7396ff;
+}

@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,17 +134,19 @@ public class FileUploadController {
 
             // if file type is research, book, award, achievement then setDate otherwise
             // setDurationFrom and setDurationTo
-            if (fileType.toLowerCase().equals("research") || fileType.toLowerCase().equals("book")
-                    || fileType.toLowerCase().equals("award") || fileType.toLowerCase().equals("achievement")
-                    || fileType.toLowerCase().equals("patent") || fileType.toLowerCase().equals("guestlecture")
-                    || fileType.toLowerCase().equals("industrialvisit")) {
+            if (new HashSet<String>(Arrays.asList("research", "book", "award", "achievement", "patent", "guestlecture",
+                    "industrialvisit")).contains(fileType.toLowerCase())) {
                 document.setDate(parsedDate);
             } else {
                 System.out.println("\n\n\n File Type: " + fileType + "\n\n\n");
                 document.setNature(nature);
                 document.setDurationFrom(durationFrom);
                 document.setDurationTo(durationTo);
+
+                if (noOfDays < 0)
+                    noOfDays = 0;
                 document.setNoOfDays(noOfDays);
+
                 document.setOrganizedBy(organizedBy);
             }
 

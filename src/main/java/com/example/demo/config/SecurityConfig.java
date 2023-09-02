@@ -45,16 +45,44 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http.authorizeHttpRequests().requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/student/**")
-				.hasRole("student").requestMatchers("/teacher/**").hasRole("TEACHER")
-				.requestMatchers("/**").permitAll().and().formLogin().loginPage("/signin").loginProcessingUrl("/login")
-				.successHandler(customSuccessHandler).and().csrf().disable();
+		http
+				.authorizeHttpRequests()
+				.requestMatchers("/admin/**")
+				.hasRole("ADMIN")
+				.requestMatchers("/teacher/**")
+				.hasRole("TEACHER")
+				.requestMatchers("/hod/**")
+				.hasRole("HOD")
+				.requestMatchers("/**")
+				.permitAll()
+				.and()
+				.formLogin()
+				.loginPage("/signin")
+				.loginProcessingUrl("/login")
+				.successHandler(customSuccessHandler)
+				.and()
+				.csrf()
+				.disable();
+
 		http.authenticationProvider(getDaoAuthProvider());
-		http.headers().frameOptions().sameOrigin();
-		http.rememberMe().tokenValiditySeconds(60 * 60 * 7).key("11T01:54:59.903+05:30DEBUG36336")
+
+		http
+				.headers()
+				.frameOptions()
+				.sameOrigin();
+
+		http
+				.rememberMe()
+				.tokenValiditySeconds(60 * 60 * 7)
+				.key("11T01:54:59.903+05:30DEBUG36336")
 				.rememberMeParameter("remember-me")
-				.rememberMeCookieName("rememberlogin").and().logout().logoutUrl("/logout")
-				.logoutSuccessUrl("/signin?logout").invalidateHttpSession(true).deleteCookies("JSESSIONID");
+				.rememberMeCookieName("rememberlogin")
+				.and()
+				.logout()
+				.logoutUrl("/logout")
+				.logoutSuccessUrl("/signin?logout")
+				.invalidateHttpSession(true)
+				.deleteCookies("JSESSIONID");
 
 		return http.build();
 

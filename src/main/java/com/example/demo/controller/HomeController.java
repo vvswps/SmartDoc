@@ -75,7 +75,7 @@ public class HomeController {
 	@GetMapping("/")
 	public ResponseEntity<?> index() {
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("ngrok-skip-browser-warning", "skip warning");
+		// headers.set("ngrok-skip-browser-warning", "skip warning");
 		headers.setLocation(URI.create("index"));
 		return new ResponseEntity<>(headers, HttpStatus.FOUND);
 	}
