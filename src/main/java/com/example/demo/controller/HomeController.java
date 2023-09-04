@@ -5,22 +5,26 @@
 
 package com.example.demo.controller;
 
-import java.io.File;
+import java.io.InputStream;
 import java.net.URI;
-import java.nio.file.Files;
 import java.security.Principal;
 import java.util.Random;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,8 +55,10 @@ public class HomeController {
 
 	Random random = new Random();
 
+	private static final Logger logger = LogManager.getLogger(HomeController.class);
+
 	/*
-	 * This method adds the user details to the model attribute.
+	 * * This method adds the user details to the model attribute.
 	 * The user details are fetched from the repository using the email obtained
 	 * from the Principal object.
 	 * It is executed before each request mapping method in this controller.
@@ -134,38 +140,38 @@ public class HomeController {
 					try {
 						// Load cat pics from the classpath
 						ResourceLoader resourceLoader = new DefaultResourceLoader();
-						Resource catsDirResource = resourceLoader.getResource("classpath:cat/");
+						Resource[] catPicsResources = ResourcePatternUtils.getResourcePatternResolver(resourceLoader)
+								.getResources("classpath:cat/*");
 
-						File catsDir = catsDirResource.getFile();
+						if (catPicsResources.length > 0) {
+							Resource catPicResource = catPicsResources[new Random().nextInt(catPicsResources.length)];
 
-						if (catsDir.isDirectory()) {
-							File[] catPics = catsDir.listFiles();
+							// Get the InputStream from the resource
+							InputStream catPicInputStream = catPicResource.getInputStream();
 
-							if (catPics != null && catPics.length > 0) {
-								File catPic = catPics[new Random().nextInt(catPics.length)];
+							logger.log(Level.INFO, "Got cat pic" + catPicResource.getFilename());
 
-								DatabaseFile file = new DatabaseFile();
-								byte[] data = Files.readAllBytes(catPic.toPath());
-								String fileName = catPic.getName();
-								String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
+							DatabaseFile file = new DatabaseFile();
+							byte[] data = StreamUtils.copyToByteArray(catPicInputStream);
+							String fileName = catPicResource.getFilename();
+							String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
 
-								file.setProfilePicture(data);
-								file.setType(FileType.PROFILE_PICTURE);
-								file.setFileName(fileName);
-								switch (fileExtension) {
-									case "svg":
-										fileExtension = "svg+xml";
-										break;
-									case "jpg":
-										fileExtension = "jpeg";
-										break;
-								}
-								file.setFileType("image/" + fileExtension);
-								file.setData(data);
-								file.setUserId(user);
-
-								fileRepo.save(file);
+							file.setProfilePicture(data);
+							file.setType(FileType.PROFILE_PICTURE);
+							file.setFileName(fileName);
+							switch (fileExtension) {
+								case "svg":
+									fileExtension = "svg+xml";
+									break;
+								case "jpg":
+									fileExtension = "jpeg";
+									break;
 							}
+							file.setFileType("image/" + fileExtension);
+							file.setData(data);
+							file.setUserId(user);
+
+							fileRepo.save(file);
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
