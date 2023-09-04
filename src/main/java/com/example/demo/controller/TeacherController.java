@@ -89,13 +89,14 @@ public class TeacherController {
 
 	@GetMapping("/detailUpdateForm")
 	public String updateDetails(Model model) {
-		System.out.println(yellow + "\n\nFrom update details" + model + reset);
+		// System.out.println(yellow + "\n\nFrom update details" + model + reset);
 		return "user/teacherFiles/detailUpdateForm";
 	}
 
 	@PostMapping("/update-user-details")
 	public String updateUser(@ModelAttribute("personalDetails") PersonalDtls updatedPersonalDtls) {
-		System.out.println(yellow + "\n\nFrom update Teacher existingpd" + updatedPersonalDtls + reset);
+		// System.out.println(yellow + "\n\nFrom update Teacher existingpd" +
+		// updatedPersonalDtls + reset);
 		try {
 			personalRepository.save(updatedPersonalDtls);
 			return "redirect:/teacher/personalInfo";

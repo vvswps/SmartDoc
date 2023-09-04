@@ -8,15 +8,13 @@ package com.example.demo.controller;
 import java.io.File;
 import java.net.URI;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -133,45 +131,42 @@ public class HomeController {
 				if (createdUser != null) {
 					model.addAttribute("successMsg", "Registered successfully!");
 
-					try { // assigns a new random profile pic
-							// TODO: Fix the path to use relative path for the running app currently it's
-							// hardcoded
-						Resource catsDirResource = new ClassPathResource("cat");
+					try {
+						// Load cat pics from the classpath
+						ResourceLoader resourceLoader = new DefaultResourceLoader();
+						Resource catsDirResource = resourceLoader.getResource("classpath:cat/");
 
-						// Get the actual path of the resource directory
-						Path catsDirPath = catsDirResource.getFile().toPath();
+						File catsDir = catsDirResource.getFile();
 
-						// List all the files in the directory
-						List<String> files = new ArrayList<>();
-						Files.walk(catsDirPath, 1)
-								.filter(Files::isRegularFile)
-								.forEach(path -> files.add(path.toString()));
+						if (catsDir.isDirectory()) {
+							File[] catPics = catsDir.listFiles();
 
-						File catPic = new File(files.get(random.nextInt(files.size())));
+							if (catPics != null && catPics.length > 0) {
+								File catPic = catPics[new Random().nextInt(catPics.length)];
 
-						DatabaseFile file = new DatabaseFile();
+								DatabaseFile file = new DatabaseFile();
+								byte[] data = Files.readAllBytes(catPic.toPath());
+								String fileName = catPic.getName();
+								String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
 
-						byte[] data = Files.readAllBytes(catPic.toPath());
-						String fileName = catPic.getName();
-						String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
+								file.setProfilePicture(data);
+								file.setType(FileType.PROFILE_PICTURE);
+								file.setFileName(fileName);
+								switch (fileExtension) {
+									case "svg":
+										fileExtension = "svg+xml";
+										break;
+									case "jpg":
+										fileExtension = "jpeg";
+										break;
+								}
+								file.setFileType("image/" + fileExtension);
+								file.setData(data);
+								file.setUserId(user);
 
-						file.setProfilePicture(data);
-						file.setType(FileType.PROFILE_PICTURE);
-						file.setFileName(fileName);
-						switch (fileExtension) {
-							case "svg":
-								fileExtension = "svg+xml";
-								break;
-							case "jpg":
-								fileExtension = "jpeg";
-								break;
+								fileRepo.save(file);
+							}
 						}
-
-						file.setFileType("image/" + fileExtension);
-						file.setData(data);
-						file.setUserId(user);
-
-						fileRepo.save(file);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

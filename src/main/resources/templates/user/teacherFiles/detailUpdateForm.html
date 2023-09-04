@@ -80,11 +80,10 @@
 				<label for="whatsapp">Whatsapp: </label>
 				<input required th:field="*{whatsNumber}" type="tel" id="whatsapp" name="whatsNumber"
 					pattern="[0-9]{10}">
-				<label> <input id="copy-phone-checkbox" type="checkbox" onclick="copyPhoneNumber()"> Same as
+				<!-- <label> <input id="copy-phone-checkbox" type="checkbox" onclick="copyPhoneNumber()"> Same as
 					phone
 					number
-
-				</label>
+				</label> -->
 			</div>
 		</div>
 
@@ -155,9 +154,10 @@
 		</div>
 
 		<h2>Current Address</h2>
-		<label> <input type="checkbox" id="copy-address-checkbox" onclick="copyPermanentAddress()"> Same as
+		<!-- <label> <input type="checkbox" id="copy-address-checkbox" onclick="copyPermanentAddress()"> Same as
 			permanent address
-		</label> <label for="current-address">Address:</label>
+		</label> -->
+		<label for="current-address">Address:</label>
 		<input required th:field="*{curAdd}" type="text" id="current-address" name="curAdd">
 
 		<div class="two-in-a-row">
@@ -229,9 +229,9 @@
 			if (permanentAddressInput.value !== "") {
 				if (document.getElementById("copy-address-checkbox").checked) {
 					updateCurrentAddressFields();
-					toggleCurrentAddressFields(true);
+					// toggleCurrentAddressFields(true);
 				} else {
-					toggleCurrentAddressFields(false);
+					// toggleCurrentAddressFields(false);
 				}
 			} else {
 				currentAddressInput.value = "";

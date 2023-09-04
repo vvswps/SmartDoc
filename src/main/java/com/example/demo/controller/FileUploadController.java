@@ -129,13 +129,12 @@ public class FileUploadController {
 
             document.setTitle(title);
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date parsedDate = dateFormat.parse(date);
-
             // if file type is research, book, award, achievement then setDate otherwise
             // setDurationFrom and setDurationTo
             if (new HashSet<String>(Arrays.asList("research", "book", "award", "achievement", "patent", "guestlecture",
                     "industrialvisit")).contains(fileType.toLowerCase())) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date parsedDate = dateFormat.parse(date);
                 document.setDate(parsedDate);
             } else {
                 System.out.println("\n\n\n File Type: " + fileType + "\n\n\n");
@@ -209,6 +208,7 @@ public class FileUploadController {
                 case "conference_workshop_seminar":
                     document.setEventType(eventType);
                     document.setType(DatabaseFile.FileType.CONFERENCE_WORKSHOP_SEMINAR);
+                    document.setEventRole(eventRole);
                     DatabaseFileRepository.save(document);
 
                     return ResponseEntity.status(HttpStatus.FOUND)
