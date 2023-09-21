@@ -1,48 +1,35 @@
 package com.example.demo.controller;
 
-import java.net.URI;
 import java.security.Principal;
-import java.util.Optional;
-
+import java.util.List;
+import java.util.Map;
+import java.util.Arrays;
+import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.model.DatabaseFile;
+import com.example.demo.model.DatabaseFile.FileType;
 import com.example.demo.model.PersonalDtls;
 import com.example.demo.model.UserDtls;
 import com.example.demo.repository.DatabaseFileRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.personalRepository;
 import com.example.demo.service.FileUtils;
-
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/teacher")
-public class TeacherController {
-
-	String reset = "\u001B[0m";
-	String red = "\u001B[31m";
-	String green = "\u001B[32m";
-	String yellow = "\u001B[33m";
-	String blue = "\u001B[34m";
-	String cyan = "\u001B[36m";
-
+@RequestMapping("/hod")
+public class HodController {
 	@Autowired
 	private UserRepository userRepo;
-
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
@@ -50,13 +37,17 @@ public class TeacherController {
 	private personalRepository personalRepository;
 
 	@Autowired
-	private FileUtils fileUtils;
-
-	@Autowired
 	private DatabaseFileRepository fileRepo;
 
 	@Autowired
-	private jakarta.persistence.EntityManager em;
+	private FileUtils fileUtils;
+
+	String reset = "\u001B[0m";
+	String red = "\u001B[31m";
+	String green = "\u001B[32m";
+	String yellow = "\u001B[33m";
+	String blue = "\u001B[34m";
+	String cyan = "\u001B[36m";
 
 	@ModelAttribute
 	private void userDetails(Model model, Principal p) {
@@ -67,21 +58,54 @@ public class TeacherController {
 			PersonalDtls personalDtls = personalRepository.findByUser(user);
 			model.addAttribute("personalDetails", personalDtls);
 
+			// personalDtls + reset);
+
+			// reset);
 			fileUtils.populateFileListsAndAddToModel(user, model);
+
+			// model + reset);
 
 		} else {
 			model.addAttribute("user", null);
 		}
 	}
 
-	@GetMapping("/personalInfo")
-	public String personalInfo(Model model, Principal p) {
-		// String email = p.getName();
-		// UserDtls user = userRepo.findByEmail(email);
-		// PersonalDtls personalDtls = personalRepository.findByUser(user);
-		// model.addAttribute("personalDetails", personalDtls);
+	@ModelAttribute("fileTypes")
+	public String[] getFileTypes() {
+		return Arrays.stream(FileType.values()).filter(fileType -> fileType != FileType.PROFILE_PICTURE)
+				.map(fileType -> fileType.toString().replaceAll("_", " "))
+				.toArray(String[]::new);
+	}
 
-		return "user/teacherFiles/personalInfo";
+	@PostMapping("/getFacultyByEmail")
+	public String getFacultyByEmail(@RequestParam String email, Model model, HttpSession session) {
+
+		UserDtls user = userRepo.findByEmail(email);
+		String facultyProfilePicId = "";
+		try {
+			facultyProfilePicId = fileRepo.findByUserAndType(user, FileType.PROFILE_PICTURE).get(0).getId();
+
+		} catch (IndexOutOfBoundsException e) {
+
+		}
+		model.addAttribute("facultyProfilePicId", facultyProfilePicId);
+		// model.addAttribute("email", email);
+		session.setAttribute("email", email);
+
+		// here user is the faculty
+		fileUtils.populateFileListsAndAddToModel(user, model);
+
+		return "user/admin/emailView";
+	}
+
+	/// upload
+	@GetMapping("/files")
+	public String listFiles(Model model, Principal principal) {
+
+		UserDtls user = userRepo.findByEmail(principal.getName());
+		List<DatabaseFile> files = user.getFiles();
+		model.addAttribute("files", files);
+		return "files";
 	}
 
 	@GetMapping("/detailUpdateForm")
@@ -93,7 +117,6 @@ public class TeacherController {
 	@PostMapping("/update-user-details")
 	public String updateUser(@ModelAttribute("personalDetails") PersonalDtls updatedPersonalDtls) {
 
-		// updatedPersonalDtls + reset);
 		try {
 			personalRepository.save(updatedPersonalDtls);
 			return "redirect:/teacher/personalInfo";
@@ -105,37 +128,54 @@ public class TeacherController {
 		return "redirect:/teacher/update-user-details";
 	}
 
-	@GetMapping("/deleteFile/{id}")
-	public ResponseEntity<?> deleteFile(@PathVariable String id, HttpServletRequest request, Model model) {
-		Optional<DatabaseFile> optionalFile = fileRepo.findById(id);
-		if (!optionalFile.isPresent()) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		DatabaseFile file = optionalFile.get();
-		if (!file.getUser().equals(model.getAttribute("user"))) {
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-		}
-		em.detach(file.getUser());
-		try {
-			fileRepo.delete(file);
-			fileRepo.flush();
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+	@GetMapping("/deptView")
+	public String facultyView(Model model, HttpSession session, Principal principal) {
+		UserDtls hodUser = userRepo.findByEmail(principal.getName());
+		String dept = hodUser.getBranch();
+		List<UserDtls> teachers = userRepo.findByBranchAndRole(dept, "ROLE_TEACHER");
+		teachers.add(0, hodUser);
+		model.addAttribute("deptName", dept);
+		session.setAttribute("deptName", dept);
+		model.addAttribute("teachers", teachers);
+
+		Map<String, Map<FileType, Integer>> teacherFileCounts = new HashMap<>();
+
+		for (UserDtls teacher : teachers) {
+			Map<FileType, Integer> fileCounts = new HashMap<>();
+			for (FileType fileType : FileType.values()) {
+				if (fileType == FileType.PROFILE_PICTURE)
+					continue;
+
+				fileCounts.put(fileType, 0);
+			}
+			for (DatabaseFile file : teacher.getFiles()) {
+				FileType fileType = file.getType();
+
+				if (fileType == FileType.PROFILE_PICTURE)
+					continue;
+				fileCounts.put(fileType, fileCounts.get(fileType) + 1);
+			}
+			teacherFileCounts.put(teacher.getName(), fileCounts);
 		}
 
-		// Redirect back to the referring page after the delete
-		String referer = request.getHeader("Referer");
-		return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(referer)).build();
+		model.addAttribute("teacherFileCounts", teacherFileCounts);
+
+		return "user/admin/deptView";
 	}
 
 	@GetMapping("/")
 	public String home() {
-		return "user/teacherFiles/teacher";
+		return "user/hod/hod";
 	}
 
 	@GetMapping("/teacher-dashboard")
 	public String dashboard() {
 		return "user/teacherFiles/teacherDashboard";
+	}
+
+	@GetMapping("/personalInfo")
+	public String personalInfo() {
+		return "user/teacherFiles/personalInfo";
 	}
 
 	@GetMapping("/research")
@@ -148,9 +188,9 @@ public class TeacherController {
 		return "user/teacherFiles/awardsAchievements";
 	}
 
-	@GetMapping("/interactions")
-	public String interactions() {
-		return "user/teacherFiles/interactions";
+	@GetMapping("/update-user-details")
+	public String updateDetails() {
+		return "user/teacherFiles/detailUpdateForm";
 	}
 
 	@GetMapping("/fdp")
@@ -158,24 +198,14 @@ public class TeacherController {
 		return "user/teacherFiles/fdp";
 	}
 
-	@GetMapping("/conferenceWorkshopSeminar")
-	public String conferenceWorkshopSeminar() {
-		return "user/teacherFiles/conferenceWorkshopSeminar";
-	}
-
-	@GetMapping("/guestLectAndIndustrialVisits")
-	public String guestLectAndIndustrialVisits() {
-		return "user/teacherFiles/guestLectAndIndustrialVisits";
-	}
-
 	@GetMapping("/settings")
 	public String settings() {
 		return "user/teacherFiles/settings";
 	}
 
-	@GetMapping("/changePass")
-	public String loadChangePassword() {
-		return "user/teacherFiles/settings";
+	@GetMapping("/mailView")
+	public String mailView() {
+		return "user/admin/emailView";
 	}
 
 	@PostMapping("/updatePassword")
@@ -189,6 +219,7 @@ public class TeacherController {
 
 		if (f) {
 			loginUser.setPassword(passwordEncoder.encode(newPass));
+
 			UserDtls updatePasswordUser = userRepo.save(loginUser);
 			if (updatePasswordUser != null) {
 
@@ -200,34 +231,8 @@ public class TeacherController {
 
 		}
 
-		return "redirect:/teacher/settings";
+		return "redirect:/hod/settings";
 
-	}
-
-	@PostMapping("/deleteUser")
-	public String deleteUser(Principal principal, @RequestParam String password, RedirectAttributes redirectAttributes,
-			HttpSession session) {
-		String email = principal.getName();
-		UserDtls user = userRepo.findByEmail(email);
-
-		// Check if user is admin
-		if ("ROLE_ADMIN".equals(user.getRole())) {
-			return "redirect:/logout";
-		}
-
-		if (passwordEncoder.matches(password, user.getPassword())) {
-			// Delete the user
-			userRepo.delete(user);
-
-			// // Invalidate the session
-			// session.invalidate();
-
-			redirectAttributes.addFlashAttribute("message", "User deleted successfully");
-			return "redirect:/logout";
-		} else {
-			redirectAttributes.addFlashAttribute("error", "Incorrect password");
-			return "redirect:/teacher/settings";
-		}
 	}
 
 }

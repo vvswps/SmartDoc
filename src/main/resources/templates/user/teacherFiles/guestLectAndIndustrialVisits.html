@@ -10,7 +10,8 @@
 
 <body>
 
-<div class="modal" id="delete-modal" th:if="${not #lists.isEmpty(researchFiles) or not #lists.isEmpty(bookFiles)}">
+    <div class="modal" id="delete-modal"
+        th:if="${not #lists.isEmpty(guestLectureFiles) or not #lists.isEmpty(industrialVisitsFiles)}">
         <h2>Are you sure you want to delete this file?</h2>
         <b>This action is irrecoverable</b>
         <div>
@@ -151,7 +152,7 @@
     </div>
     <script>
 
-function showDeleteModal(id) {
+        function showDeleteModal(id) {
             const deleteButton = document.querySelector("#delete")
             console.log(id);
             id = id.slice(id.lastIndexOf("/") + 1);
@@ -160,7 +161,7 @@ function showDeleteModal(id) {
             deleteButton.setAttribute("href", "/teacher/deleteFile/" + id);
             document.querySelector("#delete-modal").classList.add('show');
         }
-        
+
         function showModal(id) {
             console.log(`Showing modal ${id}`);
             document.querySelector(`#${id}`).classList.add('show');

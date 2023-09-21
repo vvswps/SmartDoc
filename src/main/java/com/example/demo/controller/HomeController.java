@@ -5,20 +5,26 @@
 
 package com.example.demo.controller;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStream;
+import java.net.URI;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.ResourcePatternUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,8 +37,6 @@ import com.example.demo.model.DatabaseFile.FileType;
 import com.example.demo.repository.DatabaseFileRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
-
-import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class HomeController {
@@ -51,8 +55,10 @@ public class HomeController {
 
 	Random random = new Random();
 
+	private static final Logger logger = LogManager.getLogger(HomeController.class);
+
 	/*
-	 * This method adds the user details to the model attribute.
+	 * * This method adds the user details to the model attribute.
 	 * The user details are fetched from the repository using the email obtained
 	 * from the Principal object.
 	 * It is executed before each request mapping method in this controller.
@@ -71,8 +77,15 @@ public class HomeController {
 	 * It returns the "index" view to display the home page.
 	 */
 	@GetMapping("/")
-	public String index(HttpServletResponse response) {
-		response.setHeader("User-Agent", "YourCustomUserAgent");
+	public ResponseEntity<?> index() {
+		HttpHeaders headers = new HttpHeaders();
+		// headers.set("ngrok-skip-browser-warning", "skip warning");
+		headers.setLocation(URI.create("index"));
+		return new ResponseEntity<>(headers, HttpStatus.FOUND);
+	}
+
+	@GetMapping("/index")
+	public String index(Model model) {
 		return "index";
 	}
 
@@ -119,50 +132,47 @@ public class HomeController {
 			if (isEmailRegistered) {
 				regMsg = "Email is already registered.";
 			} else {
-				UserDtls createdUser = userService.createUser(user, role);
+				UserDtls createdUser = userService.createUser(user, role, model);
 
 				if (createdUser != null) {
 					model.addAttribute("successMsg", "Registered successfully!");
 
-					try { // assigns a new random profile pic
-							// TODO: Fix the path to use relative path for the running app currently it's
-							// hardcoded
-						Resource catsDirResource = new ClassPathResource("cat");
+					try {
+						// Load cat pics from the classpath
+						ResourceLoader resourceLoader = new DefaultResourceLoader();
+						Resource[] catPicsResources = ResourcePatternUtils.getResourcePatternResolver(resourceLoader)
+								.getResources("classpath:cat/*");
 
-						// Get the actual path of the resource directory
-						Path catsDirPath = catsDirResource.getFile().toPath();
+						if (catPicsResources.length > 0) {
+							Resource catPicResource = catPicsResources[new Random().nextInt(catPicsResources.length)];
 
-						// List all the files in the directory
-						List<String> files = new ArrayList<>();
-						Files.walk(catsDirPath, 1)
-								.filter(Files::isRegularFile)
-								.forEach(path -> files.add(path.toString()));
+							// Get the InputStream from the resource
+							InputStream catPicInputStream = catPicResource.getInputStream();
 
-						File catPic = new File(files.get(random.nextInt(files.size())));
+							logger.log(Level.INFO, "Got cat pic" + catPicResource.getFilename());
 
-						DatabaseFile file = new DatabaseFile();
+							DatabaseFile file = new DatabaseFile();
+							byte[] data = StreamUtils.copyToByteArray(catPicInputStream);
+							String fileName = catPicResource.getFilename();
+							String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
 
-						byte[] data = Files.readAllBytes(catPic.toPath());
-						String fileName = catPic.getName();
-						String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
+							file.setProfilePicture(data);
+							file.setType(FileType.PROFILE_PICTURE);
+							file.setFileName(fileName);
+							switch (fileExtension) {
+								case "svg":
+									fileExtension = "svg+xml";
+									break;
+								case "jpg":
+									fileExtension = "jpeg";
+									break;
+							}
+							file.setFileType("image/" + fileExtension);
+							file.setData(data);
+							file.setUserId(user);
 
-						file.setProfilePicture(data);
-						file.setType(FileType.PROFILE_PICTURE);
-						file.setFileName(fileName);
-						switch (fileExtension) {
-							case "svg":
-								fileExtension = "svg+xml";
-								break;
-							case "jpg":
-								fileExtension = "jpeg";
-								break;
+							fileRepo.save(file);
 						}
-
-						file.setFileType("image/" + fileExtension);
-						file.setData(data);
-						file.setUserId(user);
-
-						fileRepo.save(file);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -215,7 +225,7 @@ public class HomeController {
 		if (user != null) {
 			return "redirect:/loadResetPassword/" + user.getId();
 		} else {
-			System.out.println("Invalid email or mobile number");
+
 			return "forgot_password";
 		}
 	}
@@ -237,9 +247,9 @@ public class HomeController {
 		user.setPassword(encryptedPassword);
 		UserDtls updatedUser = userRepo.save(user);
 		if (updatedUser != null) {
-			System.out.println("Password updated successfully.");
+
 		} else {
-			System.out.println("Failed to update the password.");
+
 		}
 		return "redirect:/signin";
 	}

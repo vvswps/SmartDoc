@@ -1,19 +1,14 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#000000">
-  <link defer rel="preconnect" href="https://fonts.googleapis.com">
-  <link defer rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link defer href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-  <title>Dashboard</title>
-
-  <meta name="description"
-    content="This is a dashboard for teachers to manage their profile and documents related to their work.">
-  <meta name="keywords" content="dashboard, teacher, profile, documents, work, manage">
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <title>HOD Dashboard</title>
+  <link rel="stylesheet" href="/css/hodMain.css">
   <link rel="stylesheet" href="/css/teacherMain.css">
 </head>
 
@@ -21,11 +16,12 @@
   <div id="root">
     <div class="App">
       <div class="AppGlass">
-        <div class="bars">
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
+        <!-- <div class="bars" style="right: 60%;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M3,8H21a1,1,0,0,0,0-2H3A1,1,0,0,0,3,8Zm18,8H3a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Zm0-5H3a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z">
+            </path>
+          </svg></div> -->
         <div class="sidebar">
           <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128px" height="128px">
               <path
@@ -56,23 +52,21 @@
                 <path
                   d="M19,2H5A3,3,0,0,0,2,5V19a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V5A3,3,0,0,0,19,2ZM10,4h4V7.13l-1.45-1a1,1,0,0,0-1.1,0L10,7.13ZM20,19a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V5A1,1,0,0,1,5,4H8V9a1,1,0,0,0,.53.88,1,1,0,0,0,1-.05L12,8.2l2.45,1.63A1,1,0,0,0,16,9V4h3a1,1,0,0,1,1,1Z">
                 </path>
-              </svg><a href="awards" target="content">Awards & Patents</a></div>
+              </svg><a href="awards" target="content">Awards & Achievements</a></div>
             <div class="menuItem"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                 fill="currentColor">
                 <path
                   d="M12,6a1,1,0,0,0-1,1V17a1,1,0,0,0,2,0V7A1,1,0,0,0,12,6ZM7,12a1,1,0,0,0-1,1v4a1,1,0,0,0,2,0V13A1,1,0,0,0,7,12Zm10-2a1,1,0,0,0-1,1v6a1,1,0,0,0,2,0V11A1,1,0,0,0,17,10Zm2-8H5A3,3,0,0,0,2,5V19a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V5A3,3,0,0,0,19,2Zm1,17a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V5A1,1,0,0,1,5,4H19a1,1,0,0,1,1,1Z">
                 </path>
-              </svg><a href="fdp" target="content">FDP & STTP & QIP</a></div>
-            <div class="menuItem"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path
-                  d="M20 17.722c.595-.347 1-.985 1-1.722V5c0-1.103-.897-2-2-2H5c-1.103 0-2 .897-2 2v11c0 .736.405 1.375 1 1.722V18H2v2h20v-2h-2v-.278zM5 16V5h14l.002 11H5z" />
-              </svg><a href="guestLectAndIndustrialVisits" target="content">Guest Lectures & Industrial Visits</a>
-            </div>
+              </svg><a href="fdp" target="content">FDP & Workshops</a></div>
 
-            <div class="menuItem"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <div class="menuItem"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                fill="currentColor">
                 <path
-                  d="M6 14c-2.206 0-4 1.794-4 4s1.794 4 4 4a4.003 4.003 0 0 0 3.998-3.98H10V16h4v2.039h.004A4.002 4.002 0 0 0 18 22c2.206 0 4-1.794 4-4s-1.794-4-4-4h-2v-4h2c2.206 0 4-1.794 4-4s-1.794-4-4-4-4 1.794-4 4v2h-4V5.98h-.002A4.003 4.003 0 0 0 6 2C3.794 2 2 3.794 2 6s1.794 4 4 4h2v4H6zm2 4c0 1.122-.879 2-2 2s-2-.878-2-2 .879-2 2-2h2v2zm10-2c1.121 0 2 .878 2 2s-.879 2-2 2-2-.878-2-2v-2h2zM16 6c0-1.122.879-2 2-2s2 .878 2 2-.879 2-2 2h-2V6zM6 8c-1.121 0-2-.878-2-2s.879-2 2-2 2 .878 2 2v2H6zm4 2h4v4h-4v-4z" />
-              </svg><a href="conferenceWorkshopSeminar" target="content">Conference / Workshop / Seminar</a></div>
+                  d="M12.3,12.22A4.92,4.92,0,0,0,14,8.5a5,5,0,0,0-10,0,4.92,4.92,0,0,0,1.7,3.72A8,8,0,0,0,1,19.5a1,1,0,0,0,2,0,6,6,0,0,1,12,0,1,1,0,0,0,2,0A8,8,0,0,0,12.3,12.22ZM9,11.5a3,3,0,1,1,3-3A3,3,0,0,1,9,11.5Zm9.74.32A5,5,0,0,0,15,3.5a1,1,0,0,0,0,2,3,3,0,0,1,3,3,3,3,0,0,1-1.5,2.59,1,1,0,0,0-.5.84,1,1,0,0,0,.45.86l.39.26.13.07a7,7,0,0,1,4,6.38,1,1,0,0,0,2,0A9,9,0,0,0,18.74,11.82Z">
+                </path>
+              </svg><a href="deptView" target="content">Department view</a></div>
+
             <div class="menuItem"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                 fill="currentColor">
                 <path
@@ -80,49 +74,37 @@
                 </path>
               </svg><a href="settings" target="content">Settings</a>
             </div>
+            <div class="menuItem"><a href="/logout"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12.59,13l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l4-4a1,1,0,0,0,.21-.33,1,1,0,0,0,0-.76,1,1,0,0,0-.21-.33l-4-4a1,1,0,1,0-1.42,1.42L12.59,11H3a1,1,0,0,0,0,2ZM12,2A10,10,0,0,0,3,7.55a1,1,0,0,0,1.8.9A8,8,0,1,1,12,20a7.93,7.93,0,0,1-7.16-4.45,1,1,0,0,0-1.8.9A10,10,0,1,0,12,2Z">
+                  </path>
+                </svg></a></div>
           </div>
-          <div class="menuItem logout"><a href="/logout"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                viewBox="0 0 24 24" fill="currentColor">
-                <path
-                  d="M12.59,13l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l4-4a1,1,0,0,0,.21-.33,1,1,0,0,0,0-.76,1,1,0,0,0-.21-.33l-4-4a1,1,0,1,0-1.42,1.42L12.59,11H3a1,1,0,0,0,0,2ZM12,2A10,10,0,0,0,3,7.55a1,1,0,0,0,1.8.9A8,8,0,1,1,12,20a7.93,7.93,0,0,1-7.16-4.45,1,1,0,0,0-1.8.9A10,10,0,1,0,12,2Z">
-                </path>
-              </svg></a></div>
-
-
         </div>
-
         <section class="content">
           <iframe src="teacher-dashboard" name="content" frameborder="0"></iframe>
         </section>
       </div>
-
     </div>
 
-    <script>
-      // for active menu item in the sidebar
-      let menu = document.querySelector(".menu");
-      let menuItems = document.querySelectorAll(".menuItem");
-      console.log(menuItems);
-      menuItems.forEach((item) => {
-        item.addEventListener("click", () => {
-          menuItems.forEach((item) => {
-            item.classList.remove("active");
-          });
-          item.classList.add("active");
-          sidebar.classList.remove("sidebar-open");
-          bars.classList.remove("open");
+  </div>
+
+  <script>
+    let menu = document.querySelector(".menu");
+    let menuItems = document.querySelectorAll(".menuItem");
+    console.log(menuItems);
+    menuItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        menuItems.forEach((item) => {
+          item.classList.remove("active");
         });
+        item.classList.add("active");
       });
+    });
 
-      // for opening and closing the sidebar on small devices
-      let bars = document.querySelector(".bars");
-      let sidebar = document.querySelector(".sidebar");
 
-      bars.addEventListener("click", () => {
-        sidebar.classList.toggle("sidebar-open");
-        bars.classList.toggle("open");
-      });
-    </script>
+  </script>
 
 </body>
 

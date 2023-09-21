@@ -83,26 +83,19 @@ public class FileDownloadController {
         String email = principal.getName();
         UserDtls user = UserRepository.findByEmail(email);
         if (!user.getRole().equals("ROLE_ADMIN")) {
-            System.out.println(
-                    "\u001B[31m" + "FileDownloadController: displayImage: Unauthorized access attempt by:" + user
-                            + "\u001B[0m");
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         try {
-            System.out.println("\u001B[34m" + "FileDownloadController: displayImage: id: " + id + "\u001B[0m");
             Optional<DatabaseFile> optionalDocument = DatabaseFileRepository.findById(id);
             if (optionalDocument.isPresent()) {
                 DatabaseFile file = optionalDocument.get();
                 HttpHeaders headers = new HttpHeaders();
-                System.out.println("\u001B[34m" + "FileDownloadController: displayImage: file.getFileName(): "
-                        + file.getFileName() + "\u001B[0m");
+
                 headers.setContentDisposition(
                         ContentDisposition.builder("attachment").filename(file.getFileName()).build());
                 headers.setContentType(MediaType.parseMediaType(file.getFileType()));
                 return new ResponseEntity<>(file.getData(), headers, HttpStatus.OK);
             } else {
-                System.out.println("\u001B[31m" + "FileDownloadController: displayImage: File not found."
-                        + "\u001B[0m");
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {

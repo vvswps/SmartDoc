@@ -7,6 +7,10 @@ package com.example.demo.controller;
 import java.io.IOException;
 import java.net.URI;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +41,6 @@ public class FileUploadController {
     @PostMapping("/uploadProfilePicture")
     public ResponseEntity<?> uploadProfilePicture(@RequestParam MultipartFile file, Principal principal,
             HttpServletRequest request) throws IOException {
-        System.out.println("\n\n\n\nuploadProfilePicture\n\n\n\n");
 
         // Check if the user is authenticated
         if (principal == null) {
@@ -77,6 +80,7 @@ public class FileUploadController {
 
         // Redirect back to the referring page after the upload
         String referer = request.getHeader("Referer");
+
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(referer));
         return new ResponseEntity<>(headers, HttpStatus.FOUND);
@@ -126,17 +130,21 @@ public class FileUploadController {
 
             // if file type is research, book, award, achievement then setDate otherwise
             // setDurationFrom and setDurationTo
-            if (fileType.toLowerCase().equals("research") || fileType.toLowerCase().equals("book")
-                    || fileType.toLowerCase().equals("award") || fileType.toLowerCase().equals("achievement")
-                    || fileType.toLowerCase().equals("patent") || fileType.toLowerCase().equals("guestlecture")
-                    || fileType.toLowerCase().equals("industrialvisit")) {
-                document.setDate(date);
+            if (new HashSet<String>(Arrays.asList("research", "book", "award", "achievement", "patent", "guestlecture",
+                    "industrialvisit")).contains(fileType.toLowerCase())) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date parsedDate = dateFormat.parse(date);
+                document.setDate(parsedDate);
             } else {
-                System.out.println("\n\n\n File Type: " + fileType + "\n\n\n");
+
                 document.setNature(nature);
                 document.setDurationFrom(durationFrom);
                 document.setDurationTo(durationTo);
+
+                if (noOfDays < 0)
+                    noOfDays = 0;
                 document.setNoOfDays(noOfDays);
+
                 document.setOrganizedBy(organizedBy);
             }
 

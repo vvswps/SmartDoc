@@ -3,6 +3,7 @@ package com.example.demo.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.example.demo.model.PersonalDtls;
 import com.example.demo.model.UserDtls;
@@ -21,13 +22,24 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncode;
 
+	@Autowired
+	private PasswordValidatorService passwordValidator;
+
 	@Override
-	public UserDtls createUser(UserDtls user, String role) {
+	public UserDtls createUser(UserDtls user, String role, Model model) {
+		String validationMessage = passwordValidator.validatePasswordAndEmail(user.getPassword(),
+				user.getEmail());
+		if (validationMessage != null) {
+			model.addAttribute("regMsg", validationMessage);
+		}
+
 		user.setPassword(passwordEncode.encode(user.getPassword()));
 		user.setRole(role);
+
+		user.setEmail(user.getEmail().toLowerCase());
 		UserDtls newUser = userRepo.save(user);
 		PersonalDtls personalDtls = new PersonalDtls();
-		// System.out.println("User ID: " + newUser.getId());
+
 		// personalDtls.setId(19);
 
 		personalDtls.setUser(user); // set the user to the personal details object

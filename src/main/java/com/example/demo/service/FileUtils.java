@@ -3,6 +3,8 @@ package com.example.demo.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -22,6 +24,8 @@ public class FileUtils {
 
     @Autowired
     private personalRepository personalRepository;
+
+    private static final Logger logger = LogManager.getLogger(FileUtils.class);
 
     public void populateFileListsAndAddToModel(UserDtls user, Model model) {
         List<DatabaseFile> awardsFiles = new ArrayList<>();
@@ -76,7 +80,7 @@ public class FileUtils {
                         guestLectureFiles.add(file);
                         break;
                     default:
-                        System.out.println("Unknown file type");
+                        logger.warn("Unknown file type");
                 }
             }
         } catch (Exception e) {
