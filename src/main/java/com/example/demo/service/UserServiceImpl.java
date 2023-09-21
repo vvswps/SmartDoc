@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 		user.setEmail(user.getEmail().toLowerCase());
 		UserDtls newUser = userRepo.save(user);
 		PersonalDtls personalDtls = new PersonalDtls();
-		// System.out.println("User ID: " + newUser.getId());
+
 		// personalDtls.setId(19);
 
 		personalDtls.setUser(user); // set the user to the personal details object

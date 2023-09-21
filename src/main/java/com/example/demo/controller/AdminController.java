@@ -79,16 +79,23 @@ public class AdminController {
 
 	}
 
+	@ModelAttribute("fileTypes")
+	public String[] getFileTypes() {
+		return Arrays.stream(FileType.values()).filter(fileType -> fileType != FileType.PROFILE_PICTURE)
+				.map(fileType -> fileType.toString().replaceAll("_", " "))
+				.toArray(String[]::new);
+	}
+
 	@PostMapping("/getFacultyByEmail")
 	public String getFacultyByEmail(@RequestParam String email, Model model, HttpSession session) {
-		System.out.println("In getFacultyByEmail()");
+
 		UserDtls user = userRepo.findByEmail(email);
 		String facultyProfilePicId = "";
 		try {
 			facultyProfilePicId = fileRepo.findByUserAndType(user, FileType.PROFILE_PICTURE).get(0).getId();
-			System.out.println(cyan + "Faculty Profile Pic:\t" + facultyProfilePicId + reset);
+
 		} catch (IndexOutOfBoundsException e) {
-			System.out.println(red + "No profile pic found" + reset);
+
 		}
 		model.addAttribute("facultyProfilePicId", facultyProfilePicId);
 		// model.addAttribute("email", email);
@@ -102,15 +109,12 @@ public class AdminController {
 
 	@GetMapping("/downloadCSV")
 	public void downloadCSV(HttpServletResponse response, HttpSession session) throws IOException {
-		System.out.println("In downloadCSV()");
 
 		String email = (String) session.getAttribute("email");
-		System.out.println(yellow + "Email:\t" + email + reset);
+
 		UserDtls user = userRepo.findByEmail(email);
 
 		PersonalDtls personalDetails = personalRepository.findByUser(user);
-		System.out.println(red + "\n\nUser:\t" + user + reset);
-		System.out.println(red + "\n\nPersonal User:\t" + personalDetails + reset);
 
 		List<DatabaseFile> awardsFiles = new ArrayList<>();
 		List<DatabaseFile> patentFiles = new ArrayList<>();
@@ -127,10 +131,10 @@ public class AdminController {
 		try {
 			for (DatabaseFile file : files) {
 				FileType fileType = file.getType();
-				// System.out.println(file + "Type:\t" + fileType);
+
 				switch (fileType) {
 					case AWARD:
-						// System.out.println("File Type is Award");
+
 						awardsFiles.add(file);
 						break;
 					case PATENT:
@@ -162,7 +166,7 @@ public class AdminController {
 						break;
 
 					default:
-						System.out.println("Unknown file type");
+
 				}
 			}
 		} catch (Exception e) {
@@ -267,8 +271,8 @@ public class AdminController {
 
 	@PostMapping(value = "/getFacultyByDept")
 	public String getFacultyByDept(@RequestParam("department") String dept, Model model, HttpSession session) {
-		System.out.println("\n\n\nIn getFacultyByDept()\n\n\n");
 		List<UserDtls> teachers = userRepo.findByBranchAndRole(dept, "ROLE_TEACHER");
+		teachers.add(0, userRepo.findByBranchAndRole(dept, "ROLE_HOD").get(0));
 		model.addAttribute("deptName", dept);
 		session.setAttribute("deptName", dept);
 		model.addAttribute("teachers", teachers);
@@ -293,16 +297,16 @@ public class AdminController {
 			teacherFileCounts.put(teacher.getName(), fileCounts);
 		}
 
-		System.out.println("\n\nTeacher file counts!!!!!!!!!!!!!!!!!!!!!!!");
-		System.out.println(teacherFileCounts);
-
 		model.addAttribute("teacherFileCounts", teacherFileCounts);
 
 		return "user/admin/deptView";
 	}
 
-	@GetMapping("/downloadDeptCSV")
-	public void downloadDeptCSV(HttpServletResponse response, HttpSession session) throws IOException {
+	@PostMapping("/downloadDeptCSV")
+	public void downloadDeptCSV(
+			@RequestParam(value = "selectedFileTypes", required = false) List<String> selectedFileTypes,
+			HttpServletResponse response, HttpSession session) throws IOException {
+
 		String deptName = (String) session.getAttribute("deptName");
 		List<UserDtls> teachers = userRepo.findByBranchAndRole(deptName, "ROLE_TEACHER");
 
@@ -314,270 +318,308 @@ public class AdminController {
 			printer.printRecord("Generated on: " + LocalDate.now().toString());
 			printer.println();
 
-			printer.printRecord("Section: Faculty Awards/Achievements");
-			printer.println();
-			printer.printRecord("Sr. No.", "Name of Faculty", "Email",
-					"Award/Achievement Name", "Date Awarded", "Issuing Authority");
-
-			int count = 0;
-			printer.println();
-			for (UserDtls teacher : teachers) {
-				for (DatabaseFile file : teacher.getFiles()) {
-					if (file.getType() == FileType.AWARD) {
-						printer.print(++count);
-						printer.print(teacher.getName());
-						printer.print(teacher.getEmail());
-						printer.print(file.getTitle());
-						printer.print(file.getDate());
-						printer.print(file.getAwardingInstitution());
-						printer.println();
-					}
-				}
+			if (selectedFileTypes == null || selectedFileTypes.isEmpty()) {
+				printer.printRecord("No file types selected");
+				printer.flush();
+				return;
 			}
 
-			printer.println();
-			printer.print("Section: Faculty Research Papers");
-			printer.println();
-
-			printer.printRecord("Sr. No.", "Name of Faculty", "Email",
-					"Title of Paper", "Publication Name", "Type of Publication", "Date of Publishing", "ISSN Number",
-					"DOI",
-					"Volume");
-
-			printer.println();
-
-			count = 0;
-			// "Sr. No.", "Name of Faculty", "Email", "Title of Paper", "Publication Name",
-			// "Type of Publication", "Date of Publishing", "ISSN Number", "DOI", "Volume"
-			for (UserDtls teacher : teachers) {
-				for (DatabaseFile file : teacher.getFiles()) {
-					if (file.getType() == FileType.RESEARCH_PAPER) {
-						printer.print(++count);
-						printer.print(teacher.getName());
-						printer.print(teacher.getEmail());
-						printer.print(file.getTitle());
-						printer.print(file.getPublicationName());
-						printer.print(file.getPublicationType());
-						printer.print(file.getDate());
-						printer.print(file.getISSN());
-						printer.print(file.getDOI());
-						printer.print(file.getVolume());
+			for (String fileType : selectedFileTypes) {
+				switch (fileType.toUpperCase()) {
+					case "AWARD":
+						printer.printRecord("Section: Faculty Awards/Achievements");
 						printer.println();
-					}
+						printer.printRecord("Sr. No.", "Name of Faculty", "Email",
+								"Award/Achievement Name", "Date Awarded", "Issuing Authority");
+
+						int count = 0;
+						printer.println();
+						for (UserDtls teacher : teachers) {
+							for (DatabaseFile file : teacher.getFiles()) {
+								if (file.getType() == FileType.AWARD) {
+									printer.print(++count);
+									printer.print(teacher.getName());
+									printer.print(teacher.getEmail());
+									printer.print(file.getTitle());
+									printer.print(file.getDate());
+									printer.print(file.getAwardingInstitution());
+									printer.println();
+								}
+							}
+						}
+
+						break;
+
+					case "RESEARCH PAPER":
+						printer.println();
+						printer.print("Section: Faculty Research Papers");
+						printer.println();
+
+						printer.printRecord("Sr. No.", "Name of Faculty", "Email",
+								"Title of Paper", "Publication Name", "Type of Publication", "Date of Publishing",
+								"ISSN Number",
+								"DOI",
+								"Volume");
+
+						printer.println();
+
+						count = 0;
+						// "Sr. No.", "Name of Faculty", "Email", "Title of Paper", "Publication Name",
+						// "Type of Publication", "Date of Publishing", "ISSN Number", "DOI", "Volume"
+						for (UserDtls teacher : teachers) {
+							for (DatabaseFile file : teacher.getFiles()) {
+								if (file.getType() == FileType.RESEARCH_PAPER) {
+									printer.print(++count);
+									printer.print(teacher.getName());
+									printer.print(teacher.getEmail());
+									printer.print(file.getTitle());
+									printer.print(file.getPublicationName());
+									printer.print(file.getPublicationType());
+									printer.print(file.getDate());
+									printer.print(file.getISSN());
+									printer.print(file.getDOI());
+									printer.print(file.getVolume());
+									printer.println();
+								}
+							}
+						}
+
+						break;
+
+					case "BOOK OR CHAPTER":
+						printer.println();
+
+						printer.print("Section: Faculty Books and Chapters");
+						printer.println();
+						printer.printRecord("Sr. No.", "Name of Faculty", "Email", "Title",
+								"Publication Name", "Book/Chapter", "Date of Publishing", "ISBN Number");
+
+						printer.println();
+
+						count = 0;
+						// "Sr. No.", "Name of Faculty", "Email", "Title", "Publication Name",
+						// "Book/Chapter", "Date of Publishing", "ISBN Number"
+						for (UserDtls teacher : teachers) {
+							for (DatabaseFile file : teacher.getFiles()) {
+								if (file.getType() == FileType.BOOK_OR_CHAPTER) {
+									printer.print(++count);
+									printer.print(teacher.getName());
+									printer.print(teacher.getEmail());
+									printer.print(file.getTitle());
+									printer.print(file.getPublicationName());
+									printer.print(file.getPublicationType());
+									printer.print(file.getDate());
+									printer.print(file.getISBN());
+									printer.println();
+								}
+							}
+						}
+
+						break;
+
+					case "FDP":
+						printer.println();
+
+						printer.print("Section: Faculty FDPs");
+						printer.println();
+						printer.printRecord("Sr. No.", "Name of Faculty", "Email", "Title",
+								"Online/Offline", "Number of days", "Organization");
+
+						printer.println();
+
+						count = 0;
+						// "Sr. No.", "Name of Faculty", "Email", "Title", "Online/Offline", "Number of
+						// days", "Organization"
+						for (UserDtls teacher : teachers) {
+							for (DatabaseFile file : teacher.getFiles()) {
+								if (file.getType() == FileType.FDP) {
+									printer.print(++count);
+									printer.print(teacher.getName());
+									printer.print(teacher.getEmail());
+									printer.print(file.getTitle());
+									printer.print(file.getNature());
+									printer.print(file.getNoOfDays());
+									printer.print(file.getOrganizedBy());
+									printer.println();
+								}
+							}
+						}
+						break;
+
+					case "STTP":
+						printer.println();
+						printer.print("Section: Faculty STTPs");
+						printer.println();
+						printer.printRecord("Sr. No.", "Name of Faculty", "Email", "Title",
+								"Online/Offline", "Number of days", "Organization");
+
+						printer.println();
+
+						count = 0;
+						// "Sr. No.", "Name of Faculty", "Email", "Title", "Online/Offline", "Number of
+						// days", "Organization"
+						for (UserDtls teacher : teachers) {
+							for (DatabaseFile file : teacher.getFiles()) {
+								if (file.getType() == FileType.STTP) {
+									printer.print(++count);
+									printer.print(teacher.getName());
+									printer.print(teacher.getEmail());
+									printer.print(file.getTitle());
+									printer.print(file.getNature());
+									printer.print(file.getNoOfDays());
+									printer.print(file.getOrganizedBy());
+									printer.println();
+								}
+							}
+						}
+
+						break;
+
+					case "QIP":
+						printer.println();
+
+						printer.print("Section: Faculty QIPs");
+						printer.println();
+						printer.printRecord("Sr. No.", "Name of Faculty", "Email", "Title",
+								"Online/Offline", "Number of days", "Organization");
+
+						printer.println();
+
+						count = 0;
+						// "Sr. No.", "Name of Faculty", "Email", "Title", "Online/Offline", "Number of
+						// days", "Organization"
+						for (UserDtls teacher : teachers) {
+							for (DatabaseFile file : teacher.getFiles()) {
+								if (file.getType() == FileType.QIP) {
+									printer.print(++count);
+									printer.print(teacher.getName());
+									printer.print(teacher.getEmail());
+									printer.print(file.getTitle());
+									printer.print(file.getNature());
+									printer.print(file.getNoOfDays());
+									printer.print(file.getOrganizedBy());
+									printer.println();
+								}
+							}
+						}
+
+						break;
+
+					case "CONFERENCE WORKSHOP SEMINAR":
+						printer.println();
+
+						printer.print("Section: Conferences Workshops and Seminars");
+						printer.println();
+						printer.printRecord("Sr. No.", "Name of Faculty", "Email", "Title",
+								"Type", "Organiser/Attendee", "Online/Offline", "Number of days", "Organization");
+						printer.println();
+
+						count = 0;
+						// "Sr. No.", "Name of Faculty", "Email", "Title", "Type", "Organiser/Attendee",
+						// "Online/Offline", "Number of days", "Organization"
+						for (UserDtls teacher : teachers) {
+							for (DatabaseFile file : teacher.getFiles()) {
+								if (file.getType() == FileType.CONFERENCE_WORKSHOP_SEMINAR) {
+									printer.print(++count);
+									printer.print(teacher.getName());
+									printer.print(teacher.getEmail());
+									printer.print(file.getTitle());
+									printer.print(file.getEventType());
+									printer.print(file.getOrganizedBy());
+									printer.print(file.getNature());
+									printer.print(file.getNoOfDays());
+									printer.print(file.getOrganizedBy());
+									printer.println();
+								}
+							}
+						}
+
+						break;
+
+					case "INDUSTRIALVISIT":
+						printer.println();
+						printer.print("Section: Faculty Industrial Visits");
+						printer.println();
+						printer.printRecord("Sr. No.", "Name of Faculty", "Email",
+								"Name of industry visited & Place", "No. of students visited", "Date of visit");
+						printer.println();
+
+						count = 0;
+						// "Sr. No.", "Name of Faculty", "Email", "Name of industry visited & Place",
+						// "No. of students visited", "Date of visit"
+						for (UserDtls teacher : teachers) {
+							for (DatabaseFile file : teacher.getFiles()) {
+								if (file.getType() == FileType.INDUSTRIALVISIT) {
+									printer.print(++count);
+									printer.print(teacher.getName());
+									printer.print(teacher.getEmail());
+									printer.print(file.getTitle());
+									printer.print(file.getNoOfStudentsVisited());
+									printer.print(file.getDate());
+									printer.println();
+								}
+							}
+						}
+						break;
+
+					case "GUESTLECTURE":
+
+						printer.println();
+						printer.print("Section: Faculty Guest Lectures");
+						printer.println();
+						printer.printRecord("Sr. No.", "Name of Faculty", "Email",
+								"Topic of lecture", "Online/Offline", "Date",
+								"Place/Event where the lecture was delivered");
+						printer.println();
+
+						count = 0;
+						// "Sr. No.", "Name of Faculty", "Email", "Topic of lecture", "Online/Offline",
+						// "Date", "Place/Event where the lecture was delivered"
+						for (UserDtls teacher : teachers) {
+							for (DatabaseFile file : teacher.getFiles()) {
+								if (file.getType() == FileType.GUESTLECTURE) {
+									printer.print(++count);
+									printer.print(teacher.getName());
+									printer.print(teacher.getEmail());
+									printer.print(file.getTitle());
+									printer.print(file.getNature());
+									printer.print(file.getDate());
+									printer.print(file.getOrganizedBy());
+									printer.println();
+								}
+							}
+						}
+						break;
+
+					case "PATENT":
+						printer.println();
+						printer.print("Section: Faculty Patents");
+						printer.println();
+						printer.printRecord("Sr. No.", "Name of Faculty", "Email", "Title",
+								"Patent Number", "Date of Patent", "Status");
+						printer.println();
+
+						count = 0;
+						// "Sr. No.", "Name of Faculty", "Email", "Title", "Patent Number", "Date of
+						// Patent", "Status"
+						for (UserDtls teacher : teachers) {
+							for (DatabaseFile file : teacher.getFiles()) {
+								if (file.getType() == FileType.PATENT) {
+									printer.print(++count);
+									printer.print(teacher.getName());
+									printer.print(teacher.getEmail());
+									printer.print(file.getTitle());
+									printer.print(file.getPatentNumber());
+									printer.print(file.getDate());
+									printer.print(file.getPatentStatus());
+									printer.println();
+								}
+							}
+						}
+						break;
 				}
 			}
-
-			printer.println();
-
-			printer.print("Section: Faculty Books and Chapters");
-			printer.println();
-			printer.printRecord("Sr. No.", "Name of Faculty", "Email", "Title",
-					"Publication Name", "Book/Chapter", "Date of Publishing", "ISBN Number");
-
-			printer.println();
-
-			count = 0;
-			// "Sr. No.", "Name of Faculty", "Email", "Title", "Publication Name",
-			// "Book/Chapter", "Date of Publishing", "ISBN Number"
-			for (UserDtls teacher : teachers) {
-				for (DatabaseFile file : teacher.getFiles()) {
-					if (file.getType() == FileType.BOOK_OR_CHAPTER) {
-						printer.print(++count);
-						printer.print(teacher.getName());
-						printer.print(teacher.getEmail());
-						printer.print(file.getTitle());
-						printer.print(file.getPublicationName());
-						printer.print(file.getPublicationType());
-						printer.print(file.getDate());
-						printer.print(file.getISBN());
-						printer.println();
-					}
-				}
-			}
-
-			printer.println();
-
-			printer.print("Section: Faculty FDPs");
-			printer.println();
-			printer.printRecord("Sr. No.", "Name of Faculty", "Email", "Title",
-					"Online/Offline", "Number of days", "Organization");
-
-			printer.println();
-
-			count = 0;
-			// "Sr. No.", "Name of Faculty", "Email", "Title", "Online/Offline", "Number of
-			// days", "Organization"
-			for (UserDtls teacher : teachers) {
-				for (DatabaseFile file : teacher.getFiles()) {
-					if (file.getType() == FileType.FDP) {
-						printer.print(++count);
-						printer.print(teacher.getName());
-						printer.print(teacher.getEmail());
-						printer.print(file.getTitle());
-						printer.print(file.getNature());
-						printer.print(file.getNoOfDays());
-						printer.print(file.getOrganizedBy());
-						printer.println();
-					}
-				}
-			}
-
-			printer.println();
-			printer.print("Section: Faculty STTPs");
-			printer.println();
-			printer.printRecord("Sr. No.", "Name of Faculty", "Email", "Title",
-					"Online/Offline", "Number of days", "Organization");
-
-			printer.println();
-
-			count = 0;
-			// "Sr. No.", "Name of Faculty", "Email", "Title", "Online/Offline", "Number of
-			// days", "Organization"
-			for (UserDtls teacher : teachers) {
-				for (DatabaseFile file : teacher.getFiles()) {
-					if (file.getType() == FileType.STTP) {
-						printer.print(++count);
-						printer.print(teacher.getName());
-						printer.print(teacher.getEmail());
-						printer.print(file.getTitle());
-						printer.print(file.getNature());
-						printer.print(file.getNoOfDays());
-						printer.print(file.getOrganizedBy());
-						printer.println();
-					}
-				}
-			}
-
-			printer.println();
-
-			printer.print("Section: Faculty QIPs");
-			printer.println();
-			printer.printRecord("Sr. No.", "Name of Faculty", "Email", "Title",
-					"Online/Offline", "Number of days", "Organization");
-
-			printer.println();
-
-			count = 0;
-			// "Sr. No.", "Name of Faculty", "Email", "Title", "Online/Offline", "Number of
-			// days", "Organization"
-			for (UserDtls teacher : teachers) {
-				for (DatabaseFile file : teacher.getFiles()) {
-					if (file.getType() == FileType.QIP) {
-						printer.print(++count);
-						printer.print(teacher.getName());
-						printer.print(teacher.getEmail());
-						printer.print(file.getTitle());
-						printer.print(file.getNature());
-						printer.print(file.getNoOfDays());
-						printer.print(file.getOrganizedBy());
-						printer.println();
-					}
-				}
-			}
-
-			printer.println();
-
-			printer.print("Section: Faculty Workshops");
-			printer.println();
-			printer.printRecord("Sr. No.", "Name of Faculty", "Email", "Title",
-					"Type", "Organiser/Attendee", "Online/Offline", "Number of days", "Organization");
-			printer.println();
-
-			count = 0;
-			// "Sr. No.", "Name of Faculty", "Email", "Title", "Type", "Organiser/Attendee",
-			// "Online/Offline", "Number of days", "Organization"
-			for (UserDtls teacher : teachers) {
-				for (DatabaseFile file : teacher.getFiles()) {
-					if (file.getType() == FileType.CONFERENCE_WORKSHOP_SEMINAR) {
-						printer.print(++count);
-						printer.print(teacher.getName());
-						printer.print(teacher.getEmail());
-						printer.print(file.getTitle());
-						printer.print(file.getNature());
-						printer.print(file.getOrganizedBy());
-						printer.print(file.getNoOfDays());
-						printer.print(file.getOrganizedBy());
-						printer.println();
-					}
-				}
-			}
-
-			printer.println();
-			printer.print("Section: Faculty Industrial Visits");
-			printer.println();
-			printer.printRecord("Sr. No.", "Name of Faculty", "Email",
-					"Name of industry visited & Place", "No. of students visited", "Date of visit");
-			printer.println();
-
-			count = 0;
-			// "Sr. No.", "Name of Faculty", "Email", "Name of industry visited & Place",
-			// "No. of students visited", "Date of visit"
-			for (UserDtls teacher : teachers) {
-				for (DatabaseFile file : teacher.getFiles()) {
-					if (file.getType() == FileType.INDUSTRIALVISIT) {
-						printer.print(++count);
-						printer.print(teacher.getName());
-						printer.print(teacher.getEmail());
-						printer.print(file.getTitle());
-						printer.print(file.getNoOfStudentsVisited());
-						printer.print(file.getDate());
-						printer.println();
-					}
-				}
-			}
-
-			printer.println();
-			printer.print("Section: Faculty Guest Lectures");
-			printer.println();
-			printer.printRecord("Sr. No.", "Name of Faculty", "Email",
-					"Topic of lecture", "Online/Offline", "Date", "Place/Event where the lecture was delivered");
-			printer.println();
-
-			count = 0;
-			// "Sr. No.", "Name of Faculty", "Email", "Topic of lecture", "Online/Offline",
-			// "Date", "Place/Event where the lecture was delivered"
-			for (UserDtls teacher : teachers) {
-				for (DatabaseFile file : teacher.getFiles()) {
-					if (file.getType() == FileType.GUESTLECTURE) {
-						printer.print(++count);
-						printer.print(teacher.getName());
-						printer.print(teacher.getEmail());
-						printer.print(file.getTitle());
-						printer.print(file.getNature());
-						printer.print(file.getDate());
-						printer.print(file.getOrganizedBy());
-						printer.println();
-					}
-				}
-			}
-
-			printer.println();
-			printer.print("Section: Faculty Patents");
-			printer.println();
-			printer.printRecord("Sr. No.", "Name of Faculty", "Email", "Title",
-					"Patent Number", "Date of Patent", "Status");
-			printer.println();
-
-			count = 0;
-			// "Sr. No.", "Name of Faculty", "Email", "Title", "Patent Number", "Date of
-			// Patent", "Status"
-			for (UserDtls teacher : teachers) {
-				for (DatabaseFile file : teacher.getFiles()) {
-					if (file.getType() == FileType.PATENT) {
-						printer.print(++count);
-						printer.print(teacher.getName());
-						printer.print(teacher.getEmail());
-						printer.print(file.getTitle());
-						printer.print(file.getPatentNumber());
-						printer.print(file.getDate());
-						printer.print(file.getPatentStatus());
-						printer.println();
-					}
-				}
-			}
-
 			printer.flush();
-
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
@@ -602,18 +644,31 @@ public class AdminController {
 	@PostMapping("/updateRole")
 	public String updateRole(@RequestParam("teacherId") int teacherId, @RequestParam("role") String role) {
 		// Retrieve the teacher by teacherId from the database
-		// Check if the role is either ROLE_TEACHER or ROLE_HOD so that the admin cannot
-		// change the role of the admin or any other non existing role for that matter :
-		// tu padhri isko :o
-		Set<String> allowedRoles = new HashSet<>(Arrays.asList("ROLE_TEACHER", "ROLE_HOD"));
-
 		Optional<UserDtls> optionalTeacher = userRepo.findById(teacherId);
-		if (optionalTeacher.isPresent() && allowedRoles.contains(role)) {
+		if (optionalTeacher.isPresent()) {
 			UserDtls teacher = optionalTeacher.get();
-			// Update the role for the teacher
-			teacher.setRole(role);
-			// Save the updated teacher to the database
-			userRepo.save(teacher);
+
+			// Check if the role is either ROLE_TEACHER or ROLE_HOD so that the admin cannot
+			// change the role of the admin or any other non-existing role for that matter
+			Set<String> allowedRoles = new HashSet<>(Arrays.asList("ROLE_TEACHER", "ROLE_HOD"));
+			if (allowedRoles.contains(role)) {
+				// Check if the selected role is HOD
+				if (role.equals("ROLE_HOD")) {
+					// If the selected role is HOD, check if there's already an HOD in the
+					// department
+					List<UserDtls> hodList = userRepo.findByBranchAndRole(teacher.getBranch(), "ROLE_HOD");
+					if (!hodList.isEmpty()) {
+						// If there's already an HOD, change the first one to teacher
+						UserDtls currentHOD = hodList.get(0);
+						currentHOD.setRole("ROLE_TEACHER");
+						userRepo.save(currentHOD);
+					}
+				}
+				// Update the role for the teacher
+				teacher.setRole(role);
+				// Save the updated teacher to the database
+				userRepo.save(teacher);
+			}
 		}
 		return "redirect:/admin/permissions";
 	}
@@ -681,13 +736,12 @@ public class AdminController {
 			loginUser.setPassword(passwordEncode.encode(newPass));
 			UserDtls updatePasswordUser = userRepo.save(loginUser);
 			if (updatePasswordUser != null) {
-				System.out.println("password changed successfully");
+
 			} else {
-				System.out.println("something went wrong");
+
 			}
 
 		} else {
-			System.out.println("incorrect password");
 
 		}
 

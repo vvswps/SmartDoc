@@ -77,12 +77,12 @@ public class UserController {
 			loginUser.setPassword(passwordEncoder.encode(newPass));
 			UserDtls updatedUser = userRepo.save(loginUser);
 			if (updatedUser != null) {
-				System.out.println("Password changed successfully.");
+
 			} else {
-				System.out.println("Something went wrong while updating the password.");
+
 			}
 		} else {
-			System.out.println("Incorrect password.");
+
 		}
 		return "redirect:/signin";
 	}

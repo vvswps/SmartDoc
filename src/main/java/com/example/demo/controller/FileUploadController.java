@@ -41,7 +41,6 @@ public class FileUploadController {
     @PostMapping("/uploadProfilePicture")
     public ResponseEntity<?> uploadProfilePicture(@RequestParam MultipartFile file, Principal principal,
             HttpServletRequest request) throws IOException {
-        System.out.println("\n\n\n\nuploadProfilePicture\n\n\n\n");
 
         // Check if the user is authenticated
         if (principal == null) {
@@ -81,7 +80,7 @@ public class FileUploadController {
 
         // Redirect back to the referring page after the upload
         String referer = request.getHeader("Referer");
-        System.out.println("\u001B[32m" + "\nRedirecting to: " + referer + "\n" + "\u001B[0m");
+
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(referer));
         return new ResponseEntity<>(headers, HttpStatus.FOUND);
@@ -137,7 +136,7 @@ public class FileUploadController {
                 Date parsedDate = dateFormat.parse(date);
                 document.setDate(parsedDate);
             } else {
-                System.out.println("\n\n\n File Type: " + fileType + "\n\n\n");
+
                 document.setNature(nature);
                 document.setDurationFrom(durationFrom);
                 document.setDurationTo(durationTo);

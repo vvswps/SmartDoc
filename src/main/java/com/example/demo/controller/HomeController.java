@@ -225,7 +225,7 @@ public class HomeController {
 		if (user != null) {
 			return "redirect:/loadResetPassword/" + user.getId();
 		} else {
-			System.out.println("Invalid email or mobile number");
+
 			return "forgot_password";
 		}
 	}
@@ -247,9 +247,9 @@ public class HomeController {
 		user.setPassword(encryptedPassword);
 		UserDtls updatedUser = userRepo.save(user);
 		if (updatedUser != null) {
-			System.out.println("Password updated successfully.");
+
 		} else {
-			System.out.println("Failed to update the password.");
+
 		}
 		return "redirect:/signin";
 	}

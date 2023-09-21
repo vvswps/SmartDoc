@@ -5,101 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        .title-area {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 3rem;
-            margin-top: 3rem;
-            margin-left: 2rem;
-        }
-
-        .title-area .profile {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .title-area .profile img {
-            margin-right: 1rem;
-            width: 5rem;
-            height: 5rem;
-            object-fit: cover;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-
-        h1 {
-            text-align: center;
-        }
-
-        .details {
-            background: white;
-            margin: 2rem;
-            padding: 1rem;
-            border-radius: 10px;
-            box-shadow: 0px 19px 60px rgb(0 0 0 / 8%);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .stats tr {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-            gap: 2rem;
-            place-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .get-by-email {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: blue;
-        }
-
-        .get-by-email:hover {
-            text-decoration: underline;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.9);
-        }
-
-        .modal-content {
-            margin: auto;
-            display: block;
-            width: 80%;
-            max-width: 700px;
-        }
-
-        /* Close button */
-        .close {
-            color: #fff;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            padding: 10px;
-            cursor: pointer;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: #bbb;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    </style>
+    <title>Department View</title>
+    <link rel="stylesheet" href="/css/deptView.css">
 </head>
 
 <body>
@@ -119,7 +26,21 @@
         </div>
     </div>
 
-    <a href="downloadDeptCSV">Download as CSV</a>
+    <form action="downloadDeptCSV" method="post" class="download-selector-form">
+        <section>
+            <label>Select data to be downloaded</label>
+            <div class="container">
+                <div th:each="fileType : ${fileTypes}">
+                    <label>
+                        <input type="checkbox" name="selectedFileTypes" th:value="${fileType}" />
+                        <span th:text="${#strings.capitalize(fileType.toString().toLowerCase())}"></span>
+                    </label>
+                </div>
+            </div>
+            <button type="submit">Download as CSV</button>
+        </section>
+    </form>
+
 
     <div class="details">
         <h2>View By Department of [[${deptName}]]</h2>

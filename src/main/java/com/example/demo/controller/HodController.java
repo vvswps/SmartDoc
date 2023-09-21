@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.model.DatabaseFile;
 import com.example.demo.model.DatabaseFile.FileType;
@@ -57,13 +57,12 @@ public class HodController {
 			model.addAttribute("user", user);
 			PersonalDtls personalDtls = personalRepository.findByUser(user);
 			model.addAttribute("personalDetails", personalDtls);
-			// System.out.println(red + "\n\nFrom personalDetails User:\n" + user + reset);
-			// System.out.println(red + "\n\nFrom personalDetails PersonalDtls:\n" +
+
 			// personalDtls + reset);
-			// System.out.println(red + "\n\nFrom personalDetails Model:\n" + model +
+
 			// reset);
 			fileUtils.populateFileListsAndAddToModel(user, model);
-			// System.out.println(red + "\n\nFrom personalDetails Model after files:\n" +
+
 			// model + reset);
 
 		} else {
@@ -71,16 +70,23 @@ public class HodController {
 		}
 	}
 
+	@ModelAttribute("fileTypes")
+	public String[] getFileTypes() {
+		return Arrays.stream(FileType.values()).filter(fileType -> fileType != FileType.PROFILE_PICTURE)
+				.map(fileType -> fileType.toString().replaceAll("_", " "))
+				.toArray(String[]::new);
+	}
+
 	@PostMapping("/getFacultyByEmail")
 	public String getFacultyByEmail(@RequestParam String email, Model model, HttpSession session) {
-		System.out.println("In getFacultyByEmail()");
+
 		UserDtls user = userRepo.findByEmail(email);
 		String facultyProfilePicId = "";
 		try {
 			facultyProfilePicId = fileRepo.findByUserAndType(user, FileType.PROFILE_PICTURE).get(0).getId();
-			System.out.println(cyan + "Faculty Profile Pic:\t" + facultyProfilePicId + reset);
+
 		} catch (IndexOutOfBoundsException e) {
-			System.out.println(red + "No profile pic found" + reset);
+
 		}
 		model.addAttribute("facultyProfilePicId", facultyProfilePicId);
 		// model.addAttribute("email", email);
@@ -104,13 +110,13 @@ public class HodController {
 
 	@GetMapping("/detailUpdateForm")
 	public String updateDetails(Model model) {
-		System.out.println(yellow + "\n\nFrom update details" + model + reset);
+
 		return "user/teacherFiles/detailUpdateForm";
 	}
 
 	@PostMapping("/update-user-details")
 	public String updateUser(@ModelAttribute("personalDetails") PersonalDtls updatedPersonalDtls) {
-		System.out.println(yellow + "\n\nFrom update Teacher existingpd" + updatedPersonalDtls + reset);
+
 		try {
 			personalRepository.save(updatedPersonalDtls);
 			return "redirect:/teacher/personalInfo";
@@ -122,54 +128,39 @@ public class HodController {
 		return "redirect:/teacher/update-user-details";
 	}
 
-	@PostMapping(value = "/getFacultyByDept")
-	public String getFacultyByDept(@RequestParam("department") String dept, Model model,
-			RedirectAttributes redirectAttributes, HttpSession session, Principal principal) {
-		System.out.println("\n\n\nIn getFacultyByDept()\n\n\n");
-
+	@GetMapping("/deptView")
+	public String facultyView(Model model, HttpSession session, Principal principal) {
 		UserDtls hodUser = userRepo.findByEmail(principal.getName());
+		String dept = hodUser.getBranch();
+		List<UserDtls> teachers = userRepo.findByBranchAndRole(dept, "ROLE_TEACHER");
+		teachers.add(0, hodUser);
+		model.addAttribute("deptName", dept);
+		session.setAttribute("deptName", dept);
+		model.addAttribute("teachers", teachers);
 
-		// Check if the HOD's department matches the requested department
-		if (hodUser.getBranch().equals(dept)) {
-			List<UserDtls> teachers = userRepo.findByBranchAndRole(dept, "ROLE_TEACHER");
-			model.addAttribute("deptName", dept);
-			session.setAttribute("deptName", dept);
-			model.addAttribute("teachers", teachers);
+		Map<String, Map<FileType, Integer>> teacherFileCounts = new HashMap<>();
 
-			Map<String, Map<FileType, Integer>> teacherFileCounts = new HashMap<>();
+		for (UserDtls teacher : teachers) {
+			Map<FileType, Integer> fileCounts = new HashMap<>();
+			for (FileType fileType : FileType.values()) {
+				if (fileType == FileType.PROFILE_PICTURE)
+					continue;
 
-			for (UserDtls teacher : teachers) {
-				Map<FileType, Integer> fileCounts = new HashMap<>();
-				for (FileType fileType : FileType.values()) {
-					if (fileType == FileType.PROFILE_PICTURE)
-						continue;
-
-					fileCounts.put(fileType, 0);
-				}
-				for (DatabaseFile file : teacher.getFiles()) {
-					FileType fileType = file.getType();
-
-					if (fileType == FileType.PROFILE_PICTURE)
-						continue;
-					fileCounts.put(fileType, fileCounts.get(fileType) + 1);
-				}
-				teacherFileCounts.put(teacher.getName(), fileCounts);
+				fileCounts.put(fileType, 0);
 			}
+			for (DatabaseFile file : teacher.getFiles()) {
+				FileType fileType = file.getType();
 
-			System.out.println("\n\nTeacher file counts!!!!!!!!!!!!!!!!!!!!!!!");
-			System.out.println(teacherFileCounts);
-
-			model.addAttribute("teacherFileCounts", teacherFileCounts);
-
-			return "user/admin/deptView";
-		} else {
-			redirectAttributes.addFlashAttribute("error", "You don't have access to this department");
-			return "redirect:/hod/facultyView";
-			// // HOD's department does not match the requested department, handle the error
-			// or redirection here
-			// return "errorPage"; // Replace with the appropriate error handling or
-			// redirection logic
+				if (fileType == FileType.PROFILE_PICTURE)
+					continue;
+				fileCounts.put(fileType, fileCounts.get(fileType) + 1);
+			}
+			teacherFileCounts.put(teacher.getName(), fileCounts);
 		}
+
+		model.addAttribute("teacherFileCounts", teacherFileCounts);
+
+		return "user/admin/deptView";
 	}
 
 	@GetMapping("/")
@@ -212,11 +203,6 @@ public class HodController {
 		return "user/teacherFiles/settings";
 	}
 
-	@GetMapping("/facultyView")
-	public String facultyView() {
-		return "user/admin/faculty";
-	}
-
 	@GetMapping("/mailView")
 	public String mailView() {
 		return "user/admin/emailView";
@@ -233,16 +219,15 @@ public class HodController {
 
 		if (f) {
 			loginUser.setPassword(passwordEncoder.encode(newPass));
-			System.out.println("ji");
+
 			UserDtls updatePasswordUser = userRepo.save(loginUser);
 			if (updatePasswordUser != null) {
-				System.out.println("password changed successfully");
+
 			} else {
-				System.out.println("something went wrong");
+
 			}
 
 		} else {
-			System.out.println("incorrect password");
 
 		}
 

@@ -66,11 +66,8 @@ public class TeacherController {
 			model.addAttribute("user", user);
 			PersonalDtls personalDtls = personalRepository.findByUser(user);
 			model.addAttribute("personalDetails", personalDtls);
-			System.out.println(red + "\n\nFrom personalDetails User:\n" + user + reset);
-			System.out.println(red + "\n\nFrom personalDetails PersonalDtls:\n" + personalDtls + reset);
-			System.out.println(red + "\n\nFrom personalDetails Model:\n" + model + reset);
+
 			fileUtils.populateFileListsAndAddToModel(user, model);
-			System.out.println(red + "\n\nFrom personalDetails Model after files:\n" + model + reset);
 
 		} else {
 			model.addAttribute("user", null);
@@ -83,19 +80,19 @@ public class TeacherController {
 		// UserDtls user = userRepo.findByEmail(email);
 		// PersonalDtls personalDtls = personalRepository.findByUser(user);
 		// model.addAttribute("personalDetails", personalDtls);
-		System.out.println(cyan + "\n\nModel from pinf" + model + reset);
+
 		return "user/teacherFiles/personalInfo";
 	}
 
 	@GetMapping("/detailUpdateForm")
 	public String updateDetails(Model model) {
-		// System.out.println(yellow + "\n\nFrom update details" + model + reset);
+
 		return "user/teacherFiles/detailUpdateForm";
 	}
 
 	@PostMapping("/update-user-details")
 	public String updateUser(@ModelAttribute("personalDetails") PersonalDtls updatedPersonalDtls) {
-		// System.out.println(yellow + "\n\nFrom update Teacher existingpd" +
+
 		// updatedPersonalDtls + reset);
 		try {
 			personalRepository.save(updatedPersonalDtls);
@@ -194,13 +191,12 @@ public class TeacherController {
 			loginUser.setPassword(passwordEncoder.encode(newPass));
 			UserDtls updatePasswordUser = userRepo.save(loginUser);
 			if (updatePasswordUser != null) {
-				System.out.println("password changed successfully");
+
 			} else {
-				System.out.println("something went wrong");
+
 			}
 
 		} else {
-			System.out.println("incorrect password");
 
 		}
 
