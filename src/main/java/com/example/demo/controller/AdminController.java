@@ -271,8 +271,15 @@ public class AdminController {
 
 	@PostMapping(value = "/getFacultyByDept")
 	public String getFacultyByDept(@RequestParam("department") String dept, Model model, HttpSession session) {
-		List<UserDtls> teachers = userRepo.findByBranchAndRole(dept, "ROLE_TEACHER");
-		teachers.add(0, userRepo.findByBranchAndRole(dept, "ROLE_HOD").get(0));
+		List<UserDtls> teachers = new ArrayList<>();
+		try {
+			teachers = userRepo.findByBranchAndRole(dept, "ROLE_TEACHER");
+			System.out.println("\u001B[31m" + teachers + "\u001B[0m");
+			teachers.add(0, userRepo.findByBranchAndRole(dept, "ROLE_HOD").get(0));
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("\u001B[31m" + "No HOD/Teacher found" + "\u001B[0m");
+		}
 		model.addAttribute("deptName", dept);
 		session.setAttribute("deptName", dept);
 		model.addAttribute("teachers", teachers);

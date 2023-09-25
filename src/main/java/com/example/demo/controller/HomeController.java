@@ -6,7 +6,6 @@
 package com.example.demo.controller;
 
 import java.io.InputStream;
-import java.net.URI;
 import java.security.Principal;
 import java.util.Random;
 
@@ -18,9 +17,6 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternUtils;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -76,15 +72,8 @@ public class HomeController {
 	 * This method handles the GET request for the home page.
 	 * It returns the "index" view to display the home page.
 	 */
-	@GetMapping("/")
-	public ResponseEntity<?> index() {
-		HttpHeaders headers = new HttpHeaders();
-		// headers.set("ngrok-skip-browser-warning", "skip warning");
-		headers.setLocation(URI.create("index"));
-		return new ResponseEntity<>(headers, HttpStatus.FOUND);
-	}
 
-	@GetMapping("/index")
+	@GetMapping("/")
 	public String index(Model model) {
 		return "index";
 	}
@@ -153,8 +142,12 @@ public class HomeController {
 
 							DatabaseFile file = new DatabaseFile();
 							byte[] data = StreamUtils.copyToByteArray(catPicInputStream);
+
 							String fileName = catPicResource.getFilename();
-							String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
+							String fileExtension = "";
+							if (fileName != null && fileName.contains(".")) {
+								fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
+							}
 
 							file.setProfilePicture(data);
 							file.setType(FileType.PROFILE_PICTURE);
