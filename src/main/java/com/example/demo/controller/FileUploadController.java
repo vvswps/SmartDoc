@@ -69,7 +69,7 @@ public class FileUploadController {
                 document.setFileName(file.getOriginalFilename());
                 document.setFileType(file.getContentType());
                 document.setData(file.getBytes());
-                document.setUserId(user);
+                document.setUser(user);
             }
 
             // Save the updated or new profile picture
@@ -124,7 +124,7 @@ public class FileUploadController {
             document.setData(file.getBytes());
 
             UserDtls user = UserRepository.findByEmail(principal.getName());
-            document.setUserId(user);
+            document.setUser(user);
 
             document.setTitle(title);
 
@@ -239,7 +239,7 @@ public class FileUploadController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body("<h1>Something went wrong</h1>");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("<h1>Something went wrong</h1>");
         }
     }
 }

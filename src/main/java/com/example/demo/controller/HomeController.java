@@ -162,7 +162,7 @@ public class HomeController {
 							}
 							file.setFileType("image/" + fileExtension);
 							file.setData(data);
-							file.setUserId(user);
+							file.setUser(user);
 
 							fileRepo.save(file);
 						}

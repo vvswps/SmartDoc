@@ -37,6 +37,10 @@
                     </label>
                 </div>
             </div>
+            <div>
+                <input type="checkbox" name="selectAll" id="cb-selectAll" />
+                <label for="cb-selectAll">Select All</label>
+            </div>
             <button type="submit">Download as CSV</button>
         </section>
     </form>
@@ -49,14 +53,7 @@
             <tr>
                 <th>Faculty Name</th>
                 <th>Email</th>
-                <th>Research Papers</th>
-                <th>Books</th>
-                <th>Awards</th>
-                <th>Achievements</th>
-                <th>FDP</th>
-                <th>STTP</th>
-                <th>QIP</th>
-                <th>Workshops</th>
+                <th th:each="fileType : ${fileTypes}" th:text="${fileType}"></th>
             </tr>
             <tr th:if="${not #lists.isEmpty(teachers)}" th:each="teacher : ${teachers}">
                 <td th:text="${teacher.name}"></td>
@@ -65,33 +62,42 @@
                         <input class="get-by-email" type="submit" name="email" th:value="${teacher.email}">
                     </form>
                 </td>
-                <td th:each="entry : ${teacherFileCounts[teacher.name]}">
-                    <span th:text="${entry.value}"></span>
-                </td>
+                <td th:each="entry : ${teacherFileCounts[teacher.name]}" th:text="${entry.value}"></td>
             </tr>
             <tr th:if="${#lists.isEmpty(teachers)}">
-                <td colspan="9">No teachers found</td>
-            </tr>
-
-            <tr th:if="${#lists.isEmpty(teachers)}">
-                <td colspan="9">No teachers found</td>
+                <td colspan="${#lists.size(fileTypes) + 2}">No teachers found</td>
             </tr>
         </table>
     </div>
 
 
+
     <script>
-        var modal = document.getElementById("myModal");
-        var img = document.querySelector(".title-area .profile img");
-        var modalImg = document.querySelector("#myModal img");
+        let modal = document.getElementById("myModal");
+        let img = document.querySelector(".title-area .profile img");
+        let modalImg = document.querySelector("#myModal img");
         img.onclick = function () {
             modal.style.display = "flex";
             modalImg.src = this.src;
         }
-        var span = document.getElementsByClassName("close")[0];
+        let span = document.getElementsByClassName("close")[0];
         span.onclick = function () {
             modal.style.display = "none";
         }
+
+        let checkboxes = document.querySelectorAll(".container input[type='checkbox']");
+
+        document.getElementById("cb-selectAll").addEventListener("change", function (e) {
+            if (e.target.checked) {
+                checkboxes.forEach((checkbox) => {
+                    checkbox.checked = true;
+                });
+            } else {
+                checkboxes.forEach((checkbox) => {
+                    checkbox.checked = false;
+                });
+            }
+        });
     </script>
 </body>
 

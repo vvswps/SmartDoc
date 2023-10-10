@@ -33,14 +33,20 @@ h1 {
   box-shadow: 0px 19px 60px rgb(0 0 0 / 8%);
   display: flex;
   flex-direction: column;
+  overflow-x: auto;
 }
 
 .stats tr {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  gap: 2rem;
-  place-items: center;
-  margin-bottom: 2rem;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.stats th,
+.stats td {
+  min-width: 9rem;
+  padding: 8px;
+  border-left: #ff919d 1px solid;
 }
 
 .get-by-email {
@@ -138,4 +144,12 @@ h1 {
 
 .download-selector-form section > label {
   font-size: 1.3rem;
+}
+
+.download-selector-form > section:nth-child(1) > div:nth-child(3) {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
 }
