@@ -1,10 +1,13 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.Arrays;
 import java.util.HashMap;
+
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.helpers.GenerateDepartmentExcel;
 import com.example.demo.model.DatabaseFile;
 import com.example.demo.model.DatabaseFile.FileType;
 import com.example.demo.model.PersonalDtls;
@@ -23,6 +27,8 @@ import com.example.demo.repository.DatabaseFileRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.personalRepository;
 import com.example.demo.service.FileUtils;
+
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -41,6 +47,11 @@ public class HodController {
 
 	@Autowired
 	private FileUtils fileUtils;
+
+	Logger logger;
+
+	@Autowired
+	private GenerateDepartmentExcel generateDepartmentExcel;
 
 	String reset = "\u001B[0m";
 	String red = "\u001B[31m";
@@ -161,6 +172,22 @@ public class HodController {
 		model.addAttribute("teacherFileCounts", teacherFileCounts);
 
 		return "user/admin/deptView";
+	}
+
+	@PostMapping("/downloadDeptCSV")
+	public void downloadDeptCSV(
+			@RequestParam(value = "selectedFileTypes", required = false) List<String> selectedFileTypes,
+			HttpServletResponse response, Principal principal) throws IOException {
+
+		String deptName = userRepo.findByEmail(principal.getName()).getBranch();
+		List<UserDtls> teachers = userRepo.findByBranchAndRole(deptName, "ROLE_TEACHER");
+
+		if (selectedFileTypes == null || selectedFileTypes.isEmpty()) {
+			logger.warn("No file types selected by the user.");
+			return;
+		}
+
+		generateDepartmentExcel.downloadDeptExcel(selectedFileTypes, response, deptName, teachers);
 	}
 
 	@GetMapping("/")
