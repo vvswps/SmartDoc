@@ -49,6 +49,9 @@ public interface UserRepository extends JpaRepository<UserDtls, Integer> {
 
 	// delete method
 	void deleteByEmail(String email);
+
+	// search
+	public List<UserDtls> findByNameContainingOrEmailContaining(String name, String email);
 }
 /*
  * > but this is an interface and i never implement any of the methods defined

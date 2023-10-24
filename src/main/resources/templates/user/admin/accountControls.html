@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Controls</title>
+    <link rel="stylesheet" href="/css/accountControls.css">
+</head>
+
+<body>
+    <!-- we want a page with a text input that'd take the username or the user email and send it to backend (append the query to url to get to the exact page later or on refresh)
+    the backend will perform a search and send back the results added to a model attribute
+the page should have thymeleaf to render that data or no results if no data is available
+each entry in the list should show if the account is suspended or not and provide controls on side to do so
+the locked accounts should be shown separately -->
+
+    <header>
+        <div class="title-area">
+            <h1>Account Controls</h1>
+            <div class="profile">
+                <div class="name">[[${user.name}]]</div>
+                <img src="/profilePicture" alt="" onclick="openModal(this)">
+            </div>
+        </div>
+    </header>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img src="/profilePicture" alt="">
+        </div>
+    </div>
+
+    <form action="search" method="get">
+        <label for="searchInput">Search by Name or Email:</label>
+        <input type="text" id="searchInput" name="search" placeholder="Enter Name or Email">
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Search Results:</h2>
+    <ul>
+        <!-- Thymeleaf iteration to render search results -->
+        <li th:each="user : ${users}">
+            <p>
+                <span th:text="${user.name}">Name</span> (<span th:text="${user.email}">Email</span>)
+                <span th:if="${user.locked}"> (Suspended)</span>
+            </p>
+            <div th:unless="${user.locked}">
+                <form th:action="suspend" method="post"><input type="hidden" name="userId" th:value="${user.id}"><button
+                        type="submit">Suspend</button></form>
+            </div>
+            <div th:if="${user.locked}">
+                <form th:action="unsuspend" method="post"><input type="hidden" name="userId"
+                        th:value="${user.id}"><button type="submit">Unsuspend</button>
+                </form>
+            </div>
+        </li>
+    </ul>
+
+    <h2>Locked Accounts:</h2>
+    <ul>
+        <li th:each="user : ${lockedUsers}">
+            <p>
+                <span th:text="${user.name}">Name</span> (<span th:text="${user.email}">Email</span>) (Locked)
+            </p>
+        </li>
+    </ul>
+
+
+    <script>
+
+        let modal = document.getElementById("myModal");
+        let img = document.querySelector(".title-area .profile img");
+        let modalImg = document.querySelector("#myModal img");
+        img.onclick = function () {
+            modal.style.display = "flex";
+            modalImg.src = this.src;
+        }
+        let span = document.getElementsByClassName("close")[0];
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+    </script>
+</body>
+
+</html>

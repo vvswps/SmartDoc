@@ -378,6 +378,56 @@ public class AdminController {
 		return "redirect:/admin/permissions";
 	}
 
+	@GetMapping("/search")
+	public String searchUsers(@RequestParam("search") String query, Model model) {
+		// System.out.println(blue + query + reset);
+		try {
+			List<UserDtls> users = userRepo.findByNameContainingOrEmailContaining(query, query);
+			model.addAttribute("users", users);
+
+			// System.out.println(red + users + reset);
+
+			List<UserDtls> lockedUsers = new ArrayList<>();
+			for (UserDtls user : users) {
+				if (user.isLocked())
+					lockedUsers.add(user);
+			}
+
+			model.addAttribute("lockedUsers", lockedUsers);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "user/admin/accountControls"; // Return the name of your Thymeleaf HTML template
+	}
+
+	@PostMapping("/suspend")
+	public String suspendUser(@RequestParam("userId") int userId, Model model) {
+		UserDtls user = userRepo.findById(userId).orElse(null);
+
+		if (user != null) {
+			user.setLocked(true);
+			userRepo.save(user);
+			this.searchUsers(user.getName(), model);
+		}
+
+		return "user/admin/accountControls";
+	}
+
+	@PostMapping("/unsuspend")
+	public String unsuspendUser(@RequestParam("userId") int userId, Model model) {
+		UserDtls user = userRepo.findById(userId).orElse(null);
+
+		if (user != null) {
+			user.setLocked(false);
+			userRepo.save(user);
+			this.searchUsers(user.getName(), model);
+
+		}
+		return "user/admin/accountControls";
+	}
+
 	@GetMapping("/")
 	public String home() {
 		return "user/admin/admin";
@@ -416,6 +466,11 @@ public class AdminController {
 	@GetMapping("/changePass")
 	public String loadChangePassword() {
 		return "user/change_password";
+	}
+
+	@GetMapping("accountControls")
+	public String accountControls() {
+		return "user/admin/accountControls";
 	}
 
 	@ControllerAdvice
