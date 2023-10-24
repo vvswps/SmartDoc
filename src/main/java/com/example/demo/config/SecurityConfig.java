@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -20,6 +21,9 @@ public class SecurityConfig {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
+	@Autowired
+	private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
 	@Bean
 	public BCryptPasswordEncoder getPasswordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -34,6 +38,8 @@ public class SecurityConfig {
 		return daoAuthenticationProvider;
 	}
 
+	@Value("${TOKEN_SECRET}")
+	private String tokenSecret;
 	// protected void configure(AuthenticationManagerBuilder auth) throws Exception
 	// {
 	// auth.authenticationProvider(getDaoAuthProvider());
@@ -60,6 +66,8 @@ public class SecurityConfig {
 				.loginPage("/signin")
 				.loginProcessingUrl("/login")
 				.successHandler(customSuccessHandler)
+				.failureHandler(customAuthenticationFailureHandler)
+				// .failureUrl("/signin?error")
 				.and()
 				.csrf()
 				.disable();
@@ -74,7 +82,7 @@ public class SecurityConfig {
 		http
 				.rememberMe()
 				.tokenValiditySeconds(60 * 60 * 7)
-				.key("11T01:54:59.903+05:30DEBUG36336")
+				.key(tokenSecret)
 				.rememberMeParameter("remember-me")
 				.rememberMeCookieName("rememberlogin")
 				.and()

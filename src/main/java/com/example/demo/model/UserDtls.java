@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -42,7 +43,7 @@ public class UserDtls {
 	private String role;
 	private String mobileNumber;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<DatabaseFile> files;
 
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -57,8 +58,20 @@ public class UserDtls {
 	@Column(name = "role")
 	private Set<String> roles;
 
+	private int failedLoginAttempts;
+	private boolean isLocked;
+	private LocalDateTime lockExpiresAt;
+
 	public Set<String> getRoles() {
 		return roles;
+	}
+
+	public void setFailedLoginAttempts(int failedLoginAttempts) {
+		this.failedLoginAttempts = failedLoginAttempts;
+	}
+
+	public int getFailedLoginAttempts() {
+		return failedLoginAttempts;
 	}
 
 	public void setRoles(Set<String> roles) {

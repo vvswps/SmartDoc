@@ -1,5 +1,7 @@
+
 HELP.md
 target/
+!target/SmartDocument-0.0.1-SNAPSHOT.jar
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -37,5 +39,4 @@ src/main/resources/application.properties
 .gitignore
 .*
 docker-compose.yml
-
-!target\SmartDocument-0.0.1-SNAPSHOT.jar
+TODO.md

@@ -48,6 +48,8 @@
           <input type="checkbox" id="rememberMe" name="remember-me">
         </div>
         <span th:if="${message}" class="message" th:text="${message}"></span>
+        <span th:if="${param.error}" class="message" th:text="${param.error}"></span>
+
       </form>
     </div>
   </div>
